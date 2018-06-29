@@ -4,7 +4,8 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle"
+            "AppBundle\\": "src/AppBundle",
+            "ShopBundle\\": "src/ShopBundle"
         },
         "classmap": [
             "app/AppKernel.php",
@@ -20,7 +21,7 @@
         ]
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.1.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
@@ -30,7 +31,8 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.6.4",
         "symfony/symfony": "3.4.*",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "yavin/symfony-form-tree": "1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

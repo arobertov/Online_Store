@@ -1,0 +1,35 @@
+{% extends '@App/base.html.twig' %}
+
+{% block title %}
+    <title>Register-Online Shop</title>
+{% endblock %}
+
+{% block body %}
+    <div class="span9">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
+            <li class="active">Registration</li>
+        </ul>
+        <h2> Registration</h2>
+
+        {% include '@App/notise.html.twig' %}
+
+        <div class="well">
+            {{ form_start(form) }}
+            <p>Required field &nbsp;<sup style="color: red">*</sup></p>
+            {{ form_row(form.username,{'help':'Username must be 3 or more symbols !'}) }}
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword,{'help':'Password must be 6 or more symbols !'}) }}
+            {{ form_row(form.address.city,{'help':'City name must be 2 or more symbols !'}) }}
+            {{ form_row(form.address.shipAddress,{'help':'Ship address must be 3 or more symbols !'}) }}
+            {{ form_row(form.address.phoneNumber,{'help':'Phone number must be 4 to 20 symbols !'}) }}
+
+            <input class="btn btn-large btn-success" type="submit" value="Register !">
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block form_row %}
+    <div class="control-group">
+        {{ form_errors(form) }}
+        {{ form_label(form,null,{'label_attr': {'class': 'control-label'}}) }}
+        <div class="controls">
+            {{ form_widget(form) }}
+        </div>
+    </div>
+{% endblock form_row %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        <label class="control-label col-sm-2" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{ label }}
+        </label>
+        <div class="controls">
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        </div>
+    {% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block checkbox_row %}
+    {% spaceless %}
+         <div class="control-group">
+             {{ form_errors(form) }}
+             {{ form_widget(form) }}
+         </div>
+    {% endspaceless %}
+{% endblock checkbox_row %}
+
+{% block form_label %}
+    {{ parent() }}
+
+    {% if required %}
+        <style>
+            label.required:after{
+                content: " * ";
+                color: red;
+            }
+        </style>
+    {% endif %}
+{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <div class="alert alert-block alert-error fade in">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p><strong>{{ error.message }}</strong></p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block submit_row -%}
+    <div class="col-sm-offset-2 col-sm-10">{#--#}
+        {{- form_widget(form,{'attr':{'class':'btn btn-large btn-success'}}) -}}
+    </div>
+{%- endblock submit_row %}
+
+
+{% block form_widget_simple %}
+    {{ parent() }}
+
+    {% if help is defined %}
+        <span class="text-warning">{{ help }}</span>
+    {% endif %}
+{% endblock %}

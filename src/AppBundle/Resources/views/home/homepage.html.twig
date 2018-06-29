@@ -1,0 +1,14 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <div class="span9">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
+            <li class="active">Products List</li>
+        </ul>
+
+
+    {% include '@App/notise.html.twig' %}
+
+    </div>
+{% endblock %}

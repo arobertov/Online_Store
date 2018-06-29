@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+</head>
+<body>
+
+{% block body %}
+
+    <h1>Welcome <strong>{{ user.username }}</strong> this email verify your account.</h1>
+    <p>Please click <a href="{{ app.request.getSchemeAndHttpHost() }}{{ path('activate_user',{'id':user.id}) }}">here</a> to activate your account !</p>
+
+{% endblock %}
+
+
+
+</body>
+
+</html>

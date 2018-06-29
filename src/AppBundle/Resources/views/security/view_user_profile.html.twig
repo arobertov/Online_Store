@@ -1,0 +1,25 @@
+{% extends '@App/base.html.twig' %}
+
+{% block title %}
+    <title>My profile-Online Shop</title>
+{% endblock %}
+
+{% block body %}
+    <div class="span9">
+
+    <h2>Profile view</h2>
+        {% include '@App/notise.html.twig' %}
+        <div class="well">
+            <ul>
+                <li>Your username : {{ user.username }}</li>
+                <li>First Name : {{ user.firstName }}</li>
+                <li>Last Name : {{ user.lastName }}</li>
+                <li>Your email : {{ user.email }}</li>
+            </ul>
+        <p>
+            <a class="btn btn-default" href="{{ path('change_password',{'id':user.id}) }}">Change password !</a>
+            <a class="btn btn-default" href="{{ path('user_edit',{'id':user.id}) }}">Edit my profile !</a>
+        </p>
+     </div>
+    </div>
+{% endblock %}

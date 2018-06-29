@@ -2,471 +2,378 @@
 
 namespace AppBundle\Entity;
 
+use BlogBundle\Entity\Article;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ShopBundle\Entity\Order;
+use ShopBundle\Entity\ProductUsers;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="Email already taken !")
+ * @UniqueEntity(fields="username", message="Username already taken !")
+ *
  */
-class User implements AdvancedUserInterface,\Serializable
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=255, unique=true)
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="firstName", type="string", length=255, nullable=true)
-     */
-    private $firstName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastName", type="string", length=255, nullable=true)
-     */
-    private $lastName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
-     */
-    private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=64)
-     */
-    private $password;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateRegistered", type="datetime", nullable=true)
-     */
-    private $dateRegistered;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateEdit", type="datetime", nullable=true)
-     */
-    private $dateEdit;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isActive", type="boolean")
-     */
-    private $isActive;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isNotLocked", type="boolean")
-     */
-    private $isNotLocked;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isNotExpired", type="boolean")
-     */
-    private $isNotExpired;
-
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set username
-     *
-     * @param string $username
-     *
-     * @return User
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     *
-     * @return User
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     *
-     * @return User
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     *
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set dateRegistered
-     *
-     * @param \DateTime $dateRegistered
-     *
-     * @return User
-     */
-    public function setDateRegistered($dateRegistered)
-    {
-        $this->dateRegistered = $dateRegistered;
-
-        return $this;
-    }
-
-    /**
-     * Get dateRegistered
-     *
-     * @return \DateTime
-     */
-    public function getDateRegistered()
-    {
-        return $this->dateRegistered;
-    }
-
-    /**
-     * Set dateEdit
-     *
-     * @param \DateTime $dateEdit
-     *
-     * @return User
-     */
-    public function setDateEdit($dateEdit)
-    {
-        $this->dateEdit = $dateEdit;
-
-        return $this;
-    }
-
-    /**
-     * Get dateEdit
-     *
-     * @return \DateTime
-     */
-    public function getDateEdit()
-    {
-        return $this->dateEdit;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return User
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return bool
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * Set isNotLocked
-     *
-     * @param boolean $isNotLocked
-     *
-     * @return User
-     */
-    public function setIsNotLocked($isNotLocked)
-    {
-        $this->isNotLocked = $isNotLocked;
-
-        return $this;
-    }
-
-    /**
-     * Get isNotLocked
-     *
-     * @return bool
-     */
-    public function getIsNotLocked()
-    {
-        return $this->isNotLocked;
-    }
-
-    /**
-     * Set isNotExpired
-     *
-     * @param boolean $isNotExpired
-     *
-     * @return User
-     */
-    public function setIsNotExpired($isNotExpired)
-    {
-        $this->isNotExpired = $isNotExpired;
-
-        return $this;
-    }
-
-    /**
-     * Get isNotExpired
-     *
-     * @return bool
-     */
-    public function getIsNotExpired()
-    {
-        return $this->isNotExpired;
-    }
-
-    // ------------- Advanced User Interface Methods ------------------------- //
+class User implements AdvancedUserInterface, \Serializable {
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
 
 	/**
-	 * Checks whether the user's account has expired.
+	 * @var string
 	 *
-	 * Internally, if this method returns false, the authentication system
-	 * will throw an AccountExpiredException and prevent login.
+	 * @ORM\Column(name="username", type="string", length=255, unique=true)
 	 *
-	 * @return bool true if the user's account is non expired, false otherwise
-	 *
-	 * @see AccountExpiredException
+	 * @Assert\NotBlank()
+	 * @Assert\Length(
+	 *      min = 3,
+	 *      max = 30,
+	 *      minMessage = "Your username must be at least {{ limit }} characters long",
+	 *      maxMessage = "Your username cannot be longer than {{ limit }} characters"
+	 * )
+	 * @Assert\Type(
+	 *     type="string",
+	 *     message="The value {{ value }} is not a valid {{ type }}."
+	 * )
 	 */
-	public function isAccountNonExpired() {
-		return $this->getIsNotExpired();
+	private $username;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="first_name",type="string",length=255 ,nullable=true)
+	 *
+	 */
+	private $firstName;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="last_name",type="string",length=255 ,nullable=true)
+	 *
+	 */
+	private $lastName;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="email", type="string", length=255, unique=true)
+	 * @Assert\NotBlank()
+	 * @Assert\Email(
+	 *     message = "The email '{{ value }}' is not a valid email."
+	 * )
+	 */
+	private $email;
+
+	/**
+	 * @var string
+	 *
+	 * @Assert\NotBlank(groups={"change_password"})
+	 * @Assert\Length(
+	 *     min = 6,
+	 *     max = 4096,
+	 *     minMessage = "Your password must be at least {{ limit }} characters long",
+	 *     maxMessage = "Your password cannot be longer than {{ limit }} characters",
+	 *     groups={"change_password"}
+	 *     )
+	 */
+	private $oldPassword;
+
+	/**
+	 * @Assert\NotBlank(groups={"registration"})
+	 * @Assert\Length(
+	 *     min = 6,
+	 *     max = 4096,
+	 *     minMessage = "Your password must be at least {{ limit }} characters long",
+	 *     maxMessage = "Your password cannot be longer than {{ limit }} characters",
+	 *     groups={"registration"}
+	 *     )
+	 */
+	private $plainPassword;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="date_registered",type="datetime")
+	 */
+	private $dateRegistered;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="date_edit",type="datetime")
+	 */
+	private $dateEdit;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="password", type="string", length=64)
+	 */
+	private $password;
+
+	/**
+	 * @ORM\Column(name="is_active", type="boolean")
+	 * @Assert\Type(
+	 *     type="bool",
+	 *     message="The value {{ value }} is not a valid {{ type }}."
+	 * )
+	 */
+	private $isActive;
+
+	/**
+	 * @ORM\Column(name="is_not_locked", type="boolean")
+	 * @Assert\Type(
+	 *     type="bool",
+	 *     message="The value {{ value }} is not a valid {{ type }}."
+	 * )
+	 */
+	private $isNotLocked;
+
+	/**
+	 * @var bool
+	 *
+	 * @ORM\Column(name="is_not_expired", type="boolean")
+	 */
+	private $isNotExpired;
+
+	/**
+	 * @var float
+	 *
+	 * @ORM\Column(name="initial_cache", type="decimal", precision=8, scale=2)
+	 */
+	private $initialCache;
+
+
+	/**
+	 * @var Role
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Role",inversedBy="users")
+	 * @ORM\JoinColumn(name="roleId",referencedColumnName="id")
+	 *
+	 * @Assert\Valid()
+	 */
+	private $roles;
+
+
+	/**
+	 * @var
+	 *
+	 * @ORM\OneToOne(targetEntity="AppBundle\Entity\UserAddress", inversedBy="user", cascade={"persist","remove"})
+	 * @ORM\JoinColumn(name="address_id",referencedColumnName="id")
+	 * @Assert\Valid()
+	 */
+	private $address;
+
+	public function __construct() {
+		$this->initialCache   = 5000;
+		$this->isNotExpired   = true;
+		$this->isNotLocked    = true;
+		$this->isActive       = false;
+	}
+
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getPlainPassword() {
+		return $this->plainPassword;
 	}
 
 	/**
-	 * Checks whether the user is locked.
-	 *
-	 * Internally, if this method returns false, the authentication system
-	 * will throw a LockedException and prevent login.
-	 *
-	 * @return bool true if the user is not locked, false otherwise
-	 *
-	 * @see LockedException
+	 * @param mixed $plainPassword
 	 */
-	public function isAccountNonLocked() {
-		return $this->getIsNotLocked();
+	public function setPlainPassword( $plainPassword ) {
+		$this->plainPassword = $plainPassword;
 	}
 
 	/**
-	 * Checks whether the user's credentials (password) has expired.
-	 *
-	 * Internally, if this method returns false, the authentication system
-	 * will throw a CredentialsExpiredException and prevent login.
-	 *
-	 * @return bool true if the user's credentials are non expired, false otherwise
-	 *
-	 * @see CredentialsExpiredException
+	 * @return int|null
 	 */
-	public function isCredentialsNonExpired() {
-		return true;
+	public function getId() {
+		return $this->id;
 	}
 
 	/**
-	 * Checks whether the user is enabled.
+	 * Get username
 	 *
-	 * Internally, if this method returns false, the authentication system
-	 * will throw a DisabledException and prevent login.
-	 *
-	 * @return bool true if the user is enabled, false otherwise
-	 *
-	 * @see DisabledException
+	 * @return string
 	 */
-	public function isEnabled() {
-		return $this->getIsActive();
+	public function getUsername() {
+		return $this->username;
 	}
 
 	/**
-	 * Returns the roles granted to the user.
+	 * Set username
 	 *
-	 * <code>
-	 * public function getRoles()
-	 * {
-	 *     return array('ROLE_USER');
-	 * }
-	 * </code>
+	 * @param string $username
 	 *
-	 * Alternatively, the roles might be stored on a ``roles`` property,
-	 * and populated in any number of different ways when the user object
-	 * is created.
+	 * @return User
+	 */
+	public function setUsername( $username ) {
+		$this->username = $username;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFirstName() {
+		return $this->firstName;
+	}
+
+	/**
+	 * @param string $firstName
+	 */
+	public function setFirstName( $firstName ) {
+		$this->firstName = $firstName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLastName() {
+		return $this->lastName;
+	}
+
+	/**
+	 * @param string $lastName
+	 */
+	public function setLastName( $lastName ) {
+		$this->lastName = $lastName;
+	}
+
+	/**
+	 * Get email
 	 *
-	 * @return (Role|string)[] The user roles
+	 * @return string
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
+	 * Set email
+	 *
+	 * @param string $email
+	 *
+	 * @return User
+	 */
+	public function setEmail( $email ) {
+		$this->email = $email;
+
+		return $this;
+	}
+
+	/**
+	 * Get password
+	 *
+	 * @return string
+	 */
+	public function getPassword() {
+		return $this->password;
+	}
+
+	/**
+	 * Set password
+	 *
+	 * @param string $password
+	 *
+	 * @return User
+	 */
+	public function setPassword( $password ) {
+		$this->password = $password;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getOldPassword(): ?string {
+		return $this->oldPassword;
+	}
+
+	/**
+	 * @param string $oldPassword
+	 */
+	public function setOldPassword( string $oldPassword ): void {
+		$this->oldPassword = $oldPassword;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getInitialCache() {
+		return $this->initialCache;
+	}
+
+	/**
+	 * @param float $initialCache
+	 */
+	public function setInitialCache( $initialCache ) {
+		$this->initialCache = $initialCache;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRoleId() {
+		return $this->roles->getId();
+	}
+
+	/**
+	 * @return array
 	 */
 	public function getRoles() {
-		// TODO: Implement getRoles() method.
-	}
+		if ( $this->roles !== null ) {
+			return [ $this->roles->getName() ];
+		}
 
-	/**
-	 * Returns the salt that was originally used to encode the password.
-	 *
-	 * This can return null if the password was not encoded using a salt.
-	 *
-	 * @return string|null The salt
-	 */
-	public function getSalt() {
 		return null;
 	}
 
 	/**
-	 * Removes sensitive data from the user.
-	 *
-	 * This is important if, at any given point, sensitive information like
-	 * the plain-text password is stored on this object.
+	 * @param Role $roles
 	 */
+	public function setRoles( Role $roles ) {
+		if ( $this->roles === null ) {
+			$this->roles = $roles->getId();
+		}
+		$this->roles = $roles;
+	}
+
+	public function getSalt() {
+		return null;
+	}
+
 	public function eraseCredentials() {
 
 	}
 
-	/**
-	 * String representation of object
-	 * @link http://php.net/manual/en/serializable.serialize.php
-	 * @return string the string representation of the object or null
-	 * @since 5.1.0
-	 */
 	public function serialize() {
 		return serialize( array(
 			$this->id,
 			$this->username,
 			$this->password,
+			$this->roles
+
 		) );
 	}
 
-	/**
-	 * Constructs the object
-	 * @link http://php.net/manual/en/serializable.unserialize.php
-	 *
-	 * @param string $serialized <p>
-	 * The string representation of the object.
-	 * </p>
-	 *
-	 * @return void
-	 * @since 5.1.0
-	 */
 	public function unserialize( $serialized ) {
 		list (
 			$this->id,
@@ -476,5 +383,107 @@ class User implements AdvancedUserInterface,\Serializable
 			// $this->salt
 			) = unserialize( $serialized );
 	}
-}
 
+	public function isAccountNonExpired() {
+		return $this->isNotExpired();
+	}
+
+	public function isAccountNonLocked() {
+		return $this->getIsNotLocked();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getIsNotLocked() {
+		return $this->isNotLocked;
+	}
+
+	/**
+	 * @param mixed $isNotLocked
+	 */
+	public function setIsNotLocked( $isNotLocked ) {
+		$this->isNotLocked = $isNotLocked;
+	}
+
+	public function isCredentialsNonExpired() {
+		return true;
+	}
+
+	public function isEnabled() {
+		return $this->getIsActive();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getIsActive() {
+		return $this->isActive;
+	}
+
+	/**
+	 * @param mixed $isActive
+	 */
+	public function setIsActive( $isActive ) {
+		$this->isActive = $isActive;
+	}
+
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAddress() {
+		return $this->address;
+	}
+
+	/**
+	 * @param mixed $address
+	 */
+	public function setAddress( $address ) {
+		$this->address = $address;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getDateRegistered(): \DateTime {
+		return $this->dateRegistered;
+	}
+
+	/**
+	 * @param \DateTime $dateRegistered
+	 */
+	public function setDateRegistered( \DateTime $dateRegistered ): void {
+		$this->dateRegistered = $dateRegistered;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getDateEdit(): \DateTime {
+		return $this->dateEdit;
+	}
+
+	/**
+	 * @param \DateTime $dateEdit
+	 */
+	public function setDateEdit( \DateTime $dateEdit ): void {
+		$this->dateEdit = $dateEdit;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function isNotExpired(): ?bool {
+		return $this->isNotExpired;
+	}
+
+	/**
+	 * @param bool $isNotExpired
+	 */
+	public function setIsNotExpired( bool $isNotExpired ): void {
+		$this->isNotExpired = $isNotExpired;
+	}
+
+}

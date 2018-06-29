@@ -1,0 +1,46 @@
+{% extends '@basic/base.html.twig' %}
+
+{% block title %}
+    <title>Edit user-Online Shop</title>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="span11">
+        {{ include('@Shop/Default/admin_menu.html.twig') }}
+        <ul class="breadcrumb">
+            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
+            <li class="active">Edit user</li>
+        </ul>
+        <h2>Edit User</h2>
+        {% include '@App/notise.html.twig' %}
+        <div class="well">
+            {{ form_start(edit_form) }}
+            {{ form_row(edit_form.username,{'help':'Username must be 3 or more symbols !'}) }}
+            {{ form_row(edit_form.firstName) }}
+            {{ form_row(edit_form.lastName) }}
+            {{ form_row(edit_form.email) }}
+            {{ form_row(edit_form.address.city,{'help':'City name must be 2 or more symbols !'}) }}
+            {{ form_row(edit_form.address.shipAddress,{'help':'Ship address must be 3 or more symbols !'}) }}
+            {{ form_row(edit_form.address.phoneNumber,{'help':'Phone number must be 4 to 20 symbols !'}) }}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <fieldset>
+                <legend>Admin Section:</legend>
+                {{ form_row(edit_form.roles) }}
+                {{ form_row(edit_form.is_active) }}
+                {{ form_row(edit_form.isNotLocked) }}
+            </fieldset>
+            {% endif %}
+            <div class="col-sm-offset-2 col-sm-10">
+                <a class="btn btn-large btn-default" href="{{ path('my_profile',{'id':user.id}) }}">Cancel</a>
+                <input class="btn btn-large btn-warning" type="submit" value="Edit !">
+            </div>
+            {{ form_end(edit_form) }}
+
+        <a href="{{ path('my_profile',{'id':user.id}) }}">&larr; Back to user profile </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Login Block</h3>
+    </div>
+    <div class="modal-body">
+
+        <div id="err_message" class="alert alert-error"></div>
+
+        
+        <form action="{{ path('login') }}"  method="post" name="form_login" id="formLoginModal">
+            <label for="username">Username:</label>
+            <input type="text" id="login-username" name="_username" required="required"  /><br/>
+
+            <label for="password">Password:</label>
+            <input type="password" id="login-password" name="_password" required="required"/><br/>
+
+            <input type="checkbox" id="login-remember_me" name="_remember_me" checked/>
+            <label for="remember_me">Remember me !</label><br/>
+
+            <input type="hidden" name="_csrf_token" id="login-csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            <button class="btn btn-success" type="submit">Login !</button>
+            <button class="btn btn-default" type="button" aria-hidden="true" data-dismiss="modal">Cancel</button>
+        </form>
+
+        <p>
+            <span class="form-links"><a href="{{ path('forgot_password') }}">Forgot your password !</a></span>
+            <span class="form-links"><a href="{{ path('user_register') }}">Registration !</a></span>
+        </p>
+    </div>
+</div>
