@@ -1,4 +1,4 @@
-{% extends '@basic/base.html.twig' %}
+{% extends '@App/base.html.twig' %}
 
 {% block title %}
     <title>Users-Online Shop</title>
@@ -68,7 +68,7 @@
             <p><a class="btn  btn-warning" href="{{ path('create_role') }}">Add new role</a></p>
         </div>
     </div>
-    {% include '@basic/security/delete_modal.html.twig' %}
+    {% include '@App/security/delete_modal.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
