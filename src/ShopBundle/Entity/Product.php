@@ -77,6 +77,17 @@ class Product
      */
     private $dateEdit;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="products",cascade={"persist"})
+	 * @ORM\JoinColumn(name="categoryId",referencedColumnName="id")
+	 */
+	private $category;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Promotion",inversedBy="products")
+	 * @ORM\JoinColumn(name="promotionId",referencedColumnName="id")
+	 */
+	private $promotion;
 
     /**
      * Get id.
@@ -271,4 +282,28 @@ class Product
     }
 
 
+
+    /**
+     * Set category.
+     *
+     * @param \ShopBundle\Entity\Category|null $category
+     *
+     * @return Product
+     */
+    public function setCategory(\ShopBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category.
+     *
+     * @return \ShopBundle\Entity\Category|null
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 }

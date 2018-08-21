@@ -61,6 +61,14 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            tree: true
+            timestampable: true
+            sluggable: true
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'

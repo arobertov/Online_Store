@@ -63,6 +63,17 @@ class Promotion
      */
     private $isActive;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="promotions",cascade={"persist"})
+	 * @ORM\JoinColumn(name="categoryId",referencedColumnName="id")
+	 */
+	private $category;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="ShopBundle\Entity\Product",mappedBy="promotion")
+	 */
+	private $products;
+
 
     /**
      * Get id.
@@ -216,5 +227,29 @@ class Promotion
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set category.
+     *
+     * @param \ShopBundle\Entity\Category|null $category
+     *
+     * @return Promotion
+     */
+    public function setCategory(\ShopBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category.
+     *
+     * @return \ShopBundle\Entity\Category|null
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
