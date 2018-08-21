@@ -74,6 +74,11 @@ class Promotion
 	 */
 	private $products;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\User",mappedBy="promotion")
+	 */
+	private $users;
+
 
     /**
      * Get id.

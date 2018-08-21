@@ -166,6 +166,12 @@ class User implements AdvancedUserInterface, \Serializable {
 	 */
 	private $roles;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Promotion",inversedBy="users")
+	 * @ORM\JoinColumn(name="promotionId",referencedColumnName="id")
+	 */
+	private $promotion;
+
 
 	/**
 	 * @var
