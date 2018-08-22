@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ShopBundle\Entity\Order;
 use ShopBundle\Entity\ProductUsers;
+use ShopBundle\Entity\Promotion;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -492,4 +493,38 @@ class User implements AdvancedUserInterface, \Serializable {
 		$this->isNotExpired = $isNotExpired;
 	}
 
+
+    /**
+     * Get isNotExpired.
+     *
+     * @return bool
+     */
+    public function getIsNotExpired()
+    {
+        return $this->isNotExpired;
+    }
+
+    /**
+     * Set promotion.
+     *
+     * @param Promotion|null $promotion
+     *
+     * @return User
+     */
+    public function setPromotion( Promotion $promotion = null)
+    {
+        $this->promotion = $promotion;
+
+        return $this;
+    }
+
+    /**
+     * Get promotion.
+     *
+     * @return Promotion|null
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
 }

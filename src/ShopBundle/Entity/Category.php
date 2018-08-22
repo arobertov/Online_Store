@@ -3,6 +3,7 @@
 namespace ShopBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -10,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Category
  *
  * @ORM\Table(name="category")
+ * @Gedmo\Tree(type="nested")
  * @ORM\Entity(repositoryClass="ShopBundle\Repository\CategoryRepository")
  */
 class Category
@@ -33,7 +35,7 @@ class Category
 	/**
 	 * @var string
 	 *
-	 * @Gedmo\Slug(fields={"name"})
+	 * @Gedmo\Slug(fields={"title"})
 	 * @ORM\Column(name="slug", type="string", length=255, unique=true)
 	 */
 	private $slug;
@@ -237,11 +239,11 @@ class Category
     /**
      * Set root.
      *
-     * @param \ShopBundle\Entity\Category|null $root
+     * @param Category|null $root
      *
      * @return Category
      */
-    public function setRoot(\ShopBundle\Entity\Category $root = null)
+    public function setRoot(Category $root = null)
     {
         $this->root = $root;
 
@@ -251,7 +253,7 @@ class Category
     /**
      * Get root.
      *
-     * @return \ShopBundle\Entity\Category|null
+     * @return Category|null
      */
     public function getRoot()
     {
@@ -261,11 +263,11 @@ class Category
     /**
      * Set parent.
      *
-     * @param \ShopBundle\Entity\Category|null $parent
+     * @param Category|null $parent
      *
      * @return Category
      */
-    public function setParent(\ShopBundle\Entity\Category $parent = null)
+    public function setParent(Category $parent = null)
     {
         $this->parent = $parent;
 
@@ -275,7 +277,7 @@ class Category
     /**
      * Get parent.
      *
-     * @return \ShopBundle\Entity\Category|null
+     * @return Category|null
      */
     public function getParent()
     {
@@ -285,11 +287,11 @@ class Category
     /**
      * Add child.
      *
-     * @param \ShopBundle\Entity\Category $child
+     * @param Category $child
      *
      * @return Category
      */
-    public function addChild(\ShopBundle\Entity\Category $child)
+    public function addChild(Category $child)
     {
         $this->children[] = $child;
 
@@ -299,11 +301,11 @@ class Category
     /**
      * Remove child.
      *
-     * @param \ShopBundle\Entity\Category $child
+     * @param Category $child
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeChild(\ShopBundle\Entity\Category $child)
+    public function removeChild(Category $child)
     {
         return $this->children->removeElement($child);
     }
@@ -311,7 +313,7 @@ class Category
     /**
      * Get children.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getChildren()
     {
@@ -321,11 +323,11 @@ class Category
     /**
      * Add product.
      *
-     * @param \ShopBundle\Entity\Product $product
+     * @param Product $product
      *
      * @return Category
      */
-    public function addProduct(\ShopBundle\Entity\Product $product)
+    public function addProduct( Product $product)
     {
         $this->products[] = $product;
 
@@ -335,11 +337,11 @@ class Category
     /**
      * Remove product.
      *
-     * @param \ShopBundle\Entity\Product $product
+     * @param Product $product
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProduct(\ShopBundle\Entity\Product $product)
+    public function removeProduct( Product $product)
     {
         return $this->products->removeElement($product);
     }
@@ -347,7 +349,7 @@ class Category
     /**
      * Get products.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProducts()
     {
@@ -357,11 +359,11 @@ class Category
     /**
      * Add promotion.
      *
-     * @param \ShopBundle\Entity\Promotion $promotion
+     * @param Promotion $promotion
      *
      * @return Category
      */
-    public function addPromotion(\ShopBundle\Entity\Promotion $promotion)
+    public function addPromotion( Promotion $promotion)
     {
         $this->promotions[] = $promotion;
 
@@ -371,11 +373,11 @@ class Category
     /**
      * Remove promotion.
      *
-     * @param \ShopBundle\Entity\Promotion $promotion
+     * @param Promotion $promotion
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removePromotion(\ShopBundle\Entity\Promotion $promotion)
+    public function removePromotion( Promotion $promotion)
     {
         return $this->promotions->removeElement($promotion);
     }
@@ -383,7 +385,7 @@ class Category
     /**
      * Get promotions.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getPromotions()
     {

@@ -306,4 +306,28 @@ class Product
     {
         return $this->category;
     }
+
+    /**
+     * Set promotion.
+     *
+     * @param \ShopBundle\Entity\Promotion|null $promotion
+     *
+     * @return Product
+     */
+    public function setPromotion(\ShopBundle\Entity\Promotion $promotion = null)
+    {
+        $this->promotion = $promotion;
+
+        return $this;
+    }
+
+    /**
+     * Get promotion.
+     *
+     * @return \ShopBundle\Entity\Promotion|null
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
 }

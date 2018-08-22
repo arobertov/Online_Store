@@ -2,7 +2,10 @@
 
 namespace ShopBundle\Entity;
 
+use AppBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * Promotion
@@ -237,11 +240,11 @@ class Promotion
     /**
      * Set category.
      *
-     * @param \ShopBundle\Entity\Category|null $category
+     * @param Category|null $category
      *
      * @return Promotion
      */
-    public function setCategory(\ShopBundle\Entity\Category $category = null)
+    public function setCategory( Category $category = null)
     {
         $this->category = $category;
 
@@ -251,10 +254,90 @@ class Promotion
     /**
      * Get category.
      *
-     * @return \ShopBundle\Entity\Category|null
+     * @return Category|null
      */
     public function getCategory()
     {
         return $this->category;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
+
+    /**
+     * Add product.
+     *
+     * @param Product $product
+     *
+     * @return Promotion
+     */
+    public function addProduct( Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product.
+     *
+     * @param Product $product
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeProduct( Product $product)
+    {
+        return $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * Add user.
+     *
+     * @param User $user
+     *
+     * @return Promotion
+     */
+    public function addUser( User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user.
+     *
+     * @param User $user
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeUser( User $user)
+    {
+        return $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }
