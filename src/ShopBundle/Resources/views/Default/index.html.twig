@@ -1,9 +1,14 @@
 {% extends '@App/base.html.twig' %}
 
 {% block body %}
+    <style>
+        td {
+            padding: 10px ;
+        }
+    </style>
+    {%  include('@Shop/notice.html.twig') %}
     <a href="{{ path('create_product') }}">Create Product</a>
-    <table border="1px">
-        {{ dump(products) }}
+    <table border="1">
     {% for product in products  %}
         <tr>
             <td>{{ product.id }}</td>
@@ -11,7 +16,27 @@
             <td>{{ product.description }}</td>
             <td>{{ product.quantity }}</td>
             <td>{{ product.promotion.title }}</td>
+            <td>
+                <a href="{{ path('edit_product',{'slug':product.slug}) }}">Edit</a> ||
+                <button  type="button" data-id="{{ product.slug }}" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">
+                    Delete !
+                </button>
+            </td>
         </tr>
     {% endfor %}
     </table>
+
+    {% include('@Shop/product/delete_modal.html.twig') %}
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script >
+    var btn = $("[type='button']");
+    btn.on('click',function() {
+        var slug = $(this).data('id');
+        $('#delete_link').attr('href',"/product/delete/"+slug);
+    })
+</script>
 {% endblock %}

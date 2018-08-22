@@ -29,15 +29,27 @@ class ProductService implements ProductServiceInterface {
 	}
 
 	public function createProduct( Product $product ) {
-		$this->productRepository->createNewProduct($product);
+		try{
+			return $this->productRepository->createNewProduct($product);
+		}catch (\Exception $e){
+			return $e->getMessage();
+		}
 	}
 
 	public function editProduct( Product $product ) {
-		// TODO: Implement editProduct() method.
+		try {
+			return $this->productRepository->updateProduct( $product );
+		}catch (\Exception $e){
+			return $e->getMessage();
+		}
 	}
 
 	public function removeProduct( Product $product ) {
-		// TODO: Implement removeProduct() method.
+		try{
+			return $this->productRepository->deleteProduct($product);
+		}catch (\Exception $e){
+			return $e->getMessage();
+		}
 	}
 
 	/**

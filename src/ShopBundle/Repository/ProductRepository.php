@@ -35,11 +35,43 @@ class ProductRepository extends EntityRepository
 
 	/**
 	 * @param Product $product
+	 *
+	 * @return string
 	 */
 	public function createNewProduct(Product $product){
-		$em = $this->em;
-		$em->persist($product);
-		$em->flush();
+		try {
+			$em = $this->em;
+			$em->persist( $product );
+			$em->flush();
+
+			return 'Your product successful created !';
+		}catch (\Exception $e){
+			return 'Error ! :'. $e->getMessage();
+		}
+	}
+
+
+	/**
+	 * @param Product $product
+	 *
+	 * @return mixed|string
+	 */
+	public function updateProduct(Product $product){
+		try{
+			$db = $this->em->createQueryBuilder();
+			$query = $db->update('ShopBundle:Product','p')
+				->set('p.title',':title')
+				->where('p.slug = :slug')
+				->setParameter('title',$product->getTitle())
+				->setParameter('slug',$product->getSlug())
+				->getQuery()
+			;
+			if($query->execute()>0) {
+				return $product->getTitle() . ' edit successful !';
+			} return $product->getTitle().' cannot edited !';
+		}catch (\Exception $e){
+			return $e->getMessage();
+		}
 	}
 
 	/**
@@ -56,7 +88,23 @@ class ProductRepository extends EntityRepository
 			->getQuery();
 		try{
 			return $query->getResult();
-		} catch (NoResultException $e){
+		} catch (\Exception $e){
+			return $e->getMessage();
+		}
+
+	}
+
+	/**
+	 * @param Product $product
+	 *
+	 * @return string
+	 */
+	public function deleteProduct(Product $product){
+		try{
+			$this->em->remove($product);
+			$this->em->flush();
+			return $product->getTitle(). ' delete successful !';
+		} catch (NoResultException $e) {
 			return $e->getMessage();
 		}
 

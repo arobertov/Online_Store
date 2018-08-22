@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class ProductController
  * @package ShopBundle\Controller
  *
+ * @Route("product/")
  */
 class ProductController extends Controller {
 
@@ -33,7 +34,7 @@ class ProductController extends Controller {
 
 	/**
 	 *
-	 * @Route("product/create",name="create_product")
+	 * @Route("create",name="create_product")
 	 * @param Request $request
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -44,8 +45,12 @@ class ProductController extends Controller {
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()){
-			$this->productService->createProduct($product);
-			return $this->redirectToRoute('home_page');
+			try {
+				$this->addFlash('success',$this->productService->createProduct( $product ));
+				return $this->redirectToRoute( 'home_page' );
+			}catch (\Exception $e){
+				$this->addFlash('error',$e->getMessage());
+			}
 		}
 
 		return $this->render('@Shop/product/create_product.html.twig',
@@ -53,7 +58,47 @@ class ProductController extends Controller {
 		);
 	}
 
-	public function showAllProductsAction(Request $request){
 
+	/**
+	 * @param Product $product
+	 * @param Request $request
+	 *
+	 * @Route("edit/{slug}",name="edit_product")
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+	 */
+	public function editProductAction(Product $product,Request $request){
+		$form = $this->createForm(ProductType::class,$product);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()){
+			try{
+				$this->addFlash('success',$this->productService->editProduct($product));
+				return $this->redirectToRoute('home_page');
+			} catch (\Exception $e){
+				$this->addFlash('error',$e->getMessage());
+			}
+		}
+
+		return $this->render('@Shop/product/edit.html.twig',array(
+			'form'=>$form->createView()
+		));
+	}
+
+
+	/**
+	 * @param Product $product
+	 * @param Request $request
+	 *
+	 * @Route("delete/{slug}",name="delete_product")
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function deleteProductAction(Product $product,Request $request){
+			try{
+				$this->addFlash('success',$this->productService->removeProduct($product));
+				return $this->redirectToRoute('home_page');
+			} catch (\Exception $e){
+				$this->addFlash('error',$e->getMessage());
+			}
+		return $this->redirectToRoute('home_page');
 	}
 }
