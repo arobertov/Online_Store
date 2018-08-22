@@ -47,4 +47,5 @@ security:
     access_control:
         - { path: ^/product, roles: ROLE_EDITOR }
         - { path: ^/category, roles: ROLE_EDITOR }
+        - { path: ^/promotion, roles: ROLE_EDITOR }
 

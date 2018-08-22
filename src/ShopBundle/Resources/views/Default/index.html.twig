@@ -2,4 +2,16 @@
 
 {% block body %}
     <a href="{{ path('create_product') }}">Create Product</a>
+    <table border="1px">
+        {{ dump(products) }}
+    {% for product in products  %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.promotion.title }}</td>
+        </tr>
+    {% endfor %}
+    </table>
 {% endblock %}

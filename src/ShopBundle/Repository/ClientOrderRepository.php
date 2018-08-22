@@ -2,6 +2,10 @@
 
 namespace ShopBundle\Repository;
 
+use Doctrine\ORM\EntityManagerInterface;
+use ShopBundle\Entity\ClientOrder;
+use Doctrine\ORM\Mapping;
+
 /**
  * ClientOrderRepository
  *
@@ -10,4 +14,18 @@ namespace ShopBundle\Repository;
  */
 class ClientOrderRepository extends \Doctrine\ORM\EntityRepository
 {
+	/**
+	 * @var EntityManagerInterface $em
+	 */
+	private $em;
+
+	/**
+	 * CategoryRepository constructor.
+	 *
+	 * @param EntityManagerInterface $em
+	 */
+	public function __construct( EntityManagerInterface $em ) {
+		parent::__construct( $em, new Mapping\ClassMetadata(ClientOrder::class) );
+		$this->em = $em;
+	}
 }

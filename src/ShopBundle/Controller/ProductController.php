@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Controller;
 
+use ShopBundle\Services\ProductServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use ShopBundle\Entity\Product;
@@ -17,8 +18,22 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductController extends Controller {
 
 	/**
+	 * @var ProductServiceInterface
+	 */
+	private $productService;
+
+	/**
+	 * ProductController constructor.
 	 *
-	 * @Route("/create",name="create_product")
+	 * @param ProductServiceInterface $productService
+	 */
+	public function __construct( ProductServiceInterface $productService ) {
+		$this->productService = $productService;
+	}
+
+	/**
+	 *
+	 * @Route("product/create",name="create_product")
 	 * @param Request $request
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -29,9 +44,7 @@ class ProductController extends Controller {
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()){
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($product);
-			$em->flush();
+			$this->productService->createProduct($product);
 			return $this->redirectToRoute('home_page');
 		}
 
@@ -40,12 +53,7 @@ class ProductController extends Controller {
 		);
 	}
 
-	/**
-	 * @return Response
-	 *
-	 * @Route("/resp",name="resp_action")
-	 */
-	public function respAction() {
-		return new Response('ddddddd');
+	public function showAllProductsAction(Request $request){
+
 	}
 }

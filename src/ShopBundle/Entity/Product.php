@@ -3,6 +3,7 @@
 namespace ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Product
@@ -27,6 +28,14 @@ class Product
      * @ORM\Column(name="title", type="string", length=255, unique=true)
      */
     private $title;
+
+	/**
+	 * @var string
+	 *
+	 * @Gedmo\Slug(fields={"title"})
+	 * @ORM\Column(name="slug", length=255)
+	 */
+    private $slug;
 
 	/**
 	 * @var int
@@ -65,14 +74,14 @@ class Product
 
     /**
      * @var \DateTime|null
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="dateCreated", type="datetime", nullable=true)
      */
     private $dateCreated;
 
     /**
      * @var \DateTime|null
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="dateEdit", type="datetime", nullable=true)
      */
     private $dateEdit;
@@ -122,6 +131,24 @@ class Product
     {
         return $this->title;
     }
+
+	/**
+	 * @param string $slug
+	 *
+	 * @return Product
+	 */
+	public function setSlug( string $slug ): Product {
+		$this->slug = $slug;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSlug(){
+		return $this->slug;
+	}
 
 	/**
 	 * @return int
@@ -286,11 +313,11 @@ class Product
     /**
      * Set category.
      *
-     * @param \ShopBundle\Entity\Category|null $category
+     * @param Category|null $category
      *
      * @return Product
      */
-    public function setCategory(\ShopBundle\Entity\Category $category = null)
+    public function setCategory( Category $category = null)
     {
         $this->category = $category;
 
@@ -300,7 +327,7 @@ class Product
     /**
      * Get category.
      *
-     * @return \ShopBundle\Entity\Category|null
+     * @return Category|null
      */
     public function getCategory()
     {
@@ -310,11 +337,11 @@ class Product
     /**
      * Set promotion.
      *
-     * @param \ShopBundle\Entity\Promotion|null $promotion
+     * @param Promotion|null $promotion
      *
      * @return Product
      */
-    public function setPromotion(\ShopBundle\Entity\Promotion $promotion = null)
+    public function setPromotion( Promotion $promotion = null)
     {
         $this->promotion = $promotion;
 
@@ -324,10 +351,11 @@ class Product
     /**
      * Get promotion.
      *
-     * @return \ShopBundle\Entity\Promotion|null
+     * @return Promotion|null
      */
     public function getPromotion()
     {
         return $this->promotion;
     }
+
 }
