@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -23,7 +24,15 @@ class ProductType extends AbstractType
             ->add('description',TextType::class)
             ->add('features',TextareaType::class)
             ->add('information',TextareaType::class)
-            ->add('rating',IntegerType::class)
+            ->add('rating',IntegerType::class,array(
+	            'required'   => false
+            ))
+	        ->add('promotion', EntityType::class, array(
+		        'class' => 'ShopBundle\Entity\Promotion',
+		        'choice_label' => 'title',
+		        'placeholder' => 'Without promotion !',
+		        'required' => false
+	        ))
         ;
     }/**
      * {@inheritdoc}

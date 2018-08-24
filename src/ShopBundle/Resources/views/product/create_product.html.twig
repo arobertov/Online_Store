@@ -1,8 +1,9 @@
 {% extends '@App/base.html.twig' %}
 
 {% block body %}
+    {%  include('@Shop/notice.html.twig') %}
     {{ form_start(form) }}
         {{ form_row(form) }}
-    <input type="submit" />
+    <input type="submit" formnovalidate />
     {{ form_end(form) }}
 {% endblock %}

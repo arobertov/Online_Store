@@ -28,38 +28,57 @@ class ProductService implements ProductServiceInterface {
 		$this->productRepository = $productRepository;
 	}
 
+	/**
+	 * @param Product $product
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
 	public function createProduct( Product $product ) {
 		try{
 			return $this->productRepository->createNewProduct($product);
 		}catch (\Exception $e){
-			return $e->getMessage();
+			throw new \Exception($e->getMessage());
 		}
 	}
 
+	/**
+	 * @param Product $product
+	 *
+	 * @return mixed|string
+	 * @throws \Exception
+	 */
 	public function editProduct( Product $product ) {
 		try {
 			return $this->productRepository->updateProduct( $product );
 		}catch (\Exception $e){
-			return $e->getMessage();
+			throw new \Exception($e->getMessage());
 		}
 	}
 
+	/**
+	 * @param Product $product
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
 	public function removeProduct( Product $product ) {
 		try{
 			return $this->productRepository->deleteProduct($product);
 		}catch (\Exception $e){
-			return $e->getMessage();
+			throw new \Exception($e->getMessage());
 		}
 	}
 
 	/**
 	 * @return mixed|string
+	 * @throws \Exception
 	 */
 	public function getAllProduct() {
 		try{
 			return $this->productRepository->findAllProducts();
 		}catch (\Exception $e){
-			return $e->getMessage();
+			throw new \Exception($e->getMessage());
 		}
 	}
 

@@ -37,6 +37,7 @@ class ProductRepository extends EntityRepository
 	 * @param Product $product
 	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function createNewProduct(Product $product){
 		try {
@@ -46,7 +47,7 @@ class ProductRepository extends EntityRepository
 
 			return 'Your product successful created !';
 		}catch (\Exception $e){
-			return 'Error ! :'. $e->getMessage();
+			throw new \Exception('Error ! :'. $e->getMessage());
 		}
 	}
 
@@ -55,6 +56,7 @@ class ProductRepository extends EntityRepository
 	 * @param Product $product
 	 *
 	 * @return mixed|string
+	 * @throws \Exception
 	 */
 	public function updateProduct(Product $product){
 		try{
@@ -70,12 +72,13 @@ class ProductRepository extends EntityRepository
 				return $product->getTitle() . ' edit successful !';
 			} return $product->getTitle().' cannot edited !';
 		}catch (\Exception $e){
-			return $e->getMessage();
+			throw new \Exception($e->getMessage());
 		}
 	}
 
 	/**
 	 * @return mixed|string
+	 * @throws \Exception
 	 */
 	public function findAllProducts(){
 		$em = $this->em;
@@ -89,7 +92,7 @@ class ProductRepository extends EntityRepository
 		try{
 			return $query->getResult();
 		} catch (\Exception $e){
-			return $e->getMessage();
+			throw new \Exception($e->getMessage());
 		}
 
 	}
@@ -98,6 +101,7 @@ class ProductRepository extends EntityRepository
 	 * @param Product $product
 	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function deleteProduct(Product $product){
 		try{
@@ -105,7 +109,7 @@ class ProductRepository extends EntityRepository
 			$this->em->flush();
 			return $product->getTitle(). ' delete successful !';
 		} catch (NoResultException $e) {
-			return $e->getMessage();
+			throw new \Exception($e->getMessage());
 		}
 
 	}
