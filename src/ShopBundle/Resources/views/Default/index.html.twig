@@ -15,7 +15,9 @@
             <th>description</th>
             <th>QTY</th>
             <th>promotion</th>
-            <th>action</th>
+            {% if is_granted('ROLE_EDITOR') %}
+                <th>action</th>
+            {% endif %}
         </tr>
     {% for product in products  %}
         <tr>
@@ -29,12 +31,14 @@
                      {{ product.promotion.title }}
                 {% endif %}
             </td>
+            {% if is_granted('ROLE_EDITOR') %}
             <td>
                 <a type="button" class="btn btn-small btn-warning " href="{{ path('edit_product',{'slug':product.slug}) }}">Edit !</a>
                 <button  type="button" data-id="{{ product.slug }}" class="btn-small btn-danger" data-toggle="modal" data-target="#deleteProductModal">
                     Delete !
                 </button>
             </td>
+            {% endif %}
         </tr>
     {% endfor %}
     </table>
