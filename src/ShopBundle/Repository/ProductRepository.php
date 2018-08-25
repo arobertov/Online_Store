@@ -60,17 +60,9 @@ class ProductRepository extends EntityRepository
 	 */
 	public function updateProduct(Product $product){
 		try{
-			$db = $this->em->createQueryBuilder();
-			$query = $db->update('ShopBundle:Product','p')
-				->set('p.title',':title')
-				->where('p.slug = :slug')
-				->setParameter('title',$product->getTitle())
-				->setParameter('slug',$product->getSlug())
-				->getQuery()
-			;
-			if($query->execute()>0) {
-				return $product->getTitle() . ' edit successful !';
-			} return $product->getTitle().' cannot edited !';
+			$this->em->flush();
+
+			return $product->getTitle() . ' edit successful !';
 		}catch (\Exception $e){
 			throw new \Exception($e->getMessage());
 		}
@@ -83,10 +75,10 @@ class ProductRepository extends EntityRepository
 	public function findAllProducts(){
 		$em = $this->em;
 		$query = $em->createQueryBuilder()
-			->select('pt')
+			->select('pt','pr')
 			->from('ShopBundle:Product','pt')
 			->join('pt.category','cat')
-			->join('pt.promotion','pr')
+			->leftJoin('pt.promotion','pr')
 			->orderBy('pt.dateCreated','DESC')
 			->getQuery();
 		try{

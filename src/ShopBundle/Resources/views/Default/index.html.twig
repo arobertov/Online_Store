@@ -9,16 +9,29 @@
     {%  include('@Shop/notice.html.twig') %}
     <a href="{{ path('create_product') }}">Create Product</a>
     <table border="1">
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>description</th>
+            <th>QTY</th>
+            <th>promotion</th>
+            <th>action</th>
+        </tr>
     {% for product in products  %}
         <tr>
             <td>{{ product.id }}</td>
             <td>{{ product.title }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.quantity }}</td>
-            <td>{{ product.promotion.title }}</td>
+            <td> {% if product.promotion is null %}
+                    Without promotion !
+                 {% else %}
+                     {{ product.promotion.title }}
+                {% endif %}
+            </td>
             <td>
-                <a href="{{ path('edit_product',{'slug':product.slug}) }}">Edit</a> ||
-                <button  type="button" data-id="{{ product.slug }}" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">
+                <a type="button" class="btn btn-small btn-warning " href="{{ path('edit_product',{'slug':product.slug}) }}">Edit !</a>
+                <button  type="button" data-id="{{ product.slug }}" class="btn-small btn-danger" data-toggle="modal" data-target="#deleteProductModal">
                     Delete !
                 </button>
             </td>

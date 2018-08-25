@@ -2,12 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use BlogBundle\Entity\Article;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ShopBundle\Entity\Order;
-use ShopBundle\Entity\ProductUsers;
 use ShopBundle\Entity\Promotion;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;

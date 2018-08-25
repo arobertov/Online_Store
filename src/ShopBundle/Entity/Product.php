@@ -4,6 +4,7 @@ namespace ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -25,6 +26,17 @@ class Product
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 40,
+     *      minMessage = "Title must be at least {{ limit }} characters long",
+     *      maxMessage = "Title cannot be longer than {{ limit }} characters"
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      * @ORM\Column(name="title", type="string", length=255, unique=true)
      */
     private $title;
@@ -40,6 +52,11 @@ class Product
 	/**
 	 * @var int
 	 *
+	 * @Assert\NotBlank()
+	 * @Assert\Range(
+	 *     min = 1 ,
+	 *     minMessage = "You must be at least one or more items !"
+	 * )
 	 * @ORM\Column(name="quantity", type="integer")
 	 */
     private $quantity;
@@ -159,9 +176,13 @@ class Product
 
 	/**
 	 * @param int $quantity
+	 *
+	 * @return Product
 	 */
-	public function setQuantity( int $quantity ): void {
+	public function setQuantity( $quantity ) {
 		$this->quantity = $quantity;
+
+		return $this;
 	}
 
     /**
