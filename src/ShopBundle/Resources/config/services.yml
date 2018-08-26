@@ -26,3 +26,7 @@ services:
   ShopBundle\Services\ProductServiceInterface:
     alias: 'ShopBundle\Services\ProductService'
     public: false
+
+  ShopBundle\Services\CategoryServiceInterface:
+    alias: 'ShopBundle\Services\CategoryService'
+    public: false

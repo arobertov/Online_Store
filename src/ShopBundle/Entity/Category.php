@@ -94,6 +94,10 @@ class Category
 	 */
 	private $promotions;
 
+	public function __toString() {
+		return $this->title;
+	}
+
 	/**
 	 * Category constructor.
 	 */

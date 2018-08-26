@@ -1,0 +1,22 @@
+{% extends '@App/base.html.twig' %}
+
+
+{% block body %}
+    <div class="span11">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
+            <li class="active">Add new category</li>
+        </ul>
+        {{ include('@Shop/Default/admin_menu.html.twig') }}
+        <h1>Add new category</h1>
+
+        <div class="well">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input class="btn btn-large btn-success" type="submit" value="Create new category :)" />
+            {{ form_end(form) }}
+        </div>
+
+        
+    </div>
+{% endblock %}
