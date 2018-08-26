@@ -32,6 +32,18 @@ class CategoryController extends Controller {
 		$this->categoryService = $categoryService;
 	}
 
+	/**
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function listAllCategoriesAction()
+	{
+		$tree = $this->categoryService->getCategoryTreeJoinProduct();
+
+		return $this->render( '@Shop/category/sidebar.html.twig', array(
+			'tree' => $tree,
+		));
+	}
+
 
 	/**
 	 * @param Request $request

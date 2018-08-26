@@ -95,7 +95,9 @@
         <div class="row">
 
             {% block sidebar %}
-               
+                {{ render(controller(
+                    'ShopBundle:Category:listAllCategories'
+                )) }}
             {% endblock %}
 
 

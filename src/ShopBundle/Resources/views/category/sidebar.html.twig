@@ -1,0 +1,17 @@
+<div id="sidebar" class="span3">
+    <div class="well well-small"><a id="myCart" href="#">
+            <img src="{{ asset('themes/images/ico-cart.png') }}" alt="cart">
+            {% if app.session.get('cart')|length >1 %}
+                [ {{ app.session.get('cart')|length}} ] Items in your cart
+            {% else %}
+                [ {{ app.session.get('cart')|length}} ]  Item in your cart
+            {% endif %} </a>
+    </div>
+
+    <ul id="sideManu" class="nav nav-tabs nav-stacked">
+        {{ tree|raw }}
+    </ul>
+
+    <br/>
+
+</div>

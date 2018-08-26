@@ -2,6 +2,9 @@
 
 namespace ShopBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use ShopBundle\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,15 +15,20 @@ class CategoryType extends AbstractType {
 	public function buildForm( FormBuilderInterface $builder, array $options ) {
 		$builder
 			->add('title',TextType::class)
-			->add('parent',TreeType::class,array(
+			->add('parent',EntityType::class, [
 				'class'=>'ShopBundle\Entity\Category',
 				'placeholder'=>'First Level Category',
 				'required'=>false,
-				'levelPrefix' => '-',
-				'orderFields' => ['lft' => 'asc'],
-				'prefixAttributeName' => 'data-level-prefix',
-				'treeLevelField' => 'lvl',
-			))
+				'choice_label'=> function (Category $category) {
+					return $category->getParent() ?
+						"-- " . $category->getTitle() : strtoupper($category->getTitle());
+				},
+				'query_builder' => function(EntityRepository $er) {
+					return $er->createQueryBuilder('c')
+					          ->orderBy('c.root', 'ASC')
+					          ->addOrderBy('c.lft', 'ASC');
+				},
+			] )
 		;
 	}
 

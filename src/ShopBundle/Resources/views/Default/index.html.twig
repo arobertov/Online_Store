@@ -6,8 +6,17 @@
             padding: 10px ;
         }
     </style>
+<div class="span9">
+
     {% include('@Shop/Default/admin_menu.html.twig') %}
+
+    <ul class="breadcrumb">
+        <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
+        <li class="active">Product List</li>
+    </ul>
+
     {%  include('@Shop/notice.html.twig') %}
+    
     <table border="1">
         <tr>
             <th>id</th>
@@ -42,6 +51,7 @@
         </tr>
     {% endfor %}
     </table>
+</div>
 
     {% include('@Shop/product/delete_product_modal_dialog.html.twig') %}
 

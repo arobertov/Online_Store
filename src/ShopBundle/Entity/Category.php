@@ -28,7 +28,7 @@ class Category
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="title", type="string", length=255, unique=true)
+	 * @ORM\Column(name="title", type="string", length=100)
 	 */
 	private $title;
 
@@ -36,7 +36,7 @@ class Category
 	 * @var string
 	 *
 	 * @Gedmo\Slug(fields={"title"})
-	 * @ORM\Column(name="slug", type="string", length=255, unique=true)
+	 * @ORM\Column(name="slug", type="string", length=100, unique=true)
 	 */
 	private $slug;
 

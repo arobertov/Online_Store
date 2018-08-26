@@ -2,12 +2,13 @@
 
 
 {% block body %}
-    <div class="span11">
+    <div class="span9">
         <ul class="breadcrumb">
             <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
             <li class="active">Add new category</li>
         </ul>
         {{ include('@Shop/Default/admin_menu.html.twig') }}
+        {{ include('@Shop/notice.html.twig') }}
         <h1>Add new category</h1>
 
         <div class="well">
