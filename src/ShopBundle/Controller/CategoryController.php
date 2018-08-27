@@ -37,7 +37,7 @@ class CategoryController extends Controller {
 	 */
 	public function listAllCategoriesAction()
 	{
-		$tree = $this->categoryService->getCategoryTreeJoinProduct();
+		$tree = $this->categoryService->listCategoriesBySidebar();
 
 		return $this->render( '@Shop/category/sidebar.html.twig', array(
 			'tree' => $tree,

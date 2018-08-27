@@ -32,7 +32,7 @@ class CategoryService implements CategoryServiceInterface {
 	/**
 	 * @throws \Exception
 	 */
-	public function getCategoryTreeJoinProduct() {
+	public function listCategoriesBySidebar() {
 		try {
 			$query = $this->categoryRepository->findAllCategoriesJoinProducts();
 			$options = array(

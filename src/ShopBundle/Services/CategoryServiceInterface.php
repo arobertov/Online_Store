@@ -13,7 +13,7 @@ use ShopBundle\Entity\Category;
 
 interface CategoryServiceInterface {
 
-	public function getCategoryTreeJoinProduct();
+	public function listCategoriesBySidebar();
 
 	public function createNewCategory(Category $category);
 
