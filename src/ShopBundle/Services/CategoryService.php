@@ -71,6 +71,9 @@ class CategoryService implements CategoryServiceInterface {
 	 */
 	public function createNewCategory( Category $category ) {
 		try {
+			if($category->getParent()!== null){
+				$category->setCode($category->getParent()->getTitle());
+			}
 			return $this->categoryRepository->createNewCategory($category);
 		} catch (\Exception $e){
 			throw new \Exception($e->getMessage());

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Category
@@ -28,14 +29,26 @@ class Category
 	/**
 	 * @var string
 	 *
+	 * @Assert\NotBlank()
+	 * @Assert\Length(
+	 *      min = 2,
+	 *      max = 50,
+	 *      minMessage = "Title must be at least {{ limit }} characters long",
+	 *      maxMessage = "Title must be longer than{{ limit }} characters long"
+	 * )
 	 * @ORM\Column(name="title", type="string", length=100)
 	 */
 	private $title;
 
 	/**
+	 * @ORM\Column(name="code",nullable=true)
+	 */
+	private $code;
+
+	/**
 	 * @var string
 	 *
-	 * @Gedmo\Slug(fields={"title"})
+	 * @Gedmo\Slug(fields={"code","title"})
 	 * @ORM\Column(name="slug", type="string", length=100, unique=true)
 	 */
 	private $slug;
@@ -156,6 +169,25 @@ class Category
         $this->slug = $slug;
 
         return $this;
+    }
+
+	/**
+	 *
+	 * @param $code
+	 *
+	 * @return Category
+	 */
+	public function setCode( $code ): Category {
+		$this->code = $code;
+
+		return $this;
+	}
+
+	/**
+	 * @return Category
+	 */
+	public function getCode(){
+    	return $this->code;
     }
 
     /**
@@ -395,4 +427,6 @@ class Category
     {
         return $this->promotions;
     }
+
+
 }
