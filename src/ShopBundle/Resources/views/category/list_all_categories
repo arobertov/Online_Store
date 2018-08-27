@@ -1,0 +1,25 @@
+{% extends '@App/base.html.twig' %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="span11">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
+            <li class="active">All categories</li>
+        </ul>
+        {{ include('@Shop/Default/admin_menu.html.twig') }}
+        {{ include('@Shop/notice.html.twig') }}
+        <h1>All categories</h1>
+        <a href="{{ path('create_category') }}" type="button" class="btn-small btn-success">Create new category</a>
+        <div class="well">
+            <ul class="tree_admin">
+            {{ tree|raw }}
+            </ul>
+        </div>
+
+
+    </div>
+{% endblock %}

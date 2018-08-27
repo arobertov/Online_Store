@@ -33,6 +33,8 @@ class CategoryController extends Controller {
 	}
 
 	/**
+	 * embed sidebar controller
+	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function listAllCategoriesAction()
@@ -41,6 +43,24 @@ class CategoryController extends Controller {
 
 		return $this->render( '@Shop/category/sidebar.html.twig', array(
 			'tree' => $tree,
+		));
+	}
+
+	/**
+	 *
+	 * @Route("all_categories",name="list_categories")
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function listCategoriesByAdminPanel(){
+		try {
+			$tree = $this->categoryService->listCategoriesByAdminPanel();
+		} catch (\Exception $e){
+			$this->addFlash('error',$e->getMessage());
+			return $this->redirectToRoute('list_categories');
+		}
+
+		return $this->render('@Shop/category/list_all_categories',array(
+			'tree'=>$tree
 		));
 	}
 
@@ -60,7 +80,7 @@ class CategoryController extends Controller {
 			try {
 				$this->addFlash( 'success', $this->categoryService->createNewCategory( $category ) );
 
-				return $this->redirectToRoute( 'home_page' );
+				return $this->redirectToRoute( 'list_categories' );
 			} catch ( \Exception $e ) {
 				$this->addFlash('error',$e->getMessage());
 			}

@@ -15,6 +15,8 @@ interface CategoryServiceInterface {
 
 	public function listCategoriesBySidebar();
 
+	public function listCategoriesByAdminPanel();
+
 	public function createNewCategory(Category $category);
 
 	public function editCategory(Category $category);

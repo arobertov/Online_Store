@@ -35,6 +35,7 @@ class CategoryService implements CategoryServiceInterface {
 	public function listCategoriesBySidebar() {
 		try {
 			$query = $this->categoryRepository->findAllCategoriesJoinProducts();
+			// set tree options
 			$options = array(
 				'decorate' => true,
 				'rootOpen' => function($tree) {
@@ -54,6 +55,42 @@ class CategoryService implements CategoryServiceInterface {
 					if($node['lvl'] == 0) {
 						return '<li class="subMenu open"><a>' . $node['title'] . '</a>'.PHP_EOL;
 					} else return '<li><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
+					              .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
+				} )
+			;
+			return $this->categoryRepository->buildTree($query->getArrayResult(),$options);
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * @return array|string
+	 * @throws \Exception
+	 */
+	public function listCategoriesByAdminPanel() {
+		try {
+			$query = $this->categoryRepository->findAllCategoriesJoinProducts();
+			// set tree options
+			$options = array(
+				'decorate' => true,
+				'rootOpen' => function($tree) {
+					if(count($tree) && ($tree[0]['lvl'] == 1)){
+						return '<ul>'.PHP_EOL;
+					}
+
+				},
+				'rootClose' => function($tree) {
+					if(count($tree) && ($tree[0]['lvl'] == 1)){
+						return '</ul>'.PHP_EOL;
+					}
+				},
+				'childOpen' => '',
+				'childClose' => '',
+				'nodeDecorator' => function($node) {
+					if($node['lvl'] == 0) {
+						return '<li class="parent_data">' . $node['title'] .' ('.count($node['children']).')'.count($node['products']).PHP_EOL;
+					} else return '<li class="child_data"><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
 					              .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
 				} )
 			;
@@ -107,4 +144,5 @@ class CategoryService implements CategoryServiceInterface {
 			throw new \Exception($e->getMessage());
 		}
 	}
+
 }

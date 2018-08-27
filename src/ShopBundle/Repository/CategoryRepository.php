@@ -41,9 +41,10 @@ class CategoryRepository extends NestedTreeRepository
 		try {
 			$query = $this->em
 				->createQueryBuilder()
-				->select(array('node','products'))
+				->select(array('node','products','children'))
 				->from('ShopBundle:Category', 'node')
 				->leftJoin('node.products','products')
+				->leftJoin('node.children','children')
 				->orderBy('node.root, node.lft', 'ASC')
 				->getQuery()
 			;
