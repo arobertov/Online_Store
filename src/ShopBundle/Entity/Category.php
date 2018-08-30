@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use ShopBundle\Validator\Constraints as Cons;
 
 /**
  * Category
@@ -36,6 +37,8 @@ class Category
 	 *      minMessage = "Title must be at least {{ limit }} characters long",
 	 *      maxMessage = "Title must be longer than{{ limit }} characters long"
 	 * )
+	 * @Cons\ParentNameConstraints()
+	 *
 	 * @ORM\Column(name="title", type="string", length=100)
 	 */
 	private $title;

@@ -10,7 +10,6 @@
         {{ include('@Shop/Default/admin_menu.html.twig') }}
         {{ include('@Shop/notice.html.twig') }}
         <h1>Add new category</h1>
-
         <div class="well">
             {{ form_start(form) }}
             {{ form_widget(form) }}
@@ -18,6 +17,6 @@
             {{ form_end(form) }}
         </div>
 
-        
+
     </div>
 {% endblock %}

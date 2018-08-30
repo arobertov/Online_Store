@@ -14,6 +14,7 @@
         {{ include('@Shop/notice.html.twig') }}
         <h1>All categories</h1>
         <a href="{{ path('create_category') }}" type="button" class="btn-small btn-success">Create new category</a>
+
         <div class="well">
             <ul class="tree_admin">
             {{ tree|raw }}

@@ -89,7 +89,7 @@ class CategoryService implements CategoryServiceInterface {
 				'childClose' => '',
 				'nodeDecorator' => function($node) {
 					if($node['lvl'] == 0) {
-						return '<li class="parent_data">' . $node['title'] .' ('.count($node['children']).')'.count($node['products']).PHP_EOL;
+						return '<li class="parent_data">' . $node['title'] .' ('.count($node['children']).')'.PHP_EOL;
 					} else return '<li class="child_data"><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
 					              .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
 				} )

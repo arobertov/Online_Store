@@ -30,3 +30,8 @@ services:
   ShopBundle\Services\CategoryServiceInterface:
     alias: 'ShopBundle\Services\CategoryService'
     public: false
+
+  ShopBundle\Validator\Constraints\ParentNameConstraintsValidator:
+    arguments:
+      $em: '@Doctrine\ORM\EntityManagerInterface'
+

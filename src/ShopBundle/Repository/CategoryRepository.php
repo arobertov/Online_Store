@@ -3,10 +3,9 @@
 namespace ShopBundle\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-use MongoDB\Driver\Exception\ExecutionTimeoutException;
 use ShopBundle\Entity\Category;
 use Doctrine\ORM\Mapping;
 
@@ -32,6 +31,8 @@ class CategoryRepository extends NestedTreeRepository
 		parent::__construct( $em, new Mapping\ClassMetadata(Category::class) );
 		$this->em = $em;
 	}
+
+
 
 	/**
 	 * @return \Doctrine\ORM\Query
