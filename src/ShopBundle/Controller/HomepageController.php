@@ -40,5 +40,13 @@ class HomepageController extends Controller
         ));
     }
 
+	/**
+	 * @Route("/assetic",name="assetic_page")
+	 * @return Response
+	 */
+    public function testAsseticAction(){
+    	return $this->render('@Shop/Default/assetic.html.twig');
+    }
+
 
 }

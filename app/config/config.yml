@@ -31,6 +31,8 @@ framework:
     assets: ~
     php_errors:
         log: true
+    templating:
+        engines: ['twig']
 
 # Twig Configuration
 twig:
@@ -38,6 +40,24 @@ twig:
     strict_variables: '%kernel.debug%'
     form_theme:
               'forms/customize_form.html.twig'
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+
+    assets:
+        jquery:
+            inputs:
+            - %kernel.root_dir%/../vendor/components/jquery/jquery.js
+        bootstrap_js:
+            inputs:
+            - %kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js
+        bootstrap_css:
+            inputs:
+            - %kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css
+            filters: [ cssrewrite ]
 
 # Doctrine Configuration
 doctrine:
