@@ -54,7 +54,7 @@ class CategoryService implements CategoryServiceInterface {
 				'nodeDecorator' => function($node) {
 					if($node['lvl'] == 0) {
 						return '<li class="subMenu open"><a>' . $node['title'] . '</a>'.PHP_EOL;
-					} else return '<li><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
+					} else return '<li><a href="/show_product/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
 					              .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
 				} )
 			;
@@ -90,7 +90,7 @@ class CategoryService implements CategoryServiceInterface {
 				'nodeDecorator' => function($node) {
 					if($node['lvl'] == 0) {
 						return '<li class="parent_data">' . $node['title'] .' ('.count($node['children']).')'.PHP_EOL;
-					} else return '<li class="child_data"><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
+					} else return '<li class="child_data"><a href="/show_product/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
 					              .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
 				} )
 			;
