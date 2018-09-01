@@ -1,0 +1,12 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <div class="span9">
+        {{ form_start(form) }}
+        {{ form_row(form) }}
+        <input type="submit" formnovalidate />
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+

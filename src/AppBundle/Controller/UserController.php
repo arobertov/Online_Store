@@ -123,7 +123,7 @@ class UserController extends Controller {
 	public function userManagerAction() {
 		$users = $this->em->getRepository( User::class )->findAll();
 
-		return $this->render( '@App/security/all_user.html.twig', [
+		return $this->render( 'all_users.html.twig', [
 			'users' => $users,
 		] );
 	}

@@ -76,10 +76,11 @@ class ProductController extends Controller {
 				return $this->redirectToRoute('home_page');
 			} catch (\Exception $e){
 				$this->addFlash('error',$e->getMessage());
+				return $this->redirectToRoute('home_page');
 			}
 		}
 
-		return $this->render('@Shop/product/edit.html.twig',array(
+		return $this->render( '@Shop/product/edit_product.html.twig',array(
 			'form'=>$form->createView()
 		));
 	}

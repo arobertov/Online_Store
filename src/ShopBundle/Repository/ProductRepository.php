@@ -3,6 +3,7 @@
 namespace ShopBundle\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use ShopBundle\Entity\Product;
 use Doctrine\ORM\Mapping;
@@ -82,7 +83,8 @@ class ProductRepository extends EntityRepository
 			->orderBy('pt.dateCreated','DESC')
 			->getQuery();
 		try{
-			return $query->getResult();
+			$result = $query->getResult();
+			return $result;
 		} catch (\Exception $e){
 			throw new \Exception($e->getMessage());
 		}

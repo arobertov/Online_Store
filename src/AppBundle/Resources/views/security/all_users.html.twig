@@ -1,21 +1,11 @@
-{% extends '@App/base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
 {% block title %}
     <title>Users-Online Shop</title>
 {% endblock %}
 
-{% block sidebar %}
 
-{% endblock %}
-
-{% block body %}
-    <div class="span11">
-        {{ include('@Shop/Default/admin_menu.html.twig') }}
-        <ul class="breadcrumb">
-            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
-            <li class="active">All_user</li>
-        </ul>
-        <h2> Preview all users</h2>
+{% block admin_body %}
         <div class="container">
                 <h3>Users</h3>
             {% include '@App/notise.html.twig' %}
@@ -67,11 +57,10 @@
             </table>
             <p><a class="btn  btn-warning" href="{{ path('create_role') }}">Add new role</a></p>
         </div>
-    </div>
     {% include '@App/security/delete_user_modal_dialog.html.twig' %}
 {% endblock %}
 
-{% block javascript %}
+{% block javascripts %}
 {{ parent() }}
  <script >
      var btn = $("[type='button']");

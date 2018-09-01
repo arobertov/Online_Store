@@ -7,6 +7,7 @@ use ShopBundle\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,6 +47,7 @@ class ProductType extends AbstractType
 		        'placeholder' => 'Without promotion !',
 		        'required' => false
 	        ))
+	        ->add('submit',SubmitType::class)
         ;
     }/**
      * {@inheritdoc}
@@ -53,7 +55,8 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ShopBundle\Entity\Product'
+            'data_class' => 'ShopBundle\Entity\Product',
+	        'label'=>false
         ));
     }
 
@@ -64,6 +67,5 @@ class ProductType extends AbstractType
     {
         return 'shopbundle_product';
     }
-
 
 }

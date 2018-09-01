@@ -1,29 +1,19 @@
-{% extends 'bootstrap_3_horizontal_layout.html.twig' %}
+{% extends 'bootstrap_4_horizontal_layout.html.twig' %}
 
-{% block form_row %}
-    <div class="control-group">
-        {{ form_errors(form) }}
-        {{ form_label(form,null,{'label_attr': {'class': 'control-label'}}) }}
-        <div class="controls">
-            {{ form_widget(form) }}
-        </div>
-    </div>
-{% endblock form_row %}
+
 
 {% block checkbox_widget %}
     {% spaceless %}
-        <label class="control-label col-sm-2" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        <label class="form-check-label col-sm-2" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
             {{ label }}
         </label>
-        <div class="controls">
-            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
-        </div>
+        <input class="form-check-input" type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
     {% endspaceless %}
 {% endblock checkbox_widget %}
 
 {% block checkbox_row %}
     {% spaceless %}
-         <div class="control-group">
+         <div class="form-group">
              {{ form_errors(form) }}
              {{ form_widget(form) }}
          </div>

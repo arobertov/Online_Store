@@ -1,9 +1,25 @@
-{% extends '@App/base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
-{% block body %}
-    {%  include('@Shop/notice.html.twig') %}
-    {{ form_start(form) }}
-        {{ form_row(form) }}
-    <input type="submit" formnovalidate />
-    {{ form_end(form) }}
+{% block admin_body %}
+    <div class="panel_heading">
+        <span class="border border-primary">Create new product !</span>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {%  include('@Shop/notice.html.twig') %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="well">
+                {{ form_start(form,{'legend':false}) }}
+                {{ form_row(form) }}
+               <!-- <input type="submit" class="btn btn-success" value="Create product !" />   -->
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 {% endblock %}

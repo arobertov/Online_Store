@@ -38,8 +38,9 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    #form_themes: ['bootstrap_4_layout.html.twig']
     form_theme:
-              'forms/customize_form.html.twig'
+            'forms/customize_form.html.twig'
 
 assetic:
     debug:          '%kernel.debug%'
@@ -50,13 +51,26 @@ assetic:
     assets:
         jquery:
             inputs:
-            - %kernel.root_dir%/../vendor/components/jquery/jquery.js
+            - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
+        jquery_slim:
+            inputs:
+            - '%kernel.root_dir%/../vendor/components/jquery/jquery.slim.js'
+        popper:
+            inputs:
+            - '%kernel.root_dir%/../node_modules/popper.js/dist/popper.js'
+        feather_icon:
+            inputs:
+            - '%kernel.root_dir%/../node_modules/feather-icons/dist/feather.js'
         bootstrap_js:
             inputs:
-            - %kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js'
         bootstrap_css:
             inputs:
-            - %kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css'
+            filters: [ cssrewrite ]
+        dashboard_css:
+            inputs:
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/site/docs/4.1/examples/dashboard/dashboard.css'
             filters: [ cssrewrite ]
 
 # Doctrine Configuration

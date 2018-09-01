@@ -40,6 +40,16 @@ class HomepageController extends Controller
         ));
     }
 
+
+	/**
+	 * @Route("/admin_panel",name="admin_panel")
+	 *
+	 * @return Response
+	 */
+    public function adminPanelAction(){
+    	return $this->render('admin_panel.html.twig');
+    }
+
 	/**
 	 * @Route("/assetic",name="assetic_page")
 	 * @return Response
