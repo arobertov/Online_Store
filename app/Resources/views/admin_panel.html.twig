@@ -20,6 +20,11 @@
         <style>
             .panel_heading {
                 text-align: center;
+                padding: 2rem;
+                font-family: Roboto sans-serif;
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #4c4c4c;
             }
         </style>
     {% endblock %}
@@ -120,8 +125,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             {% block admin_body %}
-
-            {% endblock %}
+            {% endblock admin_body %}
         </main>
     </div>
 </div>
@@ -149,8 +153,8 @@
 
 
 <!-- Graphs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-<script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>    -->
+<!-- <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -178,6 +182,6 @@
             }
         }
     });
-</script>
+</script> -->
 </body>
 </html>

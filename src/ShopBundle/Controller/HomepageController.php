@@ -34,10 +34,11 @@ class HomepageController extends Controller
 		    $products = $this->productService->getAllProduct();
 	    }catch (\Exception $e){
     		$this->addFlash('error',$e->getMessage());
+    		$products = [];
 	    }
-        return $this->render('@Shop/Default/index.html.twig',array(
+        return $this->render('@Shop/Default/index.html.twig', [
         	'products'=>$products
-        ));
+        ] );
     }
 
 

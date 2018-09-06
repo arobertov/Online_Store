@@ -32,6 +32,21 @@ class ProductController extends Controller {
 		$this->productService = $productService;
 	}
 
+
+	/**
+	 * @Route("list_products",name="list_all_products")
+	 * @return Response
+	 */
+	public function listAllProductAction(){
+
+			$products = $this->productService->getAllProduct();
+		
+
+		return $this->render('@Shop/product/all_products_by_admin.html.twig',array(
+			'products'=>$products
+		));
+	}
+
 	/**
 	 *
 	 * @Route("create",name="create_product")

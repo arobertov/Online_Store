@@ -1,9 +1,5 @@
 {% extends 'admin_panel.html.twig' %}
-
 {% block admin_body %}
-    <div class="panel_heading">
-        <span class="border border-primary">Create new product !</span>
-    </div>
     <div class="row">
         <div class="col-md-12">
             {%  include('@Shop/notice.html.twig') %}
@@ -12,7 +8,10 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <div class="well">
+
+             {%   include('@Shop/product/nav_product.html.twig') %}
+            
+            <div class="jumbotron">
                 {{ form_start(form,{'legend':false}) }}
                 {{ form_row(form) }}
                <!-- <input type="submit" class="btn btn-success" value="Create product !" />   -->
@@ -22,4 +21,11 @@
         </div>
         <div class="col-md-2"></div>
     </div>
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#new_product_tab').tab('show');
+    </script>
 {% endblock %}
