@@ -1,12 +1,14 @@
 
 <ul id="nav_product" class="nav nav-tabs">
     <li class="nav-item">
-        <a id="new_product_tab" class="nav-link " href="{{ path('create_product') }}" >New Product</a>
+        <a id="new_product_tab" class="nav-link " href="{{ path('create_product') }}" >Create New Product</a>
+    </li>
+    <li class="nav-item">
+        <a id="all_products_tab" class="nav-link " href="{{ path('list_all_products') }}" >All products</a>
     </li>
     <li class="nav-item dropdown">
-        <a id="all_products_tab" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Preview products</a>
+        <a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Products by category</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ path('list_all_products') }}">All products</a>
             {% if categories is defined %}
                 {% for category in categories %}
 
@@ -22,4 +24,10 @@
             {% endif %}
         </div>
     </li>
+    <li class="nav-item dropdown">
+        <a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">By brand</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Newwest</a>
+            <a class="dropdown-item" href="">Latest</a>
+        </div>
 </ul>
