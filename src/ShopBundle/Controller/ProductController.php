@@ -2,6 +2,8 @@
 
 namespace ShopBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use ShopBundle\Services\CategoryServiceInterface;
 use ShopBundle\Services\ProductServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,26 +26,43 @@ class ProductController extends Controller {
 	private $productService;
 
 	/**
+	 * @var CategoryServiceInterface
+	 */
+	private $categoryService;
+
+	/**
 	 * ProductController constructor.
 	 *
 	 * @param ProductServiceInterface $productService
+	 * @param CategoryServiceInterface $categoryService
 	 */
-	public function __construct( ProductServiceInterface $productService ) {
+	public function __construct( ProductServiceInterface $productService, CategoryServiceInterface $categoryService ) {
 		$this->productService = $productService;
+		$this->categoryService = $categoryService;
 	}
 
 
 	/**
 	 * @Route("list_products",name="list_all_products")
+	 * @Method({"GET"})
+	 * @param Request $request
+	 *
 	 * @return Response
 	 */
-	public function listAllProductAction(){
-
+	public function listAllProductAction(Request $request){
+		try{
+			$categories = $this->categoryService->getAllCategoriesOrderByParentChildren();
 			$products = $this->productService->getAllProduct();
-		
+		} catch (\Exception $e){
+			$this->addFlash('error',$e->getMessage());
+			return $this->redirectToRoute('home_page');
+		}
 
+		$category =  $request->get('category');
+		
 		return $this->render('@Shop/product/all_products_by_admin.html.twig',array(
-			'products'=>$products
+			'products'=>$products,
+			'categories'=>$categories
 		));
 	}
 
@@ -56,6 +75,7 @@ class ProductController extends Controller {
 	 */
 	public function createNewProductAction(Request $request){
 		$product = new Product();
+		$categories = $this->categoryService->getAllCategoriesOrderByParentChildren();
 		$form = $this->createForm(ProductType::class,$product);
 		$form->handleRequest($request);
 
@@ -69,7 +89,7 @@ class ProductController extends Controller {
 		}
 
 		return $this->render('@Shop/product/create_product.html.twig',
-			['form'=>$form->createView()]
+			['form'=>$form->createView(),'categories'=>$categories]
 		);
 	}
 

@@ -13,17 +13,19 @@
             
             <div class="jumbotron">
                 {{ form_start(form,{'legend':false}) }}
+                <legend>Create new product</legend>
                 {{ form_row(form) }}
-               <!-- <input type="submit" class="btn btn-success" value="Create product !" />   -->
                 {{ form_end(form) }}
             </div>
 
         </div>
         <div class="col-md-2"></div>
     </div>
+
 {% endblock  %}
 
 {% block javascripts %}
+
     {{ parent() }}
     <script>
         $('#new_product_tab').tab('show');

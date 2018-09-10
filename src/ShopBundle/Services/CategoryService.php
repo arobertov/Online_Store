@@ -126,4 +126,15 @@ class CategoryService implements CategoryServiceInterface {
 			;
 	}
 
+	/**
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function getAllCategoriesOrderByParentChildren() {
+		try {
+			return $this->categoryRepository->findAllCategoriesOrderByParentChild();
+		}  catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
 }

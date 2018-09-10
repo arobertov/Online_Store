@@ -75,6 +75,26 @@ class CategoryRepository extends NestedTreeRepository
 	}
 
 	/**
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function findAllCategoriesOrderByParentChild(){
+		try{
+			$query = $this->em->createQueryBuilder()
+			                  ->select('c')
+				              ->from('ShopBundle:Category','c')
+			                  ->orderBy('c.root', 'ASC')
+			                  ->addOrderBy('c.lft', 'ASC')
+			                  ->getQuery()
+			;
+			return $query->getResult();
+		} catch (\Exception $e){
+			throw new \Exception('Error: '.$e->getMessage());
+		}
+
+	}
+
+	/**
 	 * @param Category $category
 	 *
 	 * @return string

@@ -134,16 +134,15 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 {% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     {% javascripts
         'assetic/jquery_slim.js'
-        'assetic/popper.js'
         'assetic/bootstrap_js.js'
         'assetic/feather_icon.js'
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    
     <script>
         feather.replace()
     </script>

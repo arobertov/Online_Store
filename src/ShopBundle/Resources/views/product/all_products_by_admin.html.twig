@@ -28,7 +28,7 @@
             {% if is_granted('ROLE_EDITOR') %}
                 <td>
                     <a type="button" class="btn btn-small btn-warning " href="{{ path('edit_product',{'slug':product.slug}) }}">Edit !</a>
-                    <button  type="button" data-id="{{ product.slug }}" class="btn-small btn-danger" data-toggle="modal" data-target="#deleteProductModal">
+                    <button type="button" data-id="{{ product.slug }}" class="btn-small btn-danger" data-toggle="modal" data-target="#deleteProductModal">
                         Delete !
                     </button>
                 </td>
@@ -36,6 +36,8 @@
         </tr>
         </table>
     {% endfor %}
+
+    {% include('@Shop/product/delete_product_modal_dialog.html.twig') %}
 {% endblock %}
 
 {% block javascripts %}
