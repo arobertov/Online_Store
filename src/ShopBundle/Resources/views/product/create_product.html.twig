@@ -15,12 +15,14 @@
         <div class="col-md-8">
 
              {%   include('@Shop/product/nav_product.html.twig') %}
-            
+
             <div class="jumbotron">
                 {{ form_start(form,{'legend':false}) }}
                 <legend>Create new product</legend>
                 {{ form_row(form) }}
                 {{ form_end(form) }}
+                <a class="btn btn-success" href="{{ path('create_category')}}">Create new category</a>
+                <a class="btn btn-success" href="{{ path('promotion_new') }}">Create new promotion</a>
             </div>
 
         </div>

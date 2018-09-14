@@ -82,4 +82,8 @@ class ProductService implements ProductServiceInterface {
 		}
 	}
 
+	public function getAllProductsByCategory($category){
+		return $this->productRepository->findProductsByCategory($category);
+	}
+
 }

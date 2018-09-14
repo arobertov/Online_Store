@@ -59,6 +59,9 @@ class ProductController extends Controller {
 		}
 
 		$category =  $request->get('category');
+		if(isset($category)){
+			$products = $this->categoryService->listProductsByCategory($category);
+		}
 		
 		return $this->render('@Shop/product/all_products_by_admin.html.twig',array(
 			'products'=>$products,
@@ -82,7 +85,7 @@ class ProductController extends Controller {
 		if($form->isSubmitted() && $form->isValid()){
 			try {
 				$this->addFlash('success',$this->productService->createProduct( $product ));
-				return $this->redirectToRoute( 'home_page' );
+				return $this->redirectToRoute( 'list_all_products' );
 			}catch (\Exception $e){
 				$this->addFlash('error',$e->getMessage());
 			}

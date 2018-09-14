@@ -42,17 +42,39 @@ class CategoryRepository extends NestedTreeRepository
 		try {
 			$query = $this->em
 				->createQueryBuilder()
-				->select(array('node','products','children'))
-				->from('ShopBundle:Category', 'node')
-				->leftJoin('node.products','products')
-				->leftJoin('node.children','children')
-				->orderBy('node.root, node.lft', 'ASC')
+				->select(array('cat','products','children'))
+				->from('ShopBundle:Category', 'cat')
+				->leftJoin('cat.products','products')
+				->leftJoin('cat.children','children')
+				->orderBy('cat.root, cat.lft', 'ASC')
 				->getQuery()
 			;
 			return $query;
 		}  catch (\Exception $e){
 			throw  new \Exception('Error: '.$e->getMessage());
 		}
+	}
+
+	/**
+	 * @param $category
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function findProductsByCategory($category){
+		 try {
+		 	return $this->createQueryBuilder('cat')
+					 ->where('cat.id=?1')
+					 ->orWhere('cat.root=?1')
+					 ->leftJoin('cat.products','pr')
+					 ->addSelect('pr')
+					 ->setParameter(1,$category)
+					 ->getQuery()
+					 ->execute()
+			 ;
+		 } catch (\Exception $e) {
+			 throw  new \Exception( 'Error: ' . $e->getMessage() );
+		 }
 	}
 
 	/**
@@ -93,6 +115,7 @@ class CategoryRepository extends NestedTreeRepository
 		}
 
 	}
+
 
 	/**
 	 * @param Category $category

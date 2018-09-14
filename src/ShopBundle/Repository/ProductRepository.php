@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Repository;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
@@ -90,6 +91,38 @@ class ProductRepository extends EntityRepository
 		}
 
 	}
+
+	public function findProductsByCriteria($criteria){
+		$cr = Criteria::create()->where($criteria[0]);
+		
+		$em = $this->em;
+		$query = $em->createQueryBuilder()
+		            ->select('pt')
+		            ->from('ShopBundle:Product','pt')
+		            ->where('pt.category=?1')
+		            ->setParameter(1,$criteria)
+		            ->getQuery()
+		;
+		return $query->getResult();
+	}
+
+	public function findProductsByCategory($category){
+
+		return $this->findBy(['category'=>$category]);
+
+		/*
+		$em = $this->em;
+		$query = $em->createQueryBuilder()
+			->select('pt')
+			->from('ShopBundle:Product','pt')
+			->where('pt.category=?1')
+			->setParameter(1,$category)
+			->getQuery()
+			;
+		return $query->getResult();
+		*/
+	}
+
 
 	/**
 	 * @param Product $product

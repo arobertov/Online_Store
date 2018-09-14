@@ -11,12 +11,15 @@
         <div class="dropdown-menu">
             {% if categories is defined %}
                 {% for category in categories %}
-
+                    {%  set parentCount = 0 %}
                     {% if category.parent %}
-                        <a class="dropdown-item" href="{{ path('list_all_products') }}?category={{category.slug  }}"><i data-feather="chevron-right"></i>{{ category.title }}</a>
+                        <a class="dropdown-item" href="{{ path('list_all_products') }}?category={{category.id  }}"><i data-feather="chevron-right"></i>{{ category.title }} ({{ category.products|length }})</a>
                         {% else %}
+                            {% for child in category.children %}
+                                      {% set parentCount = parentCount + child.products|length  %}
+                            {% endfor %}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">{{ category.title }}</a>
+                            <a class="dropdown-item" href="{{ path('list_all_products') }}?category={{ category.id }}">{{ category.title }} ({{ parentCount }})</a>
                             <div class="dropdown-divider"></div>
                     {% endif %}
 
@@ -27,7 +30,7 @@
     <li class="nav-item dropdown">
         <a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">By brand</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Newwest</a>
+            <a class="dropdown-item" href="">Newwest</a>
             <a class="dropdown-item" href="">Latest</a>
         </div>
 </ul>

@@ -137,4 +137,25 @@ class CategoryService implements CategoryServiceInterface {
 			throw new \Exception($e->getMessage());
 		}
 	}
+
+
+	/**
+	 * @param $category
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function listProductsByCategory( $category ) {
+		$categories = $this->categoryRepository->findProductsByCategory($category);
+		$products = array();
+		foreach ($categories as $value){
+			/** @var Category $value */
+			$collections =  $value->getProducts()->getValues();
+			foreach ($collections as $product){
+				$products[] = $product;
+			}
+		}
+
+		return $products;
+	}
 }

@@ -17,6 +17,8 @@ interface CategoryServiceInterface {
 
 	public function listCategoriesByAdminPanel();
 
+	public function listProductsByCategory($category);
+
 	public function getAllCategoriesOrderByParentChildren();
 
 	public function createNewCategory(Category $category);

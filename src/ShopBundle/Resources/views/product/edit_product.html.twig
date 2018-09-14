@@ -1,12 +1,24 @@
-{% extends '@App/base.html.twig' %}
-
-{% block body %}
-    <div class="span9">
-        {{ form_start(form) }}
-        {{ form_row(form) }}
-        <input type="submit" formnovalidate />
-        {{ form_end(form) }}
+{% extends 'admin_panel.html.twig' %}
+{% block admin_block_title %}
+    Edit product
+{% endblock %}
+{% block admin_body %}
+    <div class="row">
+        <div class="col-md-12">
+            {%  include('@Shop/notice.html.twig') %}
+        </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            {% include ('@Shop/product/nav_product.html.twig') %}
+            <div class="jumbotron">
+                {{ form_start(form) }}
+                {{ form_row(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 {% endblock %}
 

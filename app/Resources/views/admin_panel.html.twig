@@ -17,18 +17,7 @@
             filter='cssrewrite' %}
              <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-        <style>
-            .panel_heading h2 {
-                background: #e2e2e2;
-                border-radius: 10px;
-                text-align: left;
-                margin-top: 1rem;
-                padding: 1.5rem;
-                font-size: 2rem;
-                font-weight: bold;
-                color: #5c5c5c;
-            }
-        </style>
+        <link rel="stylesheet" href="{{ asset('css/admin_panel.css') }}">
     {% endblock %}
 </head>
 
@@ -65,7 +54,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('create_product') }}">
+                        <a class="nav-link" href="{{ path('list_all_products') }}">
                             <span data-feather="shopping-cart"></span>
                             Products
                         </a>
@@ -127,7 +116,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="panel_heading">
-                <h2>{% block admin_block_title %}{% endblock %}</h2>
+                <h2>{% block admin_block_title %}Dashboard{% endblock %}</h2>
             </div>
             {% block admin_body %}
             {% endblock admin_body %}

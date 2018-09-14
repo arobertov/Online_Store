@@ -20,4 +20,6 @@ interface ProductServiceInterface {
 	public function removeProduct(Product $product);
 
 	public function getAllProduct();
+
+	public function getAllProductsByCategory($category);
 }
