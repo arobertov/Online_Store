@@ -90,4 +90,48 @@ class CategoryController extends Controller {
 			'form'=>$form->createView()
 		));
 	}
+
+	/**
+	 * @param Category $category
+	 * @param Request $request
+	 *
+	 * @Route("edit/{slug}",name="edit_category")
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function editCategoryAction(Category $category,Request $request){
+		$form = $this->createForm(CategoryType::class,$category);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()){
+			try {
+				$this->addFlash( 'success', $this->categoryService->editCategory( $category ) );
+				return $this->redirectToRoute( 'list_categories' );
+			} catch ( \Exception $e ) {
+				$this->addFlash('error',$e->getMessage());
+				return $this->redirectToRoute( 'list_categories' );
+			}
+		}
+
+		return $this->render('@Shop/category/edit_category',array(
+			'form'=>$form->createView()
+		));
+	}
+
+	/**
+	 * @param Category $category
+	 *
+	 * @Route("delete/{slug}",name="delete_category")
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function deleteCategoryAction(Category $category){
+		try{
+			$this->addFlash('success',$this->categoryService->deleteCategory($category));
+			return $this->redirectToRoute('list_categories');
+		} catch ( \Exception $e ) {
+			$this->addFlash('error',$e->getMessage());
+			return $this->redirectToRoute( 'list_categories' );
+		}
+
+	}
 }

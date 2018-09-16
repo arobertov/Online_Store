@@ -42,7 +42,7 @@ class CategoryRepository extends NestedTreeRepository
 		try {
 			$query = $this->em
 				->createQueryBuilder()
-				->select(array('cat','products','children'))
+				->select('cat','products','children')
 				->from('ShopBundle:Category', 'cat')
 				->leftJoin('cat.products','products')
 				->leftJoin('cat.children','children')
@@ -63,15 +63,17 @@ class CategoryRepository extends NestedTreeRepository
 	 */
 	public function findProductsByCategory($category){
 		 try {
-		 	return $this->createQueryBuilder('cat')
-					 ->where('cat.id=?1')
-					 ->orWhere('cat.root=?1')
-					 ->leftJoin('cat.products','pr')
-					 ->addSelect('pr')
-					 ->setParameter(1,$category)
-					 ->getQuery()
-					 ->execute()
+		 	$query = $this->em->createQueryBuilder()
+		                    ->select('cat','pr')
+		                    ->from('ShopBundle:Category','cat')
+							 ->where('cat.id=?1')
+							 ->orWhere('cat.root=?1')
+							 ->leftJoin('cat.products','pr')
+					         ->orderBy('pr.dateEdit','DESC')
+							 ->setParameter(1,$category)
+							 ->getQuery()
 			 ;
+		 	return $query->getResult();
 		 } catch (\Exception $e) {
 			 throw  new \Exception( 'Error: ' . $e->getMessage() );
 		 }
@@ -146,7 +148,7 @@ class CategoryRepository extends NestedTreeRepository
 			$em = $this->em;
 			$em->flush();
 
-			return $category->getTitle() . 'changed successful !';
+			return 'Category '.$category->getTitle() . ' changed successful !';
 		} catch (\Exception $e){
 			throw new \Exception('Error: ' . $e->getMessage());
 		}

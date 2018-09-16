@@ -49,7 +49,7 @@ class CategoryService implements CategoryServiceInterface {
 	public function listCategoriesByAdminPanel() {
 		try {
 			$query = $this->categoryRepository->findAllCategoriesJoinProducts();
-			$options = $this->setTreeOptions();
+			$options = $this->setTreeOptionsByAdminPanel();
 			return $this->categoryRepository->buildTree($query->getArrayResult(),$options);
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());
@@ -101,6 +101,37 @@ class CategoryService implements CategoryServiceInterface {
 		}
 	}
 
+	private function setTreeOptionsByAdminPanel(){
+		return $options = array(
+			'decorate' => true,
+			'rootOpen' => function($tree) {
+				if(count($tree) && ($tree[0]['lvl'] == 1)){
+					return '<ul>'.PHP_EOL;
+				}
+
+			},
+			'rootClose' => function($tree) {
+				if(count($tree) && ($tree[0]['lvl'] == 1)){
+					return '</ul>'.PHP_EOL;
+				}
+			},
+			'childOpen' => '',
+			'childClose' => '',
+			'nodeDecorator' => function($node) {
+				$buttons = '<td>
+							<div class="btn-group" role="group" aria-label="na">
+								<a href="/category/edit/'.$node['slug'].'" type="button" class="btn btn-sm  btn-warning">Edit</a>
+						    	<button type="button" data-id="'.$node['slug'].'" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete</button>
+						    </div>
+						</td>';
+				if($node['lvl'] == 0) {
+					return '<tr class="parent-tr"><td><a>' . $node['title'] . '</a></td>'.$buttons.'</tr>'.PHP_EOL;
+				} else  return '<tr class="child-tr"><td><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
+				               .$node['title'].' ('.count($node['products']).')</a></td>'.$buttons.'</tr>'.PHP_EOL;
+			} )
+			;
+	}
+
 	private function setTreeOptions(){
 		return $options = array(
 				'decorate' => true,
@@ -118,9 +149,10 @@ class CategoryService implements CategoryServiceInterface {
 				'childOpen' => '',
 				'childClose' => '',
 				'nodeDecorator' => function($node) {
+					$parentProductsCounter = 0;
 					if($node['lvl'] == 0) {
-						return '<li class="subMenu open"><a>' . $node['title'] . '</a>'.PHP_EOL;
-					} else return '<li><a href="/show_product/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
+						return '<li class="subMenu open"><a>' . $node['title'] . '('.$parentProductsCounter.')</a>'.PHP_EOL;
+					} else  return '<li><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
 					              .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
 				} )
 			;

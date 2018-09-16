@@ -17,14 +17,14 @@ class CategoryType extends AbstractType {
 			->add('title',TextType::class)
 			->add('parent',EntityType::class, [
 				'class'=>'ShopBundle\Entity\Category',
-				'placeholder'=>'First Level Category',
+				'placeholder'=>'PARENT CATEGORY',
 				'required'=>false,
 				'choice_label'=> function (Category $category) {
-					return $category->getParent() ?
-						"-- " . $category->getTitle() : strtoupper($category->getTitle());
+					return '-- '.$category->getTitle();
 				},
 				'query_builder' => function(EntityRepository $er) {
 					return $er->createQueryBuilder('c')
+							  ->where('c.lvl=0')
 					          ->orderBy('c.root', 'ASC')
 					          ->addOrderBy('c.lft', 'ASC');
 				},

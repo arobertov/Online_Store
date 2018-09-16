@@ -3,6 +3,7 @@
 namespace ShopBundle\Entity;
 
 use AppBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +27,13 @@ class Promotion
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Title must be at least {{ limit }} characters long",
+     *      maxMessage = "Title must be longer than{{ limit }} characters long"
+     * )
      *
      * @ORM\Column(name="title", type="string", length=255, unique=true)
      */
@@ -41,6 +49,12 @@ class Promotion
     /**
      * @var string
      *
+     * @Assert\Range(
+     *      min = 0.01,
+     *      max = 0.99,
+     *      minMessage = "You must be at least {{ limit }}% tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }}% to enter"
+     * )
      * @ORM\Column(name="discount", type="decimal", precision=2, scale=2)
      */
     private $discount;

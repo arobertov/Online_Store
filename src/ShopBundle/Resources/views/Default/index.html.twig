@@ -51,8 +51,9 @@
     {% endfor %}
     </table>
 </div>
-
-    {% include('@Shop/product/delete_product_modal_dialog.html.twig') %}
+    {% set caption = 'Delete product' %}
+    {% set entityName = 'product' %}
+    {% include('@Shop/delete_modal_dialog') %}
 
 {% endblock %}
 

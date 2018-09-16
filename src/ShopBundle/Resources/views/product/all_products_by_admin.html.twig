@@ -14,6 +14,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">TITLE</th>
+                <th>CATEGORY</th>
                 <th scope="col">DESCRIPTION</th>
                 <th scope="col">QTY</th>
                 <th scope="col">PROMOTION</th>
@@ -25,6 +26,7 @@
             <tr>
                 <th scope="row">{{ product.id }}</th>
                 <td>{{ product.title }}</td>
+                <td>{{ product.category }}</td>
                 <td>{{ product.description }}</td>
                 <td>{{ product.quantity }}</td>
                 <td> {% if product.promotion is null %}
@@ -35,10 +37,13 @@
                 </td>
                 {% if is_granted('ROLE_EDITOR') %}
                     <td>
-                        <a type="button" class="btn btn-small btn-warning " href="{{ path('edit_product',{'slug':product.slug}) }}">Edit !</a>
-                        <button type="button" data-id="{{ product.slug }}" class="btn btn-small btn-danger" data-toggle="modal" data-target="#deleteProductModal">
-                            Delete !
-                        </button>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="na">
+                            <a type="button" class="btn btn-info" href="#">Details</a>
+                            <a type="button" class="btn  btn-warning " href="{{ path('edit_product',{'slug':product.slug}) }}">Edit</a>
+                            <button type="button" data-id="{{ product.slug }}" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">
+                                Delete
+                            </button>
+                        </div>
                     </td>
                 {% endif %}
             </tr>
@@ -47,14 +52,22 @@
 
     </div>
     
-    
-    {% include('@Shop/product/delete_product_modal_dialog.html.twig') %}
+    {% set caption = 'Delete product' %}
+    {% set entityName = 'product' %}
+    {% include('@Shop/delete_modal_dialog') %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
         $('#all_products_tab').tab('show');
+    </script>
+    <script >
+        var btn = $("[type='button']");
+        btn.on('click',function() {
+            var slug = $(this).data('id');
+            $('#delete_link').attr('href',"/product/delete/"+slug);
+        })
     </script>
 {% endblock %}
 

@@ -2,13 +2,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ caption }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Do you want to delete this product !</p>
+                <p>Do you want to delete {{ entityName }} !</p>
             </div>
             <div class="modal-footer">
                 <a id="delete_link" class="btn btn-danger" href="#">Yes</a>

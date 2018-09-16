@@ -42,9 +42,21 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active" href="{{ path('admin_panel') }}">
                             <span data-feather="home"></span>
                             Dashboard <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('list_all_products') }}">
+                            <span data-feather="shopping-cart"></span>
+                            Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('list_categories') }}">
+                            <span data-feather="list"></span>
+                            Categories
                         </a>
                     </li>
                     <li class="nav-item">
@@ -54,9 +66,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('list_all_products') }}">
-                            <span data-feather="shopping-cart"></span>
-                            Products
+                        <a class="nav-link" href="{{ path('promotion_index') }}">
+                            <span data-feather="trending-down"></span>
+                            Promotions
                         </a>
                     </li>
                     <li class="nav-item">
@@ -130,13 +142,13 @@
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     {% javascripts
-        'assetic/jquery_slim.js'
+        'assetic/jquery.js'
         'assetic/bootstrap_js.js'
         'assetic/feather_icon.js'
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
+    <script src="{{ asset('themes/js/main.js') }}" ></script>
     <script>
         feather.replace()
     </script>

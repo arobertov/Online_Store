@@ -9,7 +9,12 @@
     color: #5c5c5c;
 }
 
-div.dropdown-menu {
-    top:100% !important;
-    left: 90% !important;
+table .parent-tr{
+    text-align: left;
+    background: #b0b0b0;
 }
+
+table .child-tr {
+    text-align: right;
+}
+

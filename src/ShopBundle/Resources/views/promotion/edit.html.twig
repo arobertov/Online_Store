@@ -1,12 +1,19 @@
-{% extends '@App/base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
-{% block body %}
+{% block admin_body %}
     <h1>Promotion edit</h1>
-
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="jumbotron">
+            {{ form_start(edit_form) }}
+             {{ form_widget(edit_form) }}
+            <input type="submit" value="Edit" />
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
 
     <ul>
         <li>

@@ -1,26 +1,51 @@
-{% extends '@App/base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
-{% block sidebar %}
+{% block admin_block_title %}
+           Category manager
+{% endblock %}
+
+{% block admin_body %}
+    <div class="row">
+        <div class="col-md-12">
+            {%  include('@Shop/notice.html.twig') %}
+        </div>
+    </div>
+
+    
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <ul id="nav_product" class="nav nav-tabs">
+                <li class="nav-item active">
+                    <a id="new_product_tab" class="nav-link " href="{{ path('create_category') }}" >Create New Category</a>
+                </li>
+            </ul>
+
+            <div class="jumbotron">
+                <table class="table table-hover">
+                    <th scope="col">Category</th>
+                    <th scope="col">Action</th>
+                    {{ tree|raw }}
+                </table>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    {% set caption = 'Delete category' %}
+    {% set entityName = 'category' %}
+    {% include('@Shop/delete_modal_dialog') %}
 
 {% endblock %}
 
-{% block body %}
-    <div class="span11">
-        <ul class="breadcrumb">
-            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
-            <li class="active">All categories</li>
-        </ul>
-        {{ include('@Shop/Default/admin_menu.html.twig') }}
-        {{ include('@Shop/notice.html.twig') }}
-        <h1>All categories</h1>
-        <a href="{{ path('create_category') }}" type="button" class="btn-small btn-success">Create new category</a>
+{% block javascripts %}
+    {{ parent() }}
+    <script >
+        var btn = $("[type='button']");
+        btn.on('click',function() {
+            var slug = $(this).data('id');
+            $('#delete_link').attr('href',"/category/delete/"+slug);
+        })
+    </script>
 
-        <div class="well">
-            <ul class="tree_admin">
-            {{ tree|raw }}
-            </ul>
-        </div>
-
-
-    </div>
 {% endblock %}

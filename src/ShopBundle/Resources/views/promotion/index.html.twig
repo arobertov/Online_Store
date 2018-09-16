@@ -1,40 +1,37 @@
-{% extends '@App/base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
-{% block body %}
-    <h1>Promotions list</h1>
+{% block admin_block_title %}
+    Promotion manager
+{% endblock %}
 
-    <table>
+{% block admin_body %}
+
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>Description</th>
                 <th>Discount</th>
-                <th>Startdate</th>
-                <th>Enddate</th>
-                <th>Isactive</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Active</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for promotion in promotions %}
             <tr>
-                <td><a href="{{ path('promotion_show', { 'id': promotion.id }) }}">{{ promotion.id }}</a></td>
+                <td>{{promotion.id }}</td>
                 <td>{{ promotion.title }}</td>
-                <td>{{ promotion.description }}</td>
                 <td>{{ promotion.discount }}</td>
-                <td>{% if promotion.startDate %}{{ promotion.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if promotion.endDate %}{{ promotion.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if promotion.startDate %}{{ promotion.startDate|date('Y m d ') }}{% endif %}</td>
+                <td>{% if promotion.endDate %}{{ promotion.endDate|date('Y m d ') }}{% endif %}</td>
                 <td>{% if promotion.isActive %}Yes{% else %}No{% endif %}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('promotion_show', { 'id': promotion.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('promotion_edit', { 'id': promotion.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="na">
+                        <a type="button" class="btn btn-info" href="{{ path('promotion_show', { 'id': promotion.id }) }}">Details</a>
+                        <a type="button" class="btn btn-warning" href="{{ path('promotion_edit', { 'id': promotion.id }) }}">Edit</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}

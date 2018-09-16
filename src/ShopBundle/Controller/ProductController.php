@@ -87,7 +87,8 @@ class ProductController extends Controller {
 				$this->addFlash('success',$this->productService->createProduct( $product ));
 				return $this->redirectToRoute( 'list_all_products' );
 			}catch (\Exception $e){
-				$this->addFlash('error',$e->getMessage());
+				$this->addFlash('danger',$e->getMessage());
+				return $this->redirectToRoute( 'list_all_products' );
 			}
 		}
 
@@ -111,10 +112,10 @@ class ProductController extends Controller {
 		if($form->isSubmitted() && $form->isValid()){
 			try{
 				$this->addFlash('success',$this->productService->editProduct($product));
-				return $this->redirectToRoute('home_page');
+				return $this->redirectToRoute('list_all_products');
 			} catch (\Exception $e){
 				$this->addFlash('error',$e->getMessage());
-				return $this->redirectToRoute('home_page');
+				return $this->redirectToRoute('list_all_products');
 			}
 		}
 
@@ -134,10 +135,10 @@ class ProductController extends Controller {
 	public function deleteProductAction(Product $product,Request $request){
 			try{
 				$this->addFlash('success',$this->productService->removeProduct($product));
-				return $this->redirectToRoute('home_page');
+				return $this->redirectToRoute('list_all_products');
 			} catch (\Exception $e){
-				$this->addFlash('error',$e->getMessage());
+				$this->addFlash('danger',$e->getMessage());
 			}
-		return $this->redirectToRoute('home_page');
+		return $this->redirectToRoute('list_all_products');
 	}
 }

@@ -47,7 +47,7 @@ class ProductRepository extends EntityRepository
 			$em->persist( $product );
 			$em->flush();
 
-			return 'Your product successful created !';
+			return  $product->getTitle() .' successful created !';
 		}catch (\Exception $e){
 			throw new \Exception('Error ! :'. $e->getMessage());
 		}

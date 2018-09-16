@@ -1,6 +1,6 @@
 $(document).ready(function () {
     //* ------ hide success message ------------- *//
-    $('.alert-success').fadeOut(7000);
+    $('.alert-success').fadeOut(10000);
 
 //* ------ create Ajax request for  modal login form ------------ *//
     var frm = $('#formLoginModal');
