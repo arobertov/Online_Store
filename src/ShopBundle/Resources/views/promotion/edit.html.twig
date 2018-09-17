@@ -1,28 +1,25 @@
 {% extends 'admin_panel.html.twig' %}
 
-{% block admin_body %}
-    <h1>Promotion edit</h1>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div class="jumbotron">
-            {{ form_start(edit_form) }}
-             {{ form_widget(edit_form) }}
-            <input type="submit" value="Edit" />
-            {{ form_end(edit_form) }}
-        </div>
-    </div>
-    <div class="col-md-2"></div>
-</div>
+{% block admin_block_title %}
+    Edit promotion
+{% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('promotion_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block admin_body %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <ul id="nav_product" class="nav nav-tabs">
+                <li class="nav-item active">
+                    <a class="nav-link " href="{{ path('promotion_index') }}">List all promotions</a>
+                </li>
+            </ul>
+            <div class="jumbotron">
+                {{ form_start(edit_form) }}
+                {{ form_widget(edit_form) }}
+                {{ form_end(edit_form) }}
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
 {% endblock %}

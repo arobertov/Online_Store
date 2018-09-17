@@ -15,7 +15,7 @@
             'assetic/bootstrap_css.css'
             'assetic/dashboard_css.css'
             filter='cssrewrite' %}
-             <link rel="stylesheet" href="{{ asset_url }}" />
+            <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
         <link rel="stylesheet" href="{{ asset('css/admin_panel.css') }}">
     {% endblock %}
@@ -23,14 +23,14 @@
 
 <body>
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('home_page') }}">Bootshop</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('home_page') }}">Hello {{ app.user.username }}</a>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <a class="nav-link" href="{{ path('logout') }}">Sign out</a>
+                <a class="nav-link" href="{{ path('logout') }}">Sign out</a>
             {% else %}
-            <a class="nav-link" href="{{ path('login') }}">Sign in</a>
+                <a class="nav-link" href="{{ path('login') }}">Sign in</a>
             {% endif %}
         </li>
     </ul>
@@ -140,21 +140,23 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 {% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous">
+
+    </script>
     {% javascripts
         'assetic/jquery.js'
         'assetic/bootstrap_js.js'
-        'assetic/feather_icon.js'
-    %}
-        <script src="{{ asset_url }}"></script>
+        'assetic/feather_icon.js' %}
+    <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script src="{{ asset('themes/js/main.js') }}" ></script>
+    <script src="{{ asset('themes/js/main.js') }}"></script>
     <script>
         feather.replace()
     </script>
 
 {% endblock %}
- 
 
 
 <!-- Graphs -->

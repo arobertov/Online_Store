@@ -28,4 +28,61 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
 		parent::__construct( $em, new Mapping\ClassMetadata(Promotion::class) );
 		$this->em = $em;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function findAllPromotions(){
+		return $this->createQueryBuilder('po')
+					->leftJoin('po.products','pr')
+					->leftJoin('po.category','cat')
+					->addOrderBy('po.isActive', 'DESC')
+					->addOrderBy('po.discount','ASC')
+					->getQuery()
+					->execute();
+	}
+
+	/**
+	 * @param Promotion $promotion
+	 *
+	 * @return string
+	 */
+	public function insertNewPromotion(Promotion $promotion){
+		try{
+			$this->em->persist($promotion);
+			$this->em->flush();
+			return $promotion->getTitle().' create successful !';
+		} catch (\Exception $e){
+			return $e->getMessage();
+		}
+	}
+
+	/**
+	 * @param Promotion $promotion
+	 *
+	 * @return string
+	 */
+	public function updatePromotion(Promotion $promotion){
+		 try{
+		 	$this->em->flush();
+		 	return $promotion->getTitle(). ' edit successful!';
+		 } catch (\Exception $e){
+		 	return $e->getMessage();
+		 }
+	}
+
+	/**
+	 * @param Promotion $promotion
+	 *
+	 * @return string
+	 */
+	public function deletePromotion(Promotion $promotion){
+		try{
+			$this->em->remove($promotion);
+			$this->em->flush();
+			return $promotion->getTitle().' delete successful!';
+		} catch (\Exception $e){
+			return $e->getMessage();
+		}
+	}
 }

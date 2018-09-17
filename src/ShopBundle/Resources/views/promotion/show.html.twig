@@ -1,6 +1,13 @@
 {% extends 'admin_panel.html.twig' %}
 
+{% block admin_block_title %}
+    Promotion details
+{% endblock %}
+
 {% block admin_body %}
+
+    {% include '@Shop/notice.html.twig' %}
+
     <h1>Promotion</h1>
 
     <table>
@@ -42,11 +49,6 @@
         </li>
         <li>
             <a href="{{ path('promotion_edit', { 'id': promotion.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}

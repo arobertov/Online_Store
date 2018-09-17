@@ -1,3 +1,6 @@
+.greeting {
+    color: gainsboro;
+}
 .panel_heading h2 {
     background: #e2e2e2;
     border-radius: 10px;
@@ -16,5 +19,25 @@ table .parent-tr{
 
 table .child-tr {
     text-align: right;
+}
+
+.form-check {
+    margin: 0;
+    padding-left: 0;
+    padding-top:1rem;
+    padding-bottom: 1rem;
+}
+
+.form-check-label {
+    padding-left: 0;
+    font-size: 1rem;
+}
+
+.form-check-input {
+    margin-left: 0.75rem;
+}
+
+.submit_row {
+    padding: 1rem 0;
 }
 

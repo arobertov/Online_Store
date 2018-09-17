@@ -5,42 +5,73 @@
 {% endblock %}
 
 {% block admin_body %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include '@Shop/notice.html.twig' %}
+        </div>
+        <div class="col-md-12">
+            <ul id="nav_product" class="nav nav-tabs">
+                <li class="nav-item active">
+                    <a id="new_product_tab" class="nav-link " href="{{ path('promotion_new') }}">Create a new promotion</a>
+                </li>
+            </ul>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Discount</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Products</th>
+                    <th>Category</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for promotion in promotions %}
+                    <tr>
+                        <td>{{ promotion.id }}</td>
+                        <td>{{ promotion.title }}</td>
+                        <td>{{ promotion.discount }}</td>
+                        <td>{% if promotion.startDate %}{{ promotion.startDate|date('Y m d ') }}{% endif %}</td>
+                        <td>{% if promotion.endDate %}{{ promotion.endDate|date('Y m d ') }}{% endif %}</td>
+                        <td>{{ promotion.products|length }}</td>
+                        <td>{{ promotion.category }}</td>
+                        <td>{% if promotion.isActive %}Yes{% else %}No{% endif %}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="na">
+                                <a type="button" class="btn btn-info"
+                                   href="{{ path('promotion_show', { 'id': promotion.id }) }}">Details</a>
+                                <a type="button" class="btn btn-warning"
+                                   href="{{ path('promotion_edit', { 'id': promotion.id }) }}">Edit</a>
+                                <button type="button" data-id="{{ promotion.id }}" class="btn btn-danger"
+                                        data-toggle="modal" data-target="#deleteProductModal">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Discount</th>
-                <th>Start date</th>
-                <th>End date</th>
-                <th>Active</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for promotion in promotions %}
-            <tr>
-                <td>{{promotion.id }}</td>
-                <td>{{ promotion.title }}</td>
-                <td>{{ promotion.discount }}</td>
-                <td>{% if promotion.startDate %}{{ promotion.startDate|date('Y m d ') }}{% endif %}</td>
-                <td>{% if promotion.endDate %}{{ promotion.endDate|date('Y m d ') }}{% endif %}</td>
-                <td>{% if promotion.isActive %}Yes{% else %}No{% endif %}</td>
-                <td>
-                    <div class="btn-group btn-group-sm" role="group" aria-label="na">
-                        <a type="button" class="btn btn-info" href="{{ path('promotion_show', { 'id': promotion.id }) }}">Details</a>
-                        <a type="button" class="btn btn-warning" href="{{ path('promotion_edit', { 'id': promotion.id }) }}">Edit</a>
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('promotion_new') }}">Create a new promotion</a>
-        </li>
-    </ul>
+    {% set caption = 'Delete promotion' %}
+    {% set entityName = 'promotion' %}
+    {% include('@Shop/delete_modal_dialog') %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var btn = $("[type='button']");
+        btn.on('click', function () {
+            var dataId = $(this).data('id');
+            $('#delete_link').attr('href', "/promotion/" + dataId + "/delete");
+        })
+    </script>
+{% endblock %}
+

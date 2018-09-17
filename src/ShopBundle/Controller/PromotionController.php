@@ -3,6 +3,7 @@
 namespace ShopBundle\Controller;
 
 use ShopBundle\Entity\Promotion;
+use ShopBundle\Services\PromotionServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -18,7 +19,22 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PromotionController extends Controller
 {
-    /**
+	/**
+	 * @var PromotionServiceInterface
+	 */
+	private $promotionService;
+
+	/**
+	 * PromotionController constructor.
+	 *
+	 * @param PromotionServiceInterface $promotionService
+	 */
+	public function __construct( PromotionServiceInterface $promotionService ) {
+		$this->promotionService = $promotionService;
+	}
+
+
+	/**
      * Lists all promotion entities.
      *
      * @Route("/", name="promotion_index")
@@ -26,9 +42,9 @@ class PromotionController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        //$em = $this->getDoctrine()->getManager();
 
-        $promotions = $em->getRepository('ShopBundle:Promotion')->findAll();
+        $promotions = $this->promotionService->getAllPromotion();
 
         return $this->render('@Shop/promotion/index.html.twig', array(
             'promotions' => $promotions,
@@ -51,11 +67,13 @@ class PromotionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($promotion);
-            $em->flush();
+            try{
+            	$this->addFlash('success',$this->promotionService->createPromotion($promotion));
+            }catch (\Exception $e){
+            	$this->addFlash('danger',$e->getMessage());
+            }
 
-            return $this->redirectToRoute('promotion_show', array('id' => $promotion->getId()));
+            return $this->redirectToRoute('promotion_index');
         }
 
         return $this->render('@Shop/promotion/new.html.twig', array(
@@ -75,11 +93,8 @@ class PromotionController extends Controller
 	 */
     public function showAction(Promotion $promotion)
     {
-        $deleteForm = $this->createDeleteForm($promotion);
-
         return $this->render('@Shop/promotion/show.html.twig', array(
             'promotion' => $promotion,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -95,60 +110,41 @@ class PromotionController extends Controller
 	 */
     public function editAction(Request $request, Promotion $promotion)
     {
-        $deleteForm = $this->createDeleteForm($promotion);
         $editForm = $this->createForm('ShopBundle\Form\PromotionType', $promotion);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            try {
+            	$this->addFlash('success',$this->promotionService->editPromotion($promotion));
+            } catch (\Exception $e){
+            	$this->addFlash('danger',$e->getMessage());
+            }
 
-            return $this->redirectToRoute('promotion_edit', array('id' => $promotion->getId()));
+            return $this->redirectToRoute('promotion_index');
         }
 
         return $this->render('@Shop/promotion/edit.html.twig', array(
             'promotion' => $promotion,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
 	/**
 	 * Deletes a promotion entity.
 	 *
-	 * @Route("/{id}", name="promotion_delete")
-	 * @Method("DELETE")
-	 * @param Request $request
+	 * @Route("/{id}/delete", name="promotion_delete")
 	 * @param Promotion $promotion
 	 *
 	 * @return RedirectResponse
 	 */
-    public function deleteAction(Request $request, Promotion $promotion)
+    public function deleteAction(Promotion $promotion)
     {
-        $form = $this->createDeleteForm($promotion);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($promotion);
-            $em->flush();
+        try {
+        	$this->addFlash('success',$this->promotionService->removePromotion($promotion));
+        } catch (\Exception $e){
+        	$this->addFlash('danger',$e->getMessage());
         }
 
         return $this->redirectToRoute('promotion_index');
-    }
-
-    /**
-     * Creates a form to delete a promotion entity.
-     *
-     * @param Promotion $promotion The promotion entity
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    private function createDeleteForm(Promotion $promotion)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('promotion_delete', array('id' => $promotion->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }

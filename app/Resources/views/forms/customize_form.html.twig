@@ -7,13 +7,13 @@
         <label class="form-check-label col-sm-2" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
             {{ label }}
         </label>
-        <input class="form-check-input" type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <input class="form-check-input " type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
     {% endspaceless %}
 {% endblock checkbox_widget %}
 
 {% block checkbox_row %}
     {% spaceless %}
-         <div class="form-group">
+         <div class="form-check">
              {{ form_errors(form) }}
              {{ form_widget(form) }}
          </div>
@@ -37,7 +37,7 @@
     {% spaceless %}
         {% if errors|length > 0 %}
             {% for error in errors %}
-                <div class="alert alert-block alert-error fade in">
+                <div class="alert alert-block alert-danger" role="alert">
                     <button type="button" class="close" data-dismiss="alert">×</button>
                     <p><strong>{{ error.message }}</strong></p>
                 </div>
@@ -47,8 +47,8 @@
 {% endblock form_errors %}
 
 {% block submit_row -%}
-    <div class="col-sm-offset-2 col-sm-10">{#--#}
-        {{- form_widget(form,{'attr':{'class':'btn btn-large btn-success'}}) -}}
+    <div class="submit_row col-sm-10 offset-sm-4">
+        {{- form_widget(form,{'attr':{'class':'btn  btn-success'}}) -}}
     </div>
 {%- endblock submit_row %}
 
