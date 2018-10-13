@@ -22,6 +22,7 @@
             <th>title</th>
             <th>description</th>
             <th>QTY</th>
+            <th>pictures</th>
             <th>promotion</th>
             {% if is_granted('ROLE_EDITOR') %}
                 <th>action</th>
@@ -33,6 +34,12 @@
             <td>{{ product.title }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.quantity }}</td>
+            <td>{% for image in product.images %}
+                    <div class="list_product_thumb">
+                        <img src="{{ asset('images/product_images/'~image.path) }}" alt="">
+                    </div>
+                {% endfor %}
+            </td>
             <td> {% if product.promotion is null %}
                     Without promotion !
                  {% else %}

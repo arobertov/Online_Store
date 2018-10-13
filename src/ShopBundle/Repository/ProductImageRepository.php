@@ -28,4 +28,21 @@ class ProductImageRepository extends \Doctrine\ORM\EntityRepository
 		parent::__construct( $em, new Mapping\ClassMetadata(ProductImage::class) );
 		$this->em = $em;
 	}
+
+	/**
+	 * @param ProductImage $image
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function createImage(ProductImage $image){
+		try{
+			$this->em->persist($image);
+			$this->em->flush();
+			return $image->getPath().' successful upload !';
+		}  catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+
+	}
 }

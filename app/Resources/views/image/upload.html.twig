@@ -1,0 +1,43 @@
+{% extends 'admin_panel.html.twig' %}
+
+{% block admin_block_title %}
+    Image Manager
+{% endblock %}
+{% block admin_body %}
+    {{ include('@Shop/notice.html.twig') }}
+    {% if info is not null %}
+            {{ dump(info) }}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron">
+                {% if files is empty %}
+                    <h1 class="display-4">No files this !</h1>
+                {% endif %}
+                {% for file in files %}
+                    {% if file.type == 'dir' %}
+                        <div>
+                            <a href="{{ path('image_manager') }}?dirname={{ file.filename }}">
+                                <img src="{{ asset('images/admin_panel/folder_icon.jpg') }}" alt="folder_icn">
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="images_thumb">
+                            <img src="/images/product_images/{{ file.filename }}" alt="{{ file.type }}">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class=""></div>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}       

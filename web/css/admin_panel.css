@@ -41,3 +41,13 @@ table .child-tr {
     padding: 1rem 0;
 }
 
+.images_thumb {
+    margin: 10px;
+    display: inline-block;
+}
+
+.images_thumb > img {
+    width: 50px;
+    border: 1px solid #666666;
+}
+

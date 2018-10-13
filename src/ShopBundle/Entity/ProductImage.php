@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,8 +29,21 @@ class ProductImage
      */
     private $path;
 
+	/**
+	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\Product",inversedBy="images")
+	 * @ORM\JoinTable("images_products")
+	 */
+    private $products;
 
-    /**
+	/**
+	 * ProductImage constructor.
+	 */
+	public function __construct() {
+		$this->products = new ArrayCollection;
+	}
+
+
+	/**
      * Get id.
      *
      * @return int
@@ -62,4 +76,29 @@ class ProductImage
     {
         return $this->path;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getProducts() {
+		return $this->products;
+	}
+
+	/**
+	 * @param mixed $products
+	 *
+	 * @return ProductImage
+	 */
+	public function setProducts( $products ): ProductImage {
+		$this->products = $products;
+
+		return $this;
+	}
+
+	/**
+	 * @param Product $product
+	 */
+	public function addProduct(Product $product){
+		$this->products[] = $product;
+	}
 }

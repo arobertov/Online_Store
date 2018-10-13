@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 	        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 	        new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+	        new Liip\ImagineBundle\LiipImagineBundle(),
             new AppBundle\AppBundle(),
             new ShopBundle\ShopBundle(),
         ];

@@ -1,3 +1,8 @@
+.list_product_thumb {
+    width: 40px;
+    border: 1px solid #666666;
+}
+
 #mainBody { /* background: url(../images/seperator.png) repeat-x 0 0; */
     border-top: 2px solid #dedede;
     padding-top: 18px;

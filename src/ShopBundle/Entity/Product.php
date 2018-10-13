@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -115,7 +116,20 @@ class Product
 	 */
 	private $promotion;
 
-    /**
+	/**
+	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\ProductImage",mappedBy="products")
+	 */
+	private $images;
+
+	/**
+	 * Product constructor.
+	 */
+	public function __construct() {
+		$this->images = new ArrayCollection();
+	}
+
+
+	/**
      * Get id.
      *
      * @return int
@@ -378,5 +392,31 @@ class Product
     {
         return $this->promotion;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getImages() {
+		return $this->images;
+	}
+
+	/**
+	 * @param mixed $images
+	 *
+	 * @return Product
+	 */
+	public function setImages( $images ): Product {
+		$this->images = $images;
+
+		return $this;
+	}
+
+	/**
+	 * @param ProductImage $image
+	 */
+	public function addImage(ProductImage $image){
+		  $image->addProduct($this);
+		  $this->images[]=$image;
+	}
 
 }

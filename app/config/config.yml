@@ -8,6 +8,8 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    upload_image_dir: '%kernel.root_dir%/../web/images/product_images'
+    read_image_dir: '%kernel.project_dir%\web\images\product_images'
 
 framework:
     #esi: ~
@@ -110,3 +112,5 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+
