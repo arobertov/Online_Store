@@ -11,46 +11,18 @@ namespace ShopBundle\Services;
 
 use ShopBundle\Entity\ProductImage;
 use ShopBundle\Repository\ProductImageRepository;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageService implements ImageServiceInterface {
 
 	private $defaultUploadDir;
 
-	private $readImageDir;
-
 	private $imageRepository;
 
-	public function __construct($uploadDirectory,$readImageDir,ProductImageRepository $imageRepository)
+	public function __construct($uploadDirectory,ProductImageRepository $imageRepository)
 	{
-		$this->readImageDir = $readImageDir;
 		$this->defaultUploadDir = $uploadDirectory;
 		$this->imageRepository  = $imageRepository;
-	}
-
-	/**
-	 * @param UploadedFile $file
-	 * @param ProductImage $image
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	public function uploadImage( ProductImage $image ) {
-		/** @var UploadedFile $file */
-		$file = $image->getPath();
-		$file->move($this->getDefaultUploadDir(), $file->getClientOriginalName());
-		$image->setPath($this->getDefaultUploadDir());
-		try {
-			return ['message'=>$this->imageRepository->createImage( $image ),'info'=>$file];
-		} catch ( \Exception $e ) {
-			throw new \Exception($e->getMessage());
-		}
-
-	}
-
-	public function deleteImage( ProductImage $image ) {
-		// TODO: Implement deleteImage() method.
 	}
 
 	/**
@@ -71,16 +43,74 @@ class ImageService implements ImageServiceInterface {
 		return $this;
 	}
 
+
 	/**
-	 * @param null $imagesDir
+	 * @param ProductImage $image
 	 *
-	 * @return Finder
+	 * @return string
+	 * @throws \Exception
 	 */
-	public function readImagesDir( $imagesDir = null ) {
-		$files = new Finder();
-		if($imagesDir == null){
-			return $files->in($this->readImageDir);
+	public function uploadImage( ProductImage $image ) {
+		/** @var UploadedFile $file */
+		$file = $image->getPath();
+		$file->move($this->getDefaultUploadDir(), $file->getClientOriginalName());
+		$image->setPath($file->getClientOriginalName());
+		$image->setImageSize($file->getClientSize());
+		$image->setDateUpload(new \DateTime('now'));
+		try {
+			return $this->imageRepository->createImage( $image );
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
 		}
-		return $files->in($this->readImageDir.'/\/'.$imagesDir);
+
+	}
+
+	public function deleteImage( ProductImage $image ) {
+		
+	}
+
+
+
+	/**
+	 * @throws \Exception
+	 */
+	public function listImages() {
+		try {
+			return $this->imageRepository->findAllImages();
+		} catch (\Exception $e) {
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param $category
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function listImagesByCategory($category){
+		try{
+			return $this->imageRepository->findImagesByCategory($category);
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	public function updateImage( ProductImage $image ) {
+
+	}
+
+	/**
+	 * @param $ids
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function deleteImagesByIds( $ids ) {
+		try {
+			return $this->imageRepository->deleteImagesByIds( $ids );
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
+		}
 	}
 }

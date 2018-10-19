@@ -190,4 +190,27 @@ class CategoryService implements CategoryServiceInterface {
 
 		return $products;
 	}
+
+	/**
+	 * @param $category
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function listImagesByCategory( $category ) {
+		try {
+			$categories = $this->categoryRepository->findImagesByCategory( $category );
+			$images = array();
+			foreach ($categories as $value){
+				/** @var Category $value */
+				$collections =  $value->getImages()->getValues();
+				foreach ($collections as $image){
+					$images[] = $image;
+				}
+			}
+			return $images;
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
+		}
+	}
 }

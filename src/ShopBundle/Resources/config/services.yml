@@ -34,7 +34,6 @@ services:
   ShopBundle\Services\ImageService:
     arguments:
       $uploadDirectory: '%upload_image_dir%'
-      $readImageDir: '%read_image_dir%'
 
   ShopBundle\Validator\Constraints\ParentNameConstraintsValidator:
     arguments:

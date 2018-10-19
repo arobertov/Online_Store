@@ -80,6 +80,31 @@ class CategoryRepository extends NestedTreeRepository
 	}
 
 	/**
+	 * @param $category
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function findImagesByCategory($category){
+		try {
+			$query = $this->em->createQueryBuilder()
+			                  ->select('cat','im','children')
+			                  ->from('ShopBundle:Category','cat')
+			                  ->where('cat.id=?1')
+			                  ->orWhere('cat.root=?1')
+				              ->leftJoin('cat.children','children')
+			                  ->leftJoin('cat.images','im')
+			                  ->orderBy('im.dateUpload','DESC')
+			                  ->setParameter(1,$category)
+			                  ->getQuery()
+			;
+			return $query->getResult();
+		} catch (\Exception $e) {
+			throw  new \Exception( 'Error: ' . $e->getMessage() );
+		}
+	}
+
+	/**
 	 * @return mixed
 	 * @throws \Exception
 	 */

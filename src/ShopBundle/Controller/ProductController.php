@@ -55,12 +55,18 @@ class ProductController extends Controller {
 			$products = $this->productService->getAllProduct();
 		} catch (\Exception $e){
 			$this->addFlash('error',$e->getMessage());
-			return $this->redirectToRoute('home_page');
+			return $this->redirectToRoute('admin_panel');
 		}
 
 		$category =  $request->get('category');
 		if(isset($category)){
-			$products = $this->categoryService->listProductsByCategory($category);
+			try{
+				$products = $this->categoryService->listProductsByCategory($category);
+			}  catch (\Exception $e){
+				$this->addFlash('error',$e->getMessage());
+				return $this->redirectToRoute('admin_panel');
+			}
+
 		}
 		
 		return $this->render('@Shop/product/all_products_by_admin.html.twig',array(

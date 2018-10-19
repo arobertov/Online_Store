@@ -41,8 +41,11 @@ table .child-tr {
     padding: 1rem 0;
 }
 
+.image-list>td {
+    vertical-align: middle;
+}
+
 .images_thumb {
-    margin: 10px;
     display: inline-block;
 }
 
@@ -51,3 +54,20 @@ table .child-tr {
     border: 1px solid #666666;
 }
 
+.upload-form input{
+    display: inline-block;
+    width: inherit;
+}
+
+#shop_bundle_image_type_category {
+    display: inline-block;
+    width: inherit;
+}
+
+.upload-form button {
+    margin-left: 3rem;
+}
+
+.navigation {
+    text-align: center;
+}

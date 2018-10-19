@@ -2,12 +2,17 @@
 
 namespace ShopBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use ShopBundle\Entity\ProductImage;
+use ShopBundle\Form\CategoryImageType;
 use ShopBundle\Form\ImageType;
+use ShopBundle\Services\CategoryServiceInterface;
 use ShopBundle\Services\ImageServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImageController extends Controller {
@@ -18,40 +23,136 @@ class ImageController extends Controller {
 	private $imageService;
 
 	/**
+	 * @var CategoryServiceInterface $categoryService
+	 */
+	private $categoryService;
+
+	/**
 	 * ImageController constructor.
 	 *
 	 * @param ImageServiceInterface $imageService
+	 * @param CategoryServiceInterface $categoryService
 	 */
-	public function __construct( ImageServiceInterface $imageService ) {
+	public function __construct( ImageServiceInterface $imageService,CategoryServiceInterface $categoryService ) {
 		$this->imageService = $imageService;
+		$this->categoryService = $categoryService;
+
 	}
 
-	 /**
-   	 * @param Request $request
-	 * @Route("/admin_panel/image_manager",name="image_manager")
-	 * @return \Symfony\Component\HttpFoundation\Response
+
+	/*
+	 public function listImagesAction(Request $request){
+	 	$repo = $this->getDoctrine()->getRepository(ProductImage::class);
+	 	$query = $repo->findAllImages();
+
+		 $paginator  = $this->get('knp_paginator');
+		 $pagination = $paginator->paginate(
+			 $query,
+				$request->query->getInt('page', 1),
+						5
+			);
+
+		return $this->render('@Shop/image/image_manager.html.twig',array(
+		'pagination'=>$pagination
+		));
+	}
 	 */
+
+	/**
+	 * @param Request $request
+	 * @Route("/admin_panel/image_manager",name="image_manager")
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws \Exception
+	 */
+
 	public function indexAction( Request $request ) {
 		$image = new ProductImage();
-		$form = $this->createForm(ImageType::class,$image);
-		$form->handleRequest($request);
-		$path = $request->get('dirname');
-		$finder = $this->imageService->readImagesDir($path);
-		$repoArray = array('message'=>'','info'=>'');
-		if($form->isSubmitted() && $form->isValid()){
+		$uploadForm = $this->createForm(ImageType::class,$image);
+		$categoryForm = $this->createForm(CategoryImageType::class,$image);
+		$uploadForm->handleRequest($request);
+		$category =  $request->get('category');
+		$images = $this->imageService->listImages();
+		if(isset($category)){
 			try{
-				$repoArray = $this->imageService->uploadImage($image);
-				$this->addFlash('success',$repoArray['message']);
+				$images = $this->imageService->listImagesByCategory($category);
+			}  catch (\Exception $e){
+				$this->addFlash('error',$e->getMessage());
+				return $this->redirectToRoute('image_manager');
+			}
+		}
+
+		$paginator  = $this->get('knp_paginator');
+		$pagination = $paginator->paginate(
+			$images,
+			$request->query->getInt('page', 1),
+			5
+		);
+
+		if($uploadForm->isSubmitted() && $uploadForm->isValid()){
+			try{
+				$this->addFlash('success',$this->imageService->uploadImage($image));
 			} catch (\Exception $e){
 				$this->addFlash('danger',$e->getMessage());
 			}
-
-			//return $this->redirectToRoute('image_manager',['info'=>$repoArray['info']]);
+			return $this->redirectToRoute('image_manager');
 		}
-		return $this->render( 'image/upload.html.twig',array(
-			'info'=>$repoArray['info'],
-			'files'=>$finder,
-			'form'=>$form->createView()
+		return $this->render( '@Shop/image/image_manager.html.twig',array(
+			'categories'=>$this->categoryService->getAllCategoriesOrderByParentChildren(),
+			'images'=>$pagination,
+			'uploadForm'=>$uploadForm->createView(),
+			'categoryForm'=>$categoryForm->createView()
 		) );
+	}
+
+
+	/**
+	 * @Route("/admin_panel/edit_image/{id}",name="edit_image")
+	 * @param ProductImage $image
+	 * @param Request $request
+	 *
+	 * @return Response
+	 * @Method({"POST"})
+	 *
+	 */
+	public function editImageAction(ProductImage $image,Request $request){
+		$form = $this->createForm(CategoryImageType::class,$image);
+		$oldImageName = $image->getPath();
+
+		$form->handleRequest($request);
+		$em = $this->getDoctrine()->getManager();
+		$em->flush();
+
+		if($oldImageName !== $image->getPath()){
+			$filesystem = new Filesystem();
+			$uploadDir = $this->getParameter('upload_image_dir');
+			$filesystem->rename($uploadDir.'/'.$oldImageName,$uploadDir.'/'.$image->getPath());
+		}
+		
+		$response = array('path'=>$image->getPath(),'category'=>'___');
+		if($image->getCategory() !== null){
+			$response['category'] = $image->getCategory()->getTitle();
+		}
+		return new JsonResponse($response);
+	}
+
+	/**
+	 * @Route("/admin_panel/delete_image",name="delete_image")
+	 * @Method({"POST"})
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function deleteImageAction(Request $request){
+		try{
+			$ids = explode(',',$request->request->get('ids'));
+			$result = $this->imageService->deleteImagesByIds($ids);
+			$this->addFlash('success',$result);
+			return $this->redirectToRoute('image_manager');
+		} catch (\Exception $e){
+			$this->addFlash('danger',$e->getMessage());
+			return $this->redirectToRoute('image_manager');
+		}
+
+
 	}
 }

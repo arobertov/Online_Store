@@ -50,16 +50,21 @@
                     </tr>
                     {% for image in images %}
                         <tr class="image-list">
-                            <td><input type="checkbox"></td>
+                            <td><input type="checkbox" name="image-check" class="delete-image" value="{{ image.id }}"></td>
                             <td>
                                 <div class="images_thumb">
                                     <img src="/images/product_images/{{ image.path }}" alt="{{ image.path }}">
                                 </div>
                             </td>
-                            <td>{{ image.path }}</td>
+                            <td>
+                                <a class="change-path" href="#" data-id="{{ image.id }}" data-name="{{ image.path }}" data-toggle="modal"
+                                   data-target="#categoryImageModal">
+                                    {{ image.path }}
+                                </a>
+                            </td>
                             <td>{{ (image.imageSize/1000)|round(1,'floor') }} KB</td>
                             <td><a class="change-category" href="#" title="Change category" data-id="{{ image.id }}"
-                                   data-toggle="modal"
+                                   data-name="{{ image.path }}" data-toggle="modal"
                                    data-target="#categoryImageModal">{{ image.category is empty ? "___" : image.category }}</a>
                             </td>
                             <td>{{ image.dateUpload|date("m - d - Y") }}</td>
@@ -68,8 +73,11 @@
                     {% endfor %}
                 </table>
                 <hr>
+                <div class="float-left">
+                    <button type="button" class="btn btn-danger btn-small" id="delete-image-btn" disabled>Delete image</button>
+                </div>
                 <div class="float-right">
-                   <span>Total images ( {{ images.getTotalItemCount }} )</span>
+                    <span>Total images ( {{ images.getTotalItemCount }} )</span>
                 </div>
                 <div class="clearfix"></div>
                 <hr>
@@ -126,7 +134,9 @@
             $('.change-category').click(function () {
                 let lnkText = $(this);
                 let form = $('#edit-category-form');
-                form.attr('action', '/admin_panel/edit_image_category/' + $(this).data('id'));
+                let dataID = $(this).data('id');
+                $('#shop_bundle_category_image_type_path').val(lnkText.data('name'));
+                form.attr('action', '/admin_panel/edit_image_category/' + dataID);
                 form.submit(function (e) {
                     let url = form.attr('action');
                     $.ajax({
@@ -135,7 +145,30 @@
                         data: form.serialize(),
                         success: function (d) {
                             $('#categoryImageModal').modal('hide');
-                            lnkText.text(d);
+                            lnkText.text(d.category);
+                            $(`.change-path[data-id=${dataID}]`).text(d.path);
+                        }
+                    });
+
+                    e.preventDefault();
+                });
+            });
+            $('.change-path').click(function () {
+                let lnkText = $(this);
+                let form = $('#edit-category-form');
+                let dataID = $(this).data('id');
+                $('#shop_bundle_category_image_type_path').val(lnkText.data('name'));
+                form.attr('action', '/admin_panel/edit_image/' + $(this).data('id'));
+                form.submit(function (e) {
+                    let url = form.attr('action');
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (d) {
+                            $('#categoryImageModal').modal('hide');
+                            lnkText.text(d.path);
+                            $(`.change-category[data-id=${dataID}]`).text(d.path);
                         }
                     });
 
@@ -145,7 +178,21 @@
             $('#edit-category-submit').click(function () {
                 $('#edit-category-form').submit();
             });
-
+            $('#delete-image-btn').click(function () {
+                let checkedValues = $('input[name="image-check"]:checked').map(function() {
+                    return this.value;
+                }).get();
+                $(`<form action="/admin_panel/delete_image" method="POST"><input type="hidden" name="ids" value="${checkedValues}">`).appendTo(document.body).submit();
+                console.log(checkedValues);
+            });
+            $('input:checkbox').click(function () {
+                let checked = $('input[name="image-check"]:checked').length;
+                if(checked > 0){
+                    $('#delete-image-btn').prop('disabled',false).text(`Delete ${checked} ${checked === 1?`image`:`images`}`);
+                } else {
+                    $('#delete-image-btn').prop('disabled',true).text("Delete image");
+                }
+            })
         })
     </script>
 {% endblock %}

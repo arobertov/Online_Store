@@ -19,6 +19,7 @@ class AppKernel extends Kernel
 	        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 	        new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 	        new Liip\ImagineBundle\LiipImagineBundle(),
+	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new AppBundle\AppBundle(),
             new ShopBundle\ShopBundle(),
         ];

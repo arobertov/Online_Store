@@ -39,9 +39,71 @@ class ProductImageRepository extends \Doctrine\ORM\EntityRepository
 		try{
 			$this->em->persist($image);
 			$this->em->flush();
-			return $image->getPath().' successful upload !';
+			return $image->getPath().' upload  successful !';
 		}  catch (\Exception $e){
-			throw new \Exception($e->getMessage());
+			throw new \Exception($image->getPath().' unable upload ! Duplicate image name !');
+		}
+
+	}
+
+	/**
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function findAllImages(){
+		try{
+			$query = $this->em->createQuery(
+				'SELECT im FROM ShopBundle\Entity\ProductImage im 
+				 ORDER BY im.dateUpload DESC'
+			);
+			return $query;
+		}catch (\Exception $e) {
+			throw  new \Exception( 'Error: ' . $e->getMessage() );
+		}
+	}
+
+	/**
+	 * @param $category
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function findImagesByCategory($category){
+		try {
+			$query = $this->em->createQueryBuilder()
+			                  ->select('im','cat')
+			                  ->from('ShopBundle:ProductImage','im')
+			                  ->where('cat.id=?1')
+			                  ->orWhere('cat.root=?1')
+			                  ->leftJoin('im.category','cat')
+			                  ->orderBy('im.dateUpload','DESC')
+			                  ->setParameter(1,$category)
+			                  ->getQuery()
+			;
+			return $query;
+		} catch (\Exception $e) {
+			throw  new \Exception( 'Error: ' . $e->getMessage() );
+		}
+	}
+
+	/**
+	 * @param $ids
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function deleteImagesByIds($ids){
+		try{
+			$query = $this->em->createQueryBuilder()
+			         ->delete('ShopBundle:ProductImage i')
+			         ->where('i.id IN (:ids)')
+			         ->setParameter('ids',$ids)
+			         ->getQuery()
+			;
+			$query->getResult();
+			return count($ids) . ' images delete successful !';
+		} catch (\Exception $e){
+			throw new \Exception('ERROR !Unable delete this images !');
 		}
 
 	}

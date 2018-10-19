@@ -110,6 +110,12 @@ class Category
 	 */
 	private $promotions;
 
+	/**
+	 * @var ArrayCollection
+	 * @ORM\OneToMany(targetEntity="ShopBundle\Entity\ProductImage",mappedBy="category")
+	 */
+	private $images;
+
 	public function __toString() {
 		return $this->title;
 	}
@@ -121,6 +127,7 @@ class Category
 		$this->products = new ArrayCollection();
 		$this->children = new ArrayCollection();
 		$this->promotions = new ArrayCollection();
+		$this->images = new ArrayCollection();
 	}
 
 
@@ -430,6 +437,24 @@ class Category
     {
         return $this->promotions;
     }
+
+	/**
+	 * @param  $images
+	 *
+	 * @return Category
+	 */
+	public function setImages(  $images ): Category {
+		$this->images = $images;
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection
+	 */
+	public function getImages() {
+		return $this->images;
+	}
 
 
 }

@@ -416,7 +416,7 @@ class Product
 	 */
 	public function addImage(ProductImage $image){
 		  $image->addProduct($this);
-		  $this->images[]=$image;
+		  $this->images[] = $image;
 	}
 
 }

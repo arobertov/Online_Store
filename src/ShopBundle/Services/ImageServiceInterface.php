@@ -17,5 +17,11 @@ interface ImageServiceInterface {
 
 	 public function deleteImage(ProductImage $image);
 
-	 public function readImagesDir($imagesDir=null);
+	 public function deleteImagesByIds($ids);
+
+	 public function updateImage(ProductImage $image);
+
+	 public function listImages();
+
+	 public function listImagesByCategory($category);
 }
