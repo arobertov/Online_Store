@@ -39,25 +39,6 @@ class ImageController extends Controller {
 
 	}
 
-
-	/*
-	 public function listImagesAction(Request $request){
-	 	$repo = $this->getDoctrine()->getRepository(ProductImage::class);
-	 	$query = $repo->findAllImages();
-
-		 $paginator  = $this->get('knp_paginator');
-		 $pagination = $paginator->paginate(
-			 $query,
-				$request->query->getInt('page', 1),
-						5
-			);
-
-		return $this->render('@Shop/image/image_manager.html.twig',array(
-		'pagination'=>$pagination
-		));
-	}
-	 */
-
 	/**
 	 * @param Request $request
 	 * @Route("/admin_panel/image_manager",name="image_manager")
@@ -65,7 +46,6 @@ class ImageController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws \Exception
 	 */
-
 	public function indexAction( Request $request ) {
 		$image = new ProductImage();
 		$uploadForm = $this->createForm(ImageType::class,$image);
@@ -105,6 +85,13 @@ class ImageController extends Controller {
 		) );
 	}
 
+	public function addImagesToProductAction(){
+		$images = $this->imageService->listImages();
+		return $this->render('@Shop/image/add_images_content_modal',array(
+			'images'=>$images->getResult(),
+			'categories'=>$this->categoryService->getAllCategoriesOrderByParentChildren()
+		));
+	}
 
 	/**
 	 * @Route("/admin_panel/edit_image/{id}",name="edit_image")

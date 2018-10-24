@@ -3,7 +3,9 @@
 namespace ShopBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use ShopBundle\Entity\ProductImage;
 use ShopBundle\Services\CategoryServiceInterface;
+use ShopBundle\Services\ImageServiceInterface;
 use ShopBundle\Services\ProductServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,14 +33,22 @@ class ProductController extends Controller {
 	private $categoryService;
 
 	/**
+	 * @var ImageServiceInterface
+	 */
+	private $imageService;
+
+	/**
 	 * ProductController constructor.
 	 *
 	 * @param ProductServiceInterface $productService
 	 * @param CategoryServiceInterface $categoryService
+	 * @param ImageServiceInterface $imageService
 	 */
-	public function __construct( ProductServiceInterface $productService, CategoryServiceInterface $categoryService ) {
+	public function __construct( ProductServiceInterface $productService, CategoryServiceInterface $categoryService,
+		ImageServiceInterface $imageService) {
 		$this->productService = $productService;
 		$this->categoryService = $categoryService;
+		$this->imageService =  $imageService;
 	}
 
 
@@ -90,6 +100,8 @@ class ProductController extends Controller {
 
 		if($form->isSubmitted() && $form->isValid()){
 			try {
+				$images =  $this->imageService->listImages();
+				$product->setImages($images);
 				$this->addFlash('success',$this->productService->createProduct( $product ));
 				return $this->redirectToRoute( 'list_all_products' );
 			}catch (\Exception $e){
@@ -102,7 +114,7 @@ class ProductController extends Controller {
 			['form'=>$form->createView(),'categories'=>$categories]
 		);
 	}
-
+	
 
 	/**
 	 * @param Product $product

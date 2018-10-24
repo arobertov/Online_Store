@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ImageType extends AbstractType {
 	public function buildForm( FormBuilderInterface $builder, array $options ) {
 		 $builder
-			 ->add('path',FileType::class)
+			 ->add('path',FileType::class )
 			 ->add('category',EntityType::class,array(
 				 'class'=>'ShopBundle\Entity\Category',
 				 'required' => false,

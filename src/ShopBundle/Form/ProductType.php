@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use ShopBundle\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -46,6 +47,11 @@ class ProductType extends AbstractType
 		        'choice_label' => 'title',
 		        'placeholder' => 'Without promotion !',
 		        'required' => false
+	        ))
+	        ->add('images',EntityType::class,array(
+	        	'class'=>'ShopBundle\Entity\ProductImage',
+		        'choice_label'=>'path',
+		        'multiple'=>true,
 	        ))
 	        ->add('submit',SubmitType::class)
         ;

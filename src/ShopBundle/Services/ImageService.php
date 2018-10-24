@@ -11,6 +11,7 @@ namespace ShopBundle\Services;
 
 use ShopBundle\Entity\ProductImage;
 use ShopBundle\Repository\ProductImageRepository;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageService implements ImageServiceInterface {
@@ -108,6 +109,12 @@ class ImageService implements ImageServiceInterface {
 	 */
 	public function deleteImagesByIds( $ids ) {
 		try {
+			$result = $this->imageRepository->findPathNameByIds($ids);
+			$filesystem = new Filesystem();
+			for($i=0;$i<count($result);$i++){
+				$filesystem->remove($this->defaultUploadDir."\\".$result[$i]['path']);
+			}
+			
 			return $this->imageRepository->deleteImagesByIds( $ids );
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());

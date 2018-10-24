@@ -1,0 +1,34 @@
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a id="all_images_tab" class="nav-link " href="{{ path('image_manager') }}" data-filter="_">
+            All images
+        </a>
+    </li>
+    <li class="nav-item dropdown">
+        <a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Filter by Category</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#" data-filter="without_category"> Without category ()</a>
+            {% if categories is defined %}
+                {% for category in categories %}
+                    {%  set parentCount = 0 %}
+                    {% if category.parent %}
+                        <a class="dropdown-item" href="{{ path('image_manager') }}?category={{ category.id  }}" data-filter="{{ category.title }}">
+                            <i data-feather="chevron-right"></i>
+                            {{ category.title }} ({{ category.images|length }})
+                        </a>
+                    {% else %}
+                        {% for child in category.children %}
+                            {% set parentCount = parentCount + child.images|length  %}
+                        {% endfor %}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('image_manager') }}?category={{ category.id }}" data-filter="{{ category.title }}">
+                            {{ category.title }} ({{ parentCount }})
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+        </div>
+    </li>
+</ul>

@@ -51,8 +51,53 @@ table .child-tr {
 
 .images_thumb > img {
     width: 50px;
-    border: 1px solid #666666;
+    border: 1px solid #777;
 }
+
+.modal>.modal-lg {
+    max-width: 1200px;
+}
+
+.card {
+    position: relative;
+    margin: 0.2rem;
+}
+
+.check-shadow{
+    box-shadow: 0 0 4px 3px rgba(0, 140, 186, 0.5);
+}
+
+.card:hover {
+    border: 2px solid rgba(0, 140, 186, 0.5);
+}
+
+.check-icon {
+    display: none;
+    position: absolute;
+    top:-8px;
+    right:-8px;
+    z-index: 100;
+}
+
+.card > .card-header  {
+    padding: 0.4rem;
+    height: 120px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.card > .card-body {
+    padding: 0.4rem;
+}
+
+.card > .card-header  img {
+    max-height: 110px;
+    width: auto;
+    height: auto;
+    padding: 2px;
+    border:1px solid #777;
+}
+
 
 .upload-form input{
     display: inline-block;

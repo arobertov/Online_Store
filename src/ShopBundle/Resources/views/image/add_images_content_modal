@@ -1,0 +1,48 @@
+<div id="add-images-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Images to product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% include('@Shop/image/category_filter') %}
+                <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                    {% if images is empty %}
+                        <h4 class="display-4">No images this !</h4>
+                    {% else %}
+                        {% for image in images %}
+                            <div class="col-sm-6 col-md-4 col-lg-2 filter {{ image.category is empty ? 'without_category' : image.category }}"
+                                 data-id="{{ image.category is empty ? 'without_category' : image.category.code }}" >
+                                <div class="card " style="width: 120px;" data-id="{{ image.id }}">
+                                    <div class="card-header">
+                                        <div class="attach-images">
+                                            <img class="card-img-top" src="/images/product_images/{{ image.path }}" alt="{{ image.path }}">
+                                            <span class="check-icon" data-feather="check-square"></span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text" style="font-size: 0.8rem">{{ image.path }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="md-3"></div>
+                        <div class="md-6"><button type="button" class="btn btn-success" id="add-images-btn">Add Images</button></div>
+                        <div class="md-3"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

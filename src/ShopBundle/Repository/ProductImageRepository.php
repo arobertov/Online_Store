@@ -5,6 +5,7 @@ namespace ShopBundle\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use ShopBundle\Entity\ProductImage;
 use Doctrine\ORM\Mapping;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * ProductImageRepository
@@ -106,5 +107,47 @@ class ProductImageRepository extends \Doctrine\ORM\EntityRepository
 			throw new \Exception('ERROR !Unable delete this images !');
 		}
 
+	}
+
+	/**
+	 * @param $ids
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function findImagesByIds($ids){
+		try{
+			$query = $this->em->createQueryBuilder()
+			                  ->select('i')
+			                  ->from('ShopBundle:ProductImage','i')
+			                  ->where('i.id IN (:ids)')
+			                  ->setParameter('ids',$ids)
+			                  ->getQuery()
+			;
+			return $query->getResult();
+		} catch (IOException $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param $ids
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function findPathNameByIds($ids){
+		try{
+			$query = $this->em->createQueryBuilder()
+			                  ->select('i.path')
+			                  ->from('ShopBundle:ProductImage','i')
+			                  ->where('i.id IN (:ids)')
+			                  ->setParameter('ids',$ids)
+			                  ->getQuery()
+			;
+			return $query->getResult();
+		} catch (IOException $e){
+			throw new \Exception($e->getMessage());
+		}
 	}
 }
