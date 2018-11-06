@@ -400,16 +400,6 @@ class Product
 		return $this->images;
 	}
 
-	/**
-	 * @param mixed $images
-	 *
-	 * @return Product
-	 */
-	public function setImages( $images ): Product {
-		$this->images = $images;
-
-		return $this;
-	}
 
 	/**
 	 * @param ProductImage $image
@@ -417,6 +407,13 @@ class Product
 	public function addImage(ProductImage $image){
 		  $image->addProduct($this);
 		  $this->images[] = $image;
+	}
+
+	/**
+	 * @param ProductImage $image
+	 */
+	public function removeImage(ProductImage $image){
+		$this->images->removeElement($image);
 	}
 
 }

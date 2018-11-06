@@ -9,8 +9,12 @@
 namespace ShopBundle\Services;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Knp\Bundle\PaginatorBundle\Definition\PaginatorAwareInterface;
+use Knp\Component\Pager\Paginator;
 use ShopBundle\Entity\Product;
 use ShopBundle\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProductService implements ProductServiceInterface {
 
@@ -19,23 +23,35 @@ class ProductService implements ProductServiceInterface {
 	 */
 	private $productRepository;
 
+	private $paginator;
+
+	private $request;
+
 	/**
 	 * ProductService constructor.
 	 *
 	 * @param ProductRepository $productRepository
+	 * @param Paginator $paginator
+	 * @param RequestStack $request
 	 */
-	public function __construct( ProductRepository $productRepository ) {
+	public function __construct( ProductRepository $productRepository,Paginator $paginator,RequestStack $request ) {
 		$this->productRepository = $productRepository;
+		$this->paginator = $paginator;
+		$this->request = $request;
 	}
 
 	/**
 	 * @param Product $product
+	 * @param ArrayCollection $images
 	 *
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function createProduct( Product $product ) {
+	public function createProduct( Product $product,array $images ) {
 		try{
+			foreach ($images as $image){
+				$product->addImage($image);
+			}
 			return $this->productRepository->createNewProduct($product);
 		}catch (\Exception $e){
 			throw new \Exception($e->getMessage());
@@ -76,14 +92,38 @@ class ProductService implements ProductServiceInterface {
 	 */
 	public function getAllProduct() {
 		try{
-			return $this->productRepository->findAllProducts();
+			$query = $this->productRepository->findAllProducts();
+			$request = $this->request->getCurrentRequest();
+			$pagination = $this->paginator->paginate(
+				$query,
+				$request->query->getInt('page', 1),
+				5
+			);
+			return $pagination;
 		}catch (\Exception $e){
 			throw new \Exception($e->getMessage());
 		}
 	}
 
+	/**
+	 * @param $category
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
 	public function getAllProductsByCategory($category){
-		return $this->productRepository->findProductsByCategory($category);
+		try{
+			$query = $this->productRepository->findProductsByCategory($category);
+			$request = $this->request->getCurrentRequest();
+			$pagination = $this->paginator->paginate(
+				$query,
+				$request->query->getInt('page', 1),
+				5
+			);
+			return $pagination;
+		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
 	}
 
 }

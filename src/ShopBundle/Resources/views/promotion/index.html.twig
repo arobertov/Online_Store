@@ -67,11 +67,14 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        var btn = $("[type='button']");
-        btn.on('click', function () {
-            var dataId = $(this).data('id');
-            $('#delete_link').attr('href', "/promotion/" + dataId + "/delete");
-        })
+        $(document).ready(function () {
+            $('#promotions-menu-link').tab('show');
+            let btn = $("[type='button']");
+            btn.on('click', function () {
+                let dataId = $(this).data('id');
+                $('#delete_link').attr('href', "/promotion/" + dataId + "/delete");
+            })
+        });
     </script>
 {% endblock %}
 

@@ -71,14 +71,14 @@ class ProductController extends Controller {
 		$category =  $request->get('category');
 		if(isset($category)){
 			try{
-				$products = $this->categoryService->listProductsByCategory($category);
+				$products = $this->productService->getAllProductsByCategory($category);
 			}  catch (\Exception $e){
 				$this->addFlash('error',$e->getMessage());
 				return $this->redirectToRoute('admin_panel');
 			}
 
 		}
-		
+
 		return $this->render('@Shop/product/all_products_by_admin.html.twig',array(
 			'products'=>$products,
 			'categories'=>$categories
@@ -100,9 +100,9 @@ class ProductController extends Controller {
 
 		if($form->isSubmitted() && $form->isValid()){
 			try {
-				$images =  $this->imageService->listImages();
-				$product->setImages($images);
-				$this->addFlash('success',$this->productService->createProduct( $product ));
+				$ids = explode(',',$request->request->get('image_ids'));
+				$images =  $this->imageService->findImagesByIds($ids);
+				$this->addFlash('success',$this->productService->createProduct( $product , $images ));
 				return $this->redirectToRoute( 'list_all_products' );
 			}catch (\Exception $e){
 				$this->addFlash('danger',$e->getMessage());

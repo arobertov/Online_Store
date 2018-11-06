@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 interface ImageServiceInterface {
 	 public function uploadImage(ProductImage $image);
 
-	 public function deleteImage(ProductImage $image);
-
 	 public function deleteImagesByIds($ids);
 
 	 public function updateImage(ProductImage $image);
@@ -24,4 +22,6 @@ interface ImageServiceInterface {
 	 public function listImages();
 
 	 public function listImagesByCategory($category);
+
+	 public function findImagesByIds($ids);
 }

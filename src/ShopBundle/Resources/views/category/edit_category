@@ -25,3 +25,12 @@
     </div>
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#categories-menu-link').tab('show');
+        })
+    </script>
+{% endblock %}
+

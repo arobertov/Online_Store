@@ -42,37 +42,37 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ path('admin_panel') }}">
+                        <a class="nav-link" href="{{ path('admin_panel') }}">
                             <span data-feather="home"></span>
                             Dashboard <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('list_all_products') }}">
+                        <a class="nav-link" id="products-menu-link" href="{{ path('list_all_products') }}">
                             <span data-feather="shopping-cart"></span>
                             Products
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('list_categories') }}">
+                        <a class="nav-link" id="categories-menu-link" href="{{ path('list_categories') }}">
                             <span data-feather="list"></span>
                             Categories
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" id="orders-menu-link" href="#">
                             <span data-feather="file"></span>
                             Orders
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('promotion_index') }}">
+                        <a class="nav-link" id="promotions-menu-link" href="{{ path('promotion_index') }}">
                             <span data-feather="trending-down"></span>
                             Promotions
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('user_manager') }}">
+                        <a class="nav-link" id="customers-menu-link" href="{{ path('user_manager') }}">
                             <span data-feather="users"></span>
                             Customers
                         </a>
@@ -84,7 +84,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('image_manager') }}">
+                        <a class="nav-link" id="images-menu-link" href="{{ path('image_manager') }}">
                             <span data-feather="layers"></span>
                             Images
                         </a>
@@ -153,7 +153,13 @@
     {% endjavascripts %}
     <script src="{{ asset('themes/js/main.js') }}"></script>
     <script>
-        feather.replace()
+        $(document).ready(function () {
+            feather.replace();
+            }
+        );
+        function setActiveTab(tabId) {
+            $('#'+tabId).tab('show')
+        }
     </script>
 
 {% endblock %}

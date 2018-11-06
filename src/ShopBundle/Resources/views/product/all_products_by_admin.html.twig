@@ -7,16 +7,13 @@
     {% include('@Shop/notice.html.twig')  %}
     {% include ('@Shop/product/nav_product.html.twig') %}
 
-
-
     <div class="preview_product_by_admin">
         <table class="table table-hover">
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">TITLE</th>
+                <th scope="col">{{ knp_pagination_sortable( products,'TITLE','pt.title' )  }}</th>
                 <th>CATEGORY</th>
-                <th scope="col">DESCRIPTION</th>
-                <th scope="col">QTY</th>
+                <th scope="col">IMAGES</th>
+                <th scope="col">{{ knp_pagination_sortable( products,'QTY','pt.quantity' ) }}</th>
                 <th scope="col">PROMOTION</th>
                 {% if is_granted('ROLE_EDITOR') %}
                     <th>ACTION</th>
@@ -24,10 +21,15 @@
             </tr>
             {% for product in products  %}
             <tr>
-                <th scope="row">{{ product.id }}</th>
                 <td>{{ product.title }}</td>
                 <td>{{ product.category }}</td>
-                <td>{{ product.description }}</td>
+                <td>
+                    {% for image in product.images %}
+                        <div class="images_thumb">
+                            <img src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
+                        </div>
+                    {% endfor %}
+                </td>
                 <td>{{ product.quantity }}</td>
                 <td> {% if product.promotion is null %}
                         Without promotion !
@@ -49,6 +51,15 @@
             </tr>
             {% endfor %}
         </table>
+        <div class="col-md-12">
+            <div class="navigation">
+                {{ knp_pagination_render(products,null,{},{
+                    'align': 'center',
+                    'size': 'small',
+                    'rounded': false
+                }) }}
+            </div>
+        </div>
 
     </div>
     
@@ -60,13 +71,21 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $('#all_products_tab').tab('show');
-    </script>
-    <script >
-        var btn = $("[type='button']");
-        btn.on('click',function() {
-            var slug = $(this).data('id');
-            $('#delete_link').attr('href',"/product/delete/"+slug);
+        $(document).ready(function () {
+            $('#products-menu-link').tab('show');
+            $('#all_products_tab').tab('show').click(function () {
+                $(this).tab('show');
+            });
+
+            $('#category-tab').click(function () {
+                $(this).tab('show');
+            });
+
+            let btn = $("[type='button']");
+            btn.on('click',function() {
+                let slug = $(this).data('id');
+                $('#delete_link').attr('href',"/product/delete/"+slug);
+            });
         })
     </script>
 {% endblock %}

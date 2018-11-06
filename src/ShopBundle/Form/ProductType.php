@@ -48,12 +48,6 @@ class ProductType extends AbstractType
 		        'placeholder' => 'Without promotion !',
 		        'required' => false
 	        ))
-	        ->add('images',EntityType::class,array(
-	        	'class'=>'ShopBundle\Entity\ProductImage',
-		        'choice_label'=>'path',
-		        'multiple'=>true,
-	        ))
-	        ->add('submit',SubmitType::class)
         ;
     }/**
      * {@inheritdoc}

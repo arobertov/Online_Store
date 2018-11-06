@@ -111,8 +111,7 @@ class ProductImageRepository extends \Doctrine\ORM\EntityRepository
 
 	/**
 	 * @param $ids
-	 *
-	 * @return array
+	 * @return mixed
 	 * @throws \Exception
 	 */
 	public function findImagesByIds($ids){
@@ -124,7 +123,7 @@ class ProductImageRepository extends \Doctrine\ORM\EntityRepository
 			                  ->setParameter('ids',$ids)
 			                  ->getQuery()
 			;
-			return $query->getResult();
+			return $query;
 		} catch (IOException $e){
 			throw new \Exception($e->getMessage());
 		}

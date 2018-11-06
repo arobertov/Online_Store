@@ -62,17 +62,7 @@
             {% include('@Shop/category_image_modal') %}
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="navigation">
-                {{ knp_pagination_render(images,null,{},{
-                    'align': 'center',
-                    'size': 'small',
-                    'rounded': false
-                }) }}
-            </div>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
@@ -96,6 +86,7 @@
     {{ parent() }}
     <script>
         $(document).ready(function () {
+            $('#images-menu-link').tab('show');
             $('#check-all').click(function () {
                 let ckbox = $('input:checkbox');
                 if (!ckbox.prop('checked') === false) {

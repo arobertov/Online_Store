@@ -7,7 +7,7 @@
         <a id="all_products_tab" class="nav-link " href="{{ path('list_all_products') }}" >All products</a>
     </li>
     <li class="nav-item dropdown">
-        <a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Products by category</a>
+        <a class="nav-link dropdown-toggle" id="category-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Products by category</a>
         <div class="dropdown-menu">
             {% if categories is defined %}
                 {% for category in categories %}

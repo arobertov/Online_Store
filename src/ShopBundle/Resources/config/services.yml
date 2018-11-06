@@ -7,6 +7,9 @@ services:
     # this means you cannot fetch services directly from the container via $container->get()
     # if you need to do this, you can override this setting on individual services
     public: true
+    bind:
+      $paginator: '@knp_paginator'
+      $request: '@request_stack'
   ShopBundle\:
     resource: '../../*'
     # you can exclude directories or files
@@ -33,7 +36,10 @@ services:
 
   ShopBundle\Services\ImageService:
     arguments:
-      $uploadDirectory: '%upload_image_dir%'
+    - '%upload_image_dir%'
+    - '@knp_paginator'
+    - '@request_stack'
+
 
   ShopBundle\Validator\Constraints\ParentNameConstraintsValidator:
     arguments:

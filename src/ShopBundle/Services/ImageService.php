@@ -8,11 +8,12 @@
 
 namespace ShopBundle\Services;
 
-
+use Knp\Component\Pager\Paginator;
 use ShopBundle\Entity\ProductImage;
 use ShopBundle\Repository\ProductImageRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ImageService implements ImageServiceInterface {
 
@@ -20,10 +21,16 @@ class ImageService implements ImageServiceInterface {
 
 	private $imageRepository;
 
-	public function __construct($uploadDirectory,ProductImageRepository $imageRepository)
+	private $paginator;
+
+	private $request;
+
+	public function __construct(string $uploadDirectory,Paginator $paginator,RequestStack $request,ProductImageRepository $imageRepository)
 	{
 		$this->defaultUploadDir = $uploadDirectory;
+		$this->paginator = $paginator;
 		$this->imageRepository  = $imageRepository;
+		$this->request = $request;
 	}
 
 	/**
@@ -66,18 +73,21 @@ class ImageService implements ImageServiceInterface {
 
 	}
 
-	public function deleteImage( ProductImage $image ) {
-		
-	}
-
-
 
 	/**
 	 * @throws \Exception
 	 */
 	public function listImages() {
 		try {
-			return $this->imageRepository->findAllImages();
+			$query = $this->imageRepository->findAllImages();
+			$request = $this->request->getCurrentRequest();
+			$pagination = $this->paginator->paginate(
+				$query,
+				$request->query->getInt('page', 1),
+				5
+			);
+
+			return $pagination;
 		} catch (\Exception $e) {
 			throw new \Exception($e->getMessage());
 		}
@@ -91,7 +101,15 @@ class ImageService implements ImageServiceInterface {
 	 */
 	public function listImagesByCategory($category){
 		try{
-			return $this->imageRepository->findImagesByCategory($category);
+			$query = $this->imageRepository->findImagesByCategory($category);
+			$request = $this->request->getCurrentRequest();
+			$pagination = $this->paginator->paginate(
+				$query,
+				$request->query->getInt('page', 1),
+				5
+			);
+
+			return $pagination;
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());
 		}
@@ -116,6 +134,20 @@ class ImageService implements ImageServiceInterface {
 			}
 			
 			return $this->imageRepository->deleteImagesByIds( $ids );
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param $ids
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function findImagesByIds( $ids ) {
+		try {
+			return $this->imageRepository->findImagesByIds( $ids );
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());
 		}

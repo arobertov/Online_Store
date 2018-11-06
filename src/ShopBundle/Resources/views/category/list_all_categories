@@ -41,11 +41,15 @@
 {% block javascripts %}
     {{ parent() }}
     <script >
-        var btn = $("[type='button']");
-        btn.on('click',function() {
-            var slug = $(this).data('id');
-            $('#delete_link').attr('href',"/category/delete/"+slug);
+        $(document).ready(function () {
+            $('#categories-menu-link').tab('show');
+            let btn = $("[type='button']");
+            btn.on('click',function() {
+                let slug = $(this).data('id');
+                $('#delete_link').attr('href',"/category/delete/"+slug);
+            })
         })
+
     </script>
 
 {% endblock %}

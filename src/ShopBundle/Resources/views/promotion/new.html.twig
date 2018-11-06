@@ -23,3 +23,12 @@
     </div>
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#promotions-menu-link').tab('show');
+        });
+    </script>
+{% endblock %}

@@ -61,14 +61,6 @@ class ImageController extends Controller {
 				return $this->redirectToRoute('image_manager');
 			}
 		}
-
-		$paginator  = $this->get('knp_paginator');
-		$pagination = $paginator->paginate(
-			$images,
-			$request->query->getInt('page', 1),
-			5
-		);
-
 		if($uploadForm->isSubmitted() && $uploadForm->isValid()){
 			try{
 				$this->addFlash('success',$this->imageService->uploadImage($image));
@@ -79,7 +71,7 @@ class ImageController extends Controller {
 		}
 		return $this->render( '@Shop/image/image_manager.html.twig',array(
 			'categories'=>$this->categoryService->getAllCategoriesOrderByParentChildren(),
-			'images'=>$pagination,
+			'images'=>$images,
 			'uploadForm'=>$uploadForm->createView(),
 			'categoryForm'=>$categoryForm->createView()
 		) );

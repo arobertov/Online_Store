@@ -47,11 +47,18 @@ table .child-tr {
 
 .images_thumb {
     display: inline-block;
+    width: 50px;
+    border: 1px solid #777;
+    padding: 1px;
+    overflow: hidden;
+    text-align: center;
 }
 
 .images_thumb > img {
-    width: 50px;
-    border: 1px solid #777;
+    max-height: 60px;
+    max-width: 50px;
+    width: auto;
+    height: auto;
 }
 
 .modal>.modal-lg {
@@ -61,6 +68,7 @@ table .child-tr {
 .card {
     position: relative;
     margin: 0.2rem;
+
 }
 
 .check-shadow{
@@ -68,7 +76,8 @@ table .child-tr {
 }
 
 .card:hover {
-    border: 2px solid rgba(0, 140, 186, 0.5);
+    border: 1px solid rgba(0, 140, 186, 0.5);
+    box-sizing: border-box;
 }
 
 .check-icon {
@@ -80,14 +89,14 @@ table .child-tr {
 }
 
 .card > .card-header  {
-    padding: 0.4rem;
+    padding: 0.4rem 0.2rem;
     height: 120px;
     overflow: hidden;
     text-align: center;
 }
 
 .card > .card-body {
-    padding: 0.4rem;
+    padding: 0.4rem 0.2rem;
 }
 
 .card > .card-header  img {
@@ -96,6 +105,20 @@ table .child-tr {
     height: auto;
     padding: 2px;
     border:1px solid #777;
+}
+img.close-image-icon {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 100;
+    cursor: pointer;
+    border: 1px solid #777;
+    border-radius: 2px;
+    padding: 3px;
+}
+
+img.close-image-icon:hover {
+    border: 1px solid rgba(0, 140, 186, 0.5);
 }
 
 
@@ -116,3 +139,4 @@ table .child-tr {
 .navigation {
     text-align: center;
 }
+

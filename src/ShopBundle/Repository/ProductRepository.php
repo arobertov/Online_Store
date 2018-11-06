@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
+use http\Exception;
 use ShopBundle\Entity\Product;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\NoResultException;
@@ -84,8 +85,7 @@ class ProductRepository extends EntityRepository
 			->orderBy('pt.dateCreated','DESC')
 			->getQuery();
 		try{
-			$result = $query->getResult();
-			return $result;
+			return $query;
 		} catch (\Exception $e){
 			throw new \Exception($e->getMessage());
 		}
@@ -106,21 +106,26 @@ class ProductRepository extends EntityRepository
 		return $query->getResult();
 	}
 
+	/**
+	 * @param $category
+	 *
+	 * @return \Doctrine\ORM\Query
+	 * @throws \Exception
+	 */
 	public function findProductsByCategory($category){
-
-		return $this->findBy(['category'=>$category]);
-
-		/*
-		$em = $this->em;
-		$query = $em->createQueryBuilder()
-			->select('pt')
-			->from('ShopBundle:Product','pt')
-			->where('pt.category=?1')
-			->setParameter(1,$category)
-			->getQuery()
+		try{
+			$em = $this->em;
+			$query = $em->createQueryBuilder()
+			            ->select('pt')
+			            ->from('ShopBundle:Product','pt')
+			            ->where('pt.category=?1')
+			            ->setParameter(1,$category)
+			            ->getQuery()
 			;
-		return $query->getResult();
-		*/
+			return $query;
+		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
 	}
 
 
