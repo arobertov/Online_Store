@@ -1,25 +1,45 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
 {% block title %}
     <title>My profile-Online Shop</title>
 {% endblock %}
 
-{% block body %}
-    <div class="span9">
+{% block admin_block_title %}
+           My profile
+{% endblock %}
 
-    <h2>Profile view</h2>
-        {% include '@App/notice.html.twig' %}
-        <div class="well">
-            <ul>
-                <li>Your username : {{ user.username }}</li>
-                <li>First Name : {{ user.firstName }}</li>
-                <li>Last Name : {{ user.lastName }}</li>
-                <li>Your email : {{ user.email }}</li>
-            </ul>
-        <p>
-            <a class="btn btn-default" href="{{ path('change_password',{'id':user.id}) }}">Change password !</a>
-            <a class="btn btn-default" href="{{ path('user_edit',{'id':user.id}) }}">Edit my profile !</a>
-        </p>
-     </div>
+{% block admin_body %}
+    <div class="row">
+        <div class="col-md-12">{% include '@Shop/notice.html.twig' %}</div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a href="{{ path('user_manager') }}">List All Users</a>
+            {% endif %}
+            <div class="card" style="width: 22rem;">
+                <img class="card-img-top" src="{{ asset('images/admin_panel/anonymous-person.jpg') }}" alt="anon_person">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Your Username: <strong>{{ user.username }}</strong> </li>
+                        <li class="list-group-item">First Name : <strong>{{ user.firstName }}</strong></li>
+                        <li class="list-group-item">Last Name : <strong>{{ user.lastName }}</strong></li>
+                        <li class="list-group-item">Your Email : <strong>{{ user.email }}</strong></li>
+                        <li class="list-group-item">Date Registered : <strong>{{ user.dateRegistered|date('m/d/Y') }}</strong></li>
+                        <li class="list-group-item">
+                            User Role:
+                            {% for userRole in user.printRoles %}
+                                <strong>{{ userRole }}</strong>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <a class="card-link" href="{{ path('change_password',{'id':user.id}) }}">Change password</a>
+                    <a class="card-link" href="{{ path('user_edit',{'id':user.id}) }}">Edit my profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+
     </div>
 {% endblock %}

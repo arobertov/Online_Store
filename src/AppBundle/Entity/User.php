@@ -351,7 +351,20 @@ class User implements AdvancedUserInterface, \Serializable {
 		return null;
 	}
 
-	/**
+	public function printRoles(){
+		if($this->roles !== null){
+			switch ($this->roles->getName()){
+				case 'ROLE_SUPER_ADMIN': return ['Super Administrator'];
+				case 'ROLE_ADMIN': return ['Administrator'];
+				case 'ROLE_OPERATOR': return ['Operator'];
+				case 'ROLE_USER': return ['Customer'];
+				default: return 'N A';
+			}
+		}
+		return null;
+	}
+
+	/**                                                   
 	 * @param Role $roles
 	 */
 	public function setRoles( Role $roles ) {

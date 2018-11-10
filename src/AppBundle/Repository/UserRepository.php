@@ -90,4 +90,25 @@ class UserRepository extends EntityRepository
 			return null;
 		}
 	}
+
+
+	/**
+	 * @return \Doctrine\ORM\Query
+	 * @throws \Exception
+	 */
+	public function findAllUsers(){
+		try{
+			$query = $this->em->createQueryBuilder()
+								->select('us,r')
+								->from('AppBundle:User','us')
+								->join('us.roles','r')
+								->leftJoin('us.address','adr')
+								->leftJoin('us.promotion','prm')
+								->getQuery()
+				;
+			return $query;
+		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
 }

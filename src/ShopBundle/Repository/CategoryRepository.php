@@ -35,7 +35,7 @@ class CategoryRepository extends NestedTreeRepository
 
 
 	/**
-	 * @return \Doctrine\ORM\Query
+	 *
 	 * @throws \Exception
 	 */
 	public function findAllCategoriesJoinProducts(){

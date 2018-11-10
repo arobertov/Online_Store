@@ -37,7 +37,7 @@
                         {{ product.promotion.title }}
                     {% endif %}
                 </td>
-                {% if is_granted('ROLE_EDITOR') %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="na">
                             <a type="button" class="btn btn-info" href="#">Details</a>

@@ -23,4 +23,8 @@ class RoleRepository extends EntityRepository
 		parent::__construct( $em, new Mapping\ClassMetadata(Role::class) );
 		$this->em = $em;
 	}
+
+	public function findAllRoles() {
+		return $this->findBy([],['id'=>'ASC']);
+	}
 }

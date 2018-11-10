@@ -140,3 +140,9 @@ img.close-image-icon:hover {
     text-align: center;
 }
 
+#nav_users {
+    position: relative;
+    top:-7px;
+    right: 240px;
+}
+

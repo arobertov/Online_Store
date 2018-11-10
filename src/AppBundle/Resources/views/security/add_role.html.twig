@@ -1,21 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
-{% block body %}
-    <div class="span8">
-        <ul class="breadcrumb">
-            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
-            <li><a href="{{ path('user_manager') }}">Users</a> <span class="divider">/</span></li>
-            <li class="active">Add_role</li>
-        </ul>
-        <h2>Available Role</h2>
-        {% include '@App/notice.html.twig' %}
-        <div class="container">
-            <table class="table-hover">
+{% block admin_block_title %}
+    Add New Role
+{% endblock %}
+
+{% block admin_body %}
+    <div class="row">
+        <div class="col-md-12">{% include '@Shop/notice.html.twig' %}</div>
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <table class="table table-hover">
                 <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Available Role</th>
-                    </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>Available Role</th>
+                </tr>
                 </thead>
                 <tbody>
                     {% for role in roles %}
@@ -25,10 +24,12 @@
                         </tr>
                     {% endfor %}
                 </tbody>
-            </table>
+                </table>
+            <p>Consider carefully the creation of roles</p>
+            <p>Add user role</p>
+            {{ form(form) }}
+            <a href="{{ path('user_manager') }}"><-- List All Users</a>
         </div>
-        <p>Consider carefully the creation of roles</p>
-        <h2>Add user role</h2>
-        {{ form(form) }}
+        <div class="col-md-2"></div>
     </div>
 {% endblock %}

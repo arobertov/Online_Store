@@ -13,7 +13,9 @@ use AppBundle\Entity\Role;
 use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Paginator;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserService implements UserServiceInterface {
@@ -38,6 +40,16 @@ class UserService implements UserServiceInterface {
 	private $userRepository;
 
 	/**
+	 * @var Paginator
+	 */
+	private $paginator;
+
+	/**
+	 * @var RequestStack
+	 */
+	private $request;
+
+	/**
 	 * UserService constructor.
 	 *
 	 * @param SendEmailService $sendEmailService
@@ -46,11 +58,13 @@ class UserService implements UserServiceInterface {
 	 * @param UserRepository $user_repository
 	 */
 	public function __construct( SendEmailService $sendEmailService, EntityManagerInterface $em,
-		UserPasswordEncoderInterface $encoder,UserRepository $user_repository ) {
+		UserPasswordEncoderInterface $encoder,UserRepository $user_repository,Paginator $paginator,RequestStack $request ) {
 		$this->sendEmailService = $sendEmailService;
 		$this->em               = $em;
 		$this->passwordEncoder  = $encoder;
 		$this->userRepository   = $user_repository;
+		$this->paginator = $paginator;
+		$this->request = $request;
 	}
 
 	/**
@@ -206,4 +220,24 @@ class UserService implements UserServiceInterface {
             throw new Exception('Old password mishmash !');
         }
     }
+
+
+	/**
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function listAllUsers() {
+		try {
+			$query = $this->userRepository->findAllUsers();
+			$request = $this->request->getCurrentRequest();
+			$pagination = $this->paginator->paginate(
+				$query,
+				$request->query->getInt('page', 1),
+				5
+			);
+			return $pagination;
+		} catch ( \Exception $e ) {
+			throw  new \Exception($e->getMessage());
+		}
+	}
 }

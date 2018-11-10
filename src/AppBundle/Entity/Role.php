@@ -94,6 +94,22 @@ class Role
         return $this->name;
     }
 
+	/**
+	 * @return null|string
+	 */
+	public function printRoles(){
+		if($this->name !== null){
+			switch ($this->getName()){
+				case 'ROLE_SUPER_ADMIN': return 'Super Administrator';
+				case 'ROLE_ADMIN': return 'Administrator';
+				case 'ROLE_OPERATOR': return 'Operator';
+				case 'ROLE_USER': return 'Customer';
+				default: return 'N A';
+			}
+		}
+		return null;
+	}
+
     public function getReachableRoles(array $roles)
     {
 

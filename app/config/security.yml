@@ -2,9 +2,7 @@
 # https://symfony.com/doc/current/security.html
 security:
     role_hierarchy:
-            ROLE_ADMIN:       [ROLE_EDITOR,ROLE_USER]
-            ROLE_BLOG_ADMIN:  [ROLE_EDITOR,ROLE_USER]
-            ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_BLOG_ADMIN]
+            ROLE_SUPER_ADMIN: [ROLE_ADMIN,ROLE_OPERATOR,ROLE_USER]
     encoders:
         AppBundle\Entity\User:
            algorithm: bcrypt
@@ -45,7 +43,7 @@ security:
                   domain: ~
                   always_remember_me: true
     access_control:
-        - { path: ^/product, roles: ROLE_EDITOR }
-        - { path: ^/category, roles: ROLE_EDITOR }
-        - { path: ^/promotion, roles: ROLE_EDITOR }
+        - { path: ^/product, roles: ROLE_ADMIN }
+        - { path: ^/category, roles: ROLE_ADMIN }
+        - { path: ^/promotion, roles: ROLE_ADMIN }
 

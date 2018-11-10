@@ -95,6 +95,12 @@ class UserController extends Controller {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$em->persist( $role );
 			$em->flush();
+			$this->addFlash('success','New Role create successful !');
+			$allRoles = $em->getRepository( 'AppBundle:Role' )->findAll();
+			$this->redirectToRoute('create_role',array(
+				'roles' => $allRoles,
+				'form'  => $this->createForm(RoleType::class,$role)->createView()
+			));
 		}
 
 		return $this->render( '@App/security/add_role.html.twig', array(
@@ -118,13 +124,14 @@ class UserController extends Controller {
 
 	/**
 	 * @Route("/all_users",name="user_manager")
-	 * @Security("has_role('ROLE_EDITOR')")
+	 * @Security("has_role('ROLE_ADMIN')")
 	 */
 	public function userManagerAction() {
-		$users = $this->em->getRepository( User::class )->findAll();
-
+		$users = $this->userService->listAllUsers();
+		$roles = $this->getDoctrine()->getRepository(Role::class)->findAllRoles();
 		return $this->render( '@App/security/all_users.html.twig', [
 			'users' => $users,
+			'roles' => $roles
 		] );
 	}
 

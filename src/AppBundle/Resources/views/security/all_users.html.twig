@@ -4,19 +4,35 @@
     <title>Users-Online Shop</title>
 {% endblock %}
 
-
+{% block admin_block_title %}
+    All Users
+{% endblock %}
 {% block admin_body %}
         <div class="container">
-                <h3>Users</h3>
-            {% include '@App/notice.html.twig' %}
+            {% include '@Shop/notice.html.twig' %}
+            <span class="badge badge-primary">{{ users.getTotalItemCount }} Users</span>
+            <hr>
+            <div class="filter-group float-left">{{ knp_pagination_filter(users,{'us.username':'Username','us.email':'Email','us.dateRegistered':'Date Registered'}) }}</div>
+            <ul id="nav_users" class="nav nav-tabs float-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="category-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Filter by Role</a>
+                    <div class="dropdown-menu">
+                        {% for role in roles %}
+                            <a class="dropdown-item" href="{{ path('user_manager') }}?filterField=r.name&filterValue={{ role.name }}">{{ role.printRoles }}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>User is active</th>
-                    <th>Banned user</th>
-                    <th>User Role</th>
+                    <th>{{ knp_pagination_sortable( users,'Username','us.username' )  }}</th>
+                    <th>{{ knp_pagination_sortable( users,'Email','us.email' )  }}</th>
+                    <th>{{ knp_pagination_sortable( users,'Date Registered','us.dateRegistered' )  }}</th>
+                    <th>{{ knp_pagination_sortable( users,'Enable User','us.isActive' )  }}</th>
+                    <th>{{ knp_pagination_sortable( users,'Locked User','us.isNotLocked' )  }}</th>
+                    <th>{{ knp_pagination_sortable( users,'User Role','r.name' )  }}</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -25,37 +41,41 @@
                     <tr>
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
+                        <td>{{ user.dateRegistered|date('m/d/Y') }}</td>
                         <td>
-                            {% if user.isactive == 1 %}
-                                Yes
-                            {% else %}
-                                No
-                            {% endif %}
+                            {{  (user.isactive == 1) ? '<span class="badge badge-success">Enabled</span>' : '<span class="badge badge-danger">Disabled</span>'}}
                         </td>
                         <td>
-                            {% if user.isNotLocked %}
-                                No
-                            {% else %}
-                                Yes
-                            {% endif %}
+                            {{ (user.isNotLocked) ? '<span class="badge badge-success">Unlocked</span>' : '<span class="badge badge-danger">Locked</span>'  }}
                         </td>
                         <td>
-                            {% for userRole in user.roles %}
-                                {{ userRole }}
+                            {% for userRole in user.printRoles %}
+                                <strong>{{ userRole }}</strong>
                             {% endfor %}
                         </td>
                         <td>
-                            <a class="btn btn-warning" href="{{ path('user_edit',{'id':user.id}) }}">Edit!</a>
-                            <button  type="button" data-id="{{ user.id }}" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                                 Delete !
-                            </button>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="na">
+                                <a type="button" class="btn btn-info" href="{{ path('my_profile',{'id':user.id}) }}">Details</a>
+                                <a class="btn btn-warning" href="{{ path('user_edit',{'id':user.id}) }}">Edit</a>
+                                <button  type="button" data-id="{{ user.id }}" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                    Delete
+                                </button>
+                            </div>
 
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            <p><a class="btn  btn-warning" href="{{ path('create_role') }}">Add new role</a></p>
+            <div class="col-md-12">
+                <div class="navigation">
+                    {{ knp_pagination_render(users,null,{},{
+                        'align': 'center',
+                        'size': 'small',
+                        'rounded': false
+                    }) }}
+                </div>
+            </div>
         </div>
     {% include '@App/security/delete_user_modal_dialog.html.twig' %}
 {% endblock %}
@@ -63,10 +83,12 @@
 {% block javascripts %}
 {{ parent() }}
  <script >
-     var btn = $("[type='button']");
-     btn.on('click',function() {
-         var userId = $(this).data('id');
-         $('#delete_link').attr('href',userId+"/delete_user");
-     })
-</script>
+     $(document).ready(function () {
+         let btn = $("[type='button']");
+         btn.on('click',function() {
+             let userId = $(this).data('id');
+             $('#delete_link').attr('href',"delete/"+userId);
+         })
+     });
+ </script>
 {% endblock %}

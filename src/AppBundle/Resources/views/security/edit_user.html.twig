@@ -1,23 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_panel.html.twig' %}
 
 {% block title %}
     <title>Edit user-Online Shop</title>
 {% endblock %}
 
-{% block sidebar %}
-
+{% block admin_block_title %}
+    Edit user
 {% endblock %}
 
-{% block body %}
-    <div class="span11">
-        {{ include('@Shop/Default/admin_menu.html.twig') }}
-        <ul class="breadcrumb">
-            <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
-            <li class="active">Edit user</li>
-        </ul>
-        <h2>Edit User</h2>
-        {% include '@App/notice.html.twig' %}
-        <div class="well">
+{% block admin_body %}
+    <div class="row">
+        {% include '@Shop/notice.html.twig' %}
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+        <div class="jumbotron">
             {{ form_start(edit_form) }}
             {{ form_row(edit_form.username,{'help':'Username must be 3 or more symbols !'}) }}
             {{ form_row(edit_form.firstName) }}
@@ -39,8 +35,10 @@
                 <input class="btn btn-large btn-warning" type="submit" value="Edit !">
             </div>
             {{ form_end(edit_form) }}
+        </div>
+        </div>
+        <div class="col-md-8"></div>
 
         <a href="{{ path('my_profile',{'id':user.id}) }}">&larr; Back to user profile </a>
-        </div>
     </div>
 {% endblock %}

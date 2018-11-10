@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use ShopBundle\Entity\ProductImage;
 use ShopBundle\Form\CategoryImageType;
 use ShopBundle\Form\ImageType;
+use ShopBundle\Repository\ProductImageRepository;
 use ShopBundle\Services\CategoryServiceInterface;
 use ShopBundle\Services\ImageServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,9 +79,9 @@ class ImageController extends Controller {
 	}
 
 	public function addImagesToProductAction(){
-		$images = $this->imageService->listImages();
+		$images = $this->getDoctrine()->getRepository(ProductImage::class)->findAll();
 		return $this->render('@Shop/image/add_images_content_modal',array(
-			'images'=>$images->getResult(),
+			'images'=>$images,
 			'categories'=>$this->categoryService->getAllCategoriesOrderByParentChildren()
 		));
 	}

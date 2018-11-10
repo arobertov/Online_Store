@@ -62,7 +62,7 @@
                 <a class="brand" href="{{ path('home_page') }}"><img src="{{ asset('themes/images/logo.png') }}" alt="Bootsshop"/></a>
 
                 <ul id="topMenu" class="nav pull-right">
-                    {% if is_granted('ROLE_EDITOR') %}
+                    {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('admin_panel') }}">Admin panel</a></li>
                     {% endif %}
 

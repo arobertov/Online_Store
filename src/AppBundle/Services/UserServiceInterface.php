@@ -19,6 +19,8 @@ interface UserServiceInterface {
 
 	public function removeUser(User $user);
 
+	public function listAllUsers();
+
 	public function forgotPassword(array $formData);
 
 	public function changePassword(User $user);

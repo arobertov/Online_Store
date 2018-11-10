@@ -10,7 +10,6 @@ namespace ShopBundle\Services;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\Bundle\PaginatorBundle\Definition\PaginatorAwareInterface;
 use Knp\Component\Pager\Paginator;
 use ShopBundle\Entity\Product;
 use ShopBundle\Repository\ProductRepository;
@@ -23,8 +22,14 @@ class ProductService implements ProductServiceInterface {
 	 */
 	private $productRepository;
 
+	/**
+	 * @var Paginator
+	 */
 	private $paginator;
 
+	/**
+	 * @var RequestStack
+	 */
 	private $request;
 
 	/**

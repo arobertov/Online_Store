@@ -1,0 +1,15 @@
+<form class="form-inline" method="get" action="{{ action }}" enctype="application/x-www-form-urlencoded">
+    <div class="form-group mb-2">
+        <select name="{{ filterFieldName }}" class="form-control form-control-sm">
+            {% for field, label in fields %}
+                <option value="{{ field }}"{% if selectedField == field %} selected="selected"{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+        <input class="form-control form-control-sm" type="text" value="{{ selectedValue }}" name="{{ filterValueName }}" />
+    </div>
+    <div class="form-group mb-2">
+        <button type="submit" class="btn btn-outline-info btn-sm">{{ options.button }}</button>
+    </div>
+</form>

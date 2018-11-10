@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * Font Awesome Sorting control implementation.
+ *
+ * @author Rodrigo Régis Palmeira <regisbsb@gmail.com>
+ */
+#}
+
+<a{% for attr, value  in options %} {{ attr }}="{{ value }}"{% endfor %}>
+    {{ title }}
+    {% if app.request.get('sort') == key %}
+        {% if app.request.get('direction') == 'desc' %}
+            <span data-feather="chevron-up"></span>
+        {% else %}
+            <span data-feather="chevron-down"></span>
+        {% endif %}
+    {% else %}
+        <span data-feather="chevron-down"></span>
+    {% endif %}
+</a>

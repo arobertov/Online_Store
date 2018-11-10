@@ -122,7 +122,7 @@ knp_paginator:
         filter_field_name: filterField  # filter field query parameter name
         filter_value_name: filterValue  # filter value query parameter name
     template:
-        pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig'     # sliding pagination controls template
-        sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template
-        filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template
+        pagination: '@KnpPaginator/pagination/twitter_bootstrap_v4_pagination.html.twig'     # sliding pagination controls template
+        sortable: 'pagination/link-filtering.html.twig' # sort link template
+        filtration: 'pagination/filtration.html.twig'  # filters template
 
