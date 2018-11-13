@@ -12,7 +12,12 @@
             {% include '@Shop/notice.html.twig' %}
             <span class="badge badge-primary">{{ users.getTotalItemCount }} Users</span>
             <hr>
-            <div class="filter-group float-left">{{ knp_pagination_filter(users,{'us.username':'Username','us.email':'Email','us.dateRegistered':'Date Registered'}) }}</div>
+            {{ form(filterForm) }}
+            {#
+            filterField=r.name&filterValue=ROLE_ADMIN
+            <div class="filter-group float-left">{{ knp_pagination_filter(users,{'us.username':'Username','us.email':'Email','us.dateRegistered':'Date Registered','r.name':'Role'}) }}</div>
+
+            #}
             <ul id="nav_users" class="nav nav-tabs float-right">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="category-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Filter by Role</a>

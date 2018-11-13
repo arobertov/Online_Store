@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Role;
 use AppBundle\Entity\User;
+use AppBundle\Form\FilterType;
 use AppBundle\Form\ForgotPasswordType;
 use AppBundle\Form\RoleType;
 use AppBundle\Form\UserType;
@@ -129,9 +130,12 @@ class UserController extends Controller {
 	public function userManagerAction() {
 		$users = $this->userService->listAllUsers();
 		$roles = $this->getDoctrine()->getRepository(Role::class)->findAllRoles();
+		$filterData = array('Name'=>'us.username','Email'=>'us.email','Role'=>array('Role'=>'name'));
+		$filterForm = $this->createForm(FilterType::class,$filterData);
 		return $this->render( '@App/security/all_users.html.twig', [
 			'users' => $users,
-			'roles' => $roles
+			'roles' => $roles,
+			'filterForm'=>$filterForm->createView()
 		] );
 	}
 
