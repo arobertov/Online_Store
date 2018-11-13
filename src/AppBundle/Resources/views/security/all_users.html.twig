@@ -11,23 +11,9 @@
         <div class="container">
             {% include '@Shop/notice.html.twig' %}
             <span class="badge badge-primary">{{ users.getTotalItemCount }} Users</span>
-            <hr>
             {{ form(filterForm) }}
-            {#
-            filterField=r.name&filterValue=ROLE_ADMIN
-            <div class="filter-group float-left">{{ knp_pagination_filter(users,{'us.username':'Username','us.email':'Email','us.dateRegistered':'Date Registered','r.name':'Role'}) }}</div>
+            <hr>
 
-            #}
-            <ul id="nav_users" class="nav nav-tabs float-right">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="category-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Filter by Role</a>
-                    <div class="dropdown-menu">
-                        {% for role in roles %}
-                            <a class="dropdown-item" href="{{ path('user_manager') }}?filterField=r.name&filterValue={{ role.name }}">{{ role.printRoles }}</a>
-                        {% endfor %}
-                    </div>
-                </li>
-            </ul>
             <div class="clearfix"></div>
             <table class="table table-hover">
                 <thead>
@@ -89,6 +75,21 @@
 {{ parent() }}
  <script >
      $(document).ready(function () {
+         $('#filterField').change(function () {
+             let form = $('form');
+             $(this).closest(form);
+             $.ajax({
+                 url:'all_users',
+                 method: 'POST',
+                 data:form.serialize() ,
+                 success:function (html) {
+                     $('#filterValue').replaceWith($(html).find('#filterValue'))
+                 },
+                 error:function (err) {
+                     console.log(err)
+                 }
+             });
+         });
          let btn = $("[type='button']");
          btn.on('click',function() {
              let userId = $(this).data('id');
