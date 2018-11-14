@@ -11,9 +11,8 @@
         <div class="container">
             {% include '@Shop/notice.html.twig' %}
             <span class="badge badge-primary">{{ users.getTotalItemCount }} Users</span>
-            {{ form(filterForm) }}
             <hr>
-
+            {% include '@App/forms/filter_form.html.twig' %}
             <div class="clearfix"></div>
             <table class="table table-hover">
                 <thead>

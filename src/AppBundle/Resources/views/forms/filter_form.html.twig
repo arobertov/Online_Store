@@ -1,0 +1,6 @@
+{% form_theme filterForm 'forms/filter_form_theme.html.twig' %}
+            {{ form_start(filterForm) }}
+                {{ form_row(filterForm.filterField) }}
+                {{ form_row(filterForm.filterValue) }}
+<button type="submit" class="btn btn-outline-secondary inline">Filter</button>
+{{ form_end(filterForm) }}

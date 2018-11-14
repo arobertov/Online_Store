@@ -2,9 +2,6 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\AppBundle;
-use AppBundle\Entity\Role;
-use function PHPSTORM_META\type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,10 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Workflow\Event\Event;
 
 class FilterType extends AbstractType {
 
@@ -49,12 +44,13 @@ class FilterType extends AbstractType {
 			->setMethod('GET')
 			->add('filterField',ChoiceType::class,array(
 				'choices'=>$choiceFields,
+				'label'=>false,
+				'data'=>$this->request->getCurrentRequest()->query->get('filterField')
 		));
 
 		$builder->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event) {
-			$request = $this->request->getCurrentRequest()->request->getIterator();
-			$selectedField = !$request->key()=='filterField' ? null : $request['filterField'];
-
+			$request = $this->request->getCurrentRequest()->get('filterField');
+			$selectedField = !$request ? null : $request;
 			foreach ($event->getData() as $key=>$value){
 				$checkSelectEntity = $selectedField==null ? false: key_exists($selectedField,$this->entityFields);
 				if($checkSelectEntity || $selectedField==null?is_array($value):false){
@@ -63,16 +59,20 @@ class FilterType extends AbstractType {
 					$event->getForm()->add('filterValue',EntityType::class,array(
 						'class'=>$entityClass,
 						'choice_label'=>$choiceLabel,
-						'choice_value'=>$choiceLabel
+						'choice_value'=>$choiceLabel,
+						'data'=>$this->request->getCurrentRequest()->query->get('filterValue'),
+						'label'=>false
 					));
 				} else {
-					$event->getForm()->add('filterValue',TextType::class);
+					$event->getForm()->add('filterValue',TextType::class,array(
+						'label'=>false,
+						'data'=>$this->request->getCurrentRequest()->query->get('filterValue')
+					));
 				}
 				break;
 			}
 		});
 
-		$builder->add('submit',SubmitType::class);
 	}
 
 	public function configureOptions( OptionsResolver $resolver ) {
