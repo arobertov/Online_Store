@@ -11,10 +11,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FilterType extends AbstractType {
 
+	/**
+	 * @var RequestStack
+	 */
 	private $request;
 
 	/**
@@ -53,7 +57,7 @@ class FilterType extends AbstractType {
 			$selectedField = !$request ? null : $request;
 			foreach ($event->getData() as $key=>$value){
 				$checkSelectEntity = $selectedField==null ? false: key_exists($selectedField,$this->entityFields);
-				if($checkSelectEntity || $selectedField==null?is_array($value):false){
+				if($checkSelectEntity or $selectedField==null?is_array($value):false){
 					$entityClass = $checkSelectEntity ? $this->entityFields[$selectedField]['class']:$value['class'];
 					$choiceLabel = $checkSelectEntity ? $this->entityFields[$selectedField]['choice_label']:$value['choice_label'];
 					$event->getForm()->add('filterValue',EntityType::class,array(

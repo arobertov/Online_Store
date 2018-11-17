@@ -129,7 +129,7 @@ class UserController extends Controller {
 	 */
 	public function userManagerAction() {
 		$users = $this->userService->listAllUsers();
-		$filterData = array('Role'=>array('choice_value'=>'r.name','class'=>'AppBundle:Role','choice_label'=>'name'),'Email'=>'us.email','Username'=>'us.username');
+		$filterData = array('Username'=>'us.username','Email'=>'us.email','Role'=>array('choice_value'=>'r.name','class'=>'AppBundle:Role','choice_label'=>'name'));
 		$filterForm = $this->createForm(FilterType::class,$filterData);
 		return $this->render( '@App/security/all_users.html.twig', [
 			'users' => $users,
