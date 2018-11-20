@@ -130,6 +130,7 @@
             <div class="panel_heading">
                 <h2>{% block admin_block_title %}Dashboard{% endblock %}</h2>
             </div>
+            {% include('@Shop/notice.html.twig')  %}
             {% block admin_body %}
             {% endblock admin_body %}
         </main>
@@ -148,18 +149,20 @@
     {% javascripts
         'assetic/jquery.js'
         'assetic/bootstrap_js.js'
-        'assetic/feather_icon.js' %}
+        'assetic/feather_icon.js'
+        'assetic/filter-form.js'
+    %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script src="{{ asset('themes/js/main.js') }}"></script>
     <script>
         $(document).ready(function () {
             feather.replace();
+            function setActiveTab(tabId) {
+                $('#' + tabId).tab('show')
             }
-        );
-        function setActiveTab(tabId) {
-            $('#'+tabId).tab('show')
-        }
+        });
+
     </script>
 
 {% endblock %}

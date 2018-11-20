@@ -66,11 +66,17 @@ class ProductService implements ProductServiceInterface {
 	/**
 	 * @param Product $product
 	 *
+	 * @param array $images
+	 *
 	 * @return mixed|string
 	 * @throws \Exception
 	 */
-	public function editProduct( Product $product ) {
+	public function editProduct( Product $product,array $images) {
 		try {
+			foreach ($images as $image){
+				$product->addImage($image);
+			}
+
 			return $this->productRepository->updateProduct( $product );
 		}catch (\Exception $e){
 			throw new \Exception($e->getMessage());
@@ -91,11 +97,12 @@ class ProductService implements ProductServiceInterface {
 		}
 	}
 
+
 	/**
 	 * @return mixed|string
 	 * @throws \Exception
 	 */
-	public function getAllProduct() {
+	public function getAllProducts() {
 		try{
 			$query = $this->productRepository->findAllProducts();
 			$request = $this->request->getCurrentRequest();

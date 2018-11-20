@@ -22,6 +22,15 @@ $(document).ready(function () {
         }
     });
 
+    $('.close-image-icon').click(function () {
+        detachImage($(this));
+    });
+
+    function detachImage(closeBtn){
+        let dataId = closeBtn.data('id');
+        $.ajax()
+    }
+
     /* ------- Close modal images list ------------- */
     $('#add-images-btn').click(function () {
         $('.check-icon').hide();
@@ -30,16 +39,16 @@ $(document).ready(function () {
     });
 
     $('#submit-product-form').click(function (e) {
-        let productForm = $('form[name="shopbundle_product"]');
-        addImagesIdsInput(productForm);
+        let myForm = $('form[name="shopbundle_product"]');
+        addImagesIdsInput(myForm);
     });
 
-    function addImagesIdsInput(productForm) {
+    function addImagesIdsInput(myForm) {
         let getFormImages = $('#product-form-img').find('.card');
         getFormImages.each(function () {
             imageId.push($(this).data('id'));
         });
         let imagesIds = imageId.toString();
-        $(`<input type="hidden" name="image_ids" value="${imagesIds}"/>`).appendTo(productForm);
+        $(`<input type="hidden" name="image_ids" value="${imagesIds}"/>`).appendTo(myForm);
     }
 });

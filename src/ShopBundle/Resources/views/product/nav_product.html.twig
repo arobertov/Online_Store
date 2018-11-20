@@ -1,4 +1,3 @@
-
 <ul id="nav_product" class="nav nav-tabs">
     <li class="nav-item">
         <a id="new_product_tab" class="nav-link " href="{{ path('create_product') }}" >Create New Product</a>
@@ -6,31 +5,28 @@
     <li class="nav-item">
         <a id="all_products_tab" class="nav-link " href="{{ path('list_all_products') }}" >All products</a>
     </li>
+    {% if categories is defined %}
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="category-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Products by category</a>
+        <a class="nav-link dropdown-toggle" id="category-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Filter by category</a>
         <div class="dropdown-menu">
-            {% if categories is defined %}
-                {% for category in categories %}
-                    {%  set parentCount = 0 %}
-                    {% if category.parent %}
-                        <a class="dropdown-item" href="{{ path('list_all_products') }}?category={{category.id  }}"><i data-feather="chevron-right"></i>{{ category.title }} ({{ category.products|length }})</a>
-                        {% else %}
-                            {% for child in category.children %}
-                                      {% set parentCount = parentCount + child.products|length  %}
-                            {% endfor %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('list_all_products') }}?category={{ category.id }}">{{ category.title }} ({{ parentCount }})</a>
-                            <div class="dropdown-divider"></div>
-                    {% endif %}
-
-                {% endfor %}
-            {% endif %}
+            {% for category in categories %}
+                {%  set parentCount = 0 %}
+                {% if category.parent %}
+                    <a class="dropdown-item" href="{{ path('list_all_products') }}?category={{category.id  }}"><i data-feather="chevron-right"></i>{{ category.title }} ({{ category.products|length }})</a>
+                {% else %}
+                    {% for child in category.children %}
+                        {% set parentCount = parentCount + child.products|length  %}
+                    {% endfor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ path('list_all_products') }}?category={{ category.id }}">{{ category.title }} ({{ parentCount }})</a>
+                    <div class="dropdown-divider"></div>
+                {% endif %}
+            {% endfor %}
         </div>
     </li>
-    <li class="nav-item dropdown">
-        <a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">By brand</a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="">Newwest</a>
-            <a class="dropdown-item" href="">Latest</a>
-        </div>
+    {% endif %}
+    {% if filterForm is defined %}
+        {% include '@App/forms/filter_form.html.twig' %}
+    {% endif %}
 </ul>
+

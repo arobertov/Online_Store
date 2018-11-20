@@ -74,21 +74,6 @@
 {{ parent() }}
  <script >
      $(document).ready(function () {
-         $('#filterField').change(function () {
-             let form = $('form');
-             $(this).closest(form);
-             $.ajax({
-                 url:'all_users',
-                 method: 'POST',
-                 data:form.serialize() ,
-                 success:function (html) {
-                     $('#filterValue').replaceWith($(html).find('#filterValue'))
-                 },
-                 error:function (err) {
-                     console.log(err+' err_message!')
-                 }
-             });
-         });
          let btn = $("[type='button']");
          btn.on('click',function() {
              let userId = $(this).data('id');

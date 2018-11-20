@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Controller;
 
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use ShopBundle\Entity\ProductImage;
 use ShopBundle\Form\CategoryImageType;

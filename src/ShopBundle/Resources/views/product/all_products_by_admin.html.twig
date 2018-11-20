@@ -15,7 +15,7 @@
                 <th scope="col">IMAGES</th>
                 <th scope="col">{{ knp_pagination_sortable( products,'QTY','pt.quantity' ) }}</th>
                 <th scope="col">PROMOTION</th>
-                {% if is_granted('ROLE_EDITOR') %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <th>ACTION</th>
                 {% endif %}
             </tr>

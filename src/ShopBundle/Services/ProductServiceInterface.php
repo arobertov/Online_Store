@@ -16,11 +16,11 @@ interface ProductServiceInterface {
 
 	public function createProduct(Product $product,array $images);
 
-	public function editProduct(Product $product);
+	public function editProduct(Product $product,array $images);
 
 	public function removeProduct(Product $product);
 
-	public function getAllProduct();
+	public function getAllProducts();
 
 	public function getAllProductsByCategory($category);
 }

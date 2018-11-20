@@ -2,6 +2,8 @@
 
 namespace AppBundle\Form;
 
+use ShopBundle\Form\CategoryType;
+use ShopBundle\Form\ProductType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -10,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\ResolvedFormTypeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -60,6 +63,7 @@ class FilterType extends AbstractType {
 				if($checkSelectEntity or $selectedField==null?is_array($value):false){
 					$entityClass = $checkSelectEntity ? $this->entityFields[$selectedField]['class']:$value['class'];
 					$choiceLabel = $checkSelectEntity ? $this->entityFields[$selectedField]['choice_label']:$value['choice_label'];
+
 					$event->getForm()->add('filterValue',EntityType::class,array(
 						'class'=>$entityClass,
 						'choice_label'=>$choiceLabel,

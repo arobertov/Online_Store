@@ -31,7 +31,7 @@ class HomepageController extends Controller
     public function indexAction()
     {
     	try {
-		    $products = $this->productService->getAllProduct();
+		    $products = $this->productService->getAllProducts();
 	    }catch (\Exception $e){
     		$this->addFlash('error',$e->getMessage());
     		$products = [];

@@ -5,9 +5,13 @@
 {% endblock %}
 {% block admin_body %}
     {{ include('@Shop/notice.html.twig') }}
-
     <div class="row">
         <div class="col-md-12">
+            <div class="float-left">
+                <span class="badge badge-primary">Total images ( {{ images.getTotalItemCount }} )</span>
+            </div>
+            <div class="clearfix"></div>
+            <hr>
             {% include('@Shop/image/category_filter') %}
             {% if images is empty %}
                 <h4 class="display-4">No images this !</h4>
@@ -40,7 +44,7 @@
                             <td>{{ (image.imageSize/1000)|round(1,'floor') }} KB</td>
                             <td><a class="change-category" href="#" title="Change category" data-id="{{ image.id }}"
                                    data-name="{{ image.path }}" data-toggle="modal"
-                                   data-target="#categoryImageModal">{{ image.category is empty ? "___" : image.category }}</a>
+                                   data-target="#categoryImageModal">{{ image.category is empty ? "Without Category" : image.category }}</a>
                             </td>
                             <td>{{ image.dateUpload|date("m - d - Y") }}</td>
                         </tr>
@@ -51,15 +55,21 @@
                 <div class="float-left">
                     <button type="button" class="btn btn-danger btn-small" id="delete-image-btn" disabled>Delete image</button>
                 </div>
-                <div class="float-right">
-                    <span>Total images ( {{ images.getTotalItemCount }} )</span>
-                </div>
                 <div class="clearfix"></div>
                 <hr>
 
             {% endif %}
 
             {% include('@Shop/category_image_modal') %}
+        </div>
+        <div class="col-md-12">
+            <div class="navigation">
+                {{ knp_pagination_render(images,null,{},{
+                    'align': 'center',
+                    'size': 'small',
+                    'rounded': false
+                }) }}
+            </div>
         </div>
     </div>
 
@@ -91,7 +101,6 @@
                 let ckbox = $('input:checkbox');
                 if (!ckbox.prop('checked') === false) {
                     ckbox.prop('checked', true);
-                    console.log('ok');
                 }
                 else {
                     ckbox.prop('checked', false);
@@ -157,6 +166,7 @@
                     $('#delete-image-btn').prop('disabled',false).text(`Delete ${checked} ${checked === 1?`image`:`images`}`);
                 } else {
                     $('#delete-image-btn').prop('disabled',true).text("Delete image");
+                    $('#check-all').prop('checked',false);
                 }
             })
         })

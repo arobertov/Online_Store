@@ -108,7 +108,6 @@ class ImageService implements ImageServiceInterface {
 				$request->query->getInt('page', 1),
 				5
 			);
-
 			return $pagination;
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());

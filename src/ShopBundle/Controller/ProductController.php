@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Controller;
 
+use AppBundle\Form\FilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use ShopBundle\Entity\ProductImage;
 use ShopBundle\Services\CategoryServiceInterface;
@@ -54,18 +55,19 @@ class ProductController extends Controller {
 
 	/**
 	 * @Route("list_products",name="list_all_products")
-	 * @Method({"GET"})
 	 * @param Request $request
 	 *
 	 * @return Response
 	 */
 	public function listAllProductAction(Request $request){
 		try{
+			$filterData = array('Promotion'=>array('choice_value'=>'pr.title','class'=>'ShopBundle:Promotion','choice_label'=>'title'),'Title'=>'pt.title','Quantity'=>'pt.quantity');
+			$filterForm = $this->createForm(FilterType::class,$filterData);
 			$categories = $this->categoryService->getAllCategoriesOrderByParentChildren();
-			$products = $this->productService->getAllProduct();
+			$products = $this->productService->getAllProducts();
 		} catch (\Exception $e){
-			$this->addFlash('error',$e->getMessage());
-			return $this->redirectToRoute('admin_panel');
+			$this->addFlash('danger',$e->getMessage());
+			return $this->redirectToRoute('admin_panel',array());
 		}
 
 		$category =  $request->get('category');
@@ -73,7 +75,7 @@ class ProductController extends Controller {
 			try{
 				$products = $this->productService->getAllProductsByCategory($category);
 			}  catch (\Exception $e){
-				$this->addFlash('error',$e->getMessage());
+				$this->addFlash('danger',$e->getMessage());
 				return $this->redirectToRoute('admin_panel');
 			}
 
@@ -81,7 +83,8 @@ class ProductController extends Controller {
 
 		return $this->render('@Shop/product/all_products_by_admin.html.twig',array(
 			'products'=>$products,
-			'categories'=>$categories
+			'categories'=>$categories,
+			'filterForm'=>$filterForm->createView()
 		));
 	}
 
@@ -94,14 +97,13 @@ class ProductController extends Controller {
 	 */
 	public function createNewProductAction(Request $request){
 		$product = new Product();
-		$categories = $this->categoryService->getAllCategoriesOrderByParentChildren();
 		$form = $this->createForm(ProductType::class,$product);
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()){
 			try {
 				$ids = explode(',',$request->request->get('image_ids'));
-				$images =  $this->imageService->findImagesByIds($ids);
+				$images =  $this->imageService->findImagesByIds($ids)->getResult();
 				$this->addFlash('success',$this->productService->createProduct( $product , $images ));
 				return $this->redirectToRoute( 'list_all_products' );
 			}catch (\Exception $e){
@@ -110,9 +112,9 @@ class ProductController extends Controller {
 			}
 		}
 
-		return $this->render('@Shop/product/create_product.html.twig',
-			['form'=>$form->createView(),'categories'=>$categories]
-		);
+		return $this->render('@Shop/product/create_product.html.twig',array(
+			'form'=>$form->createView()
+		));
 	}
 	
 
@@ -129,7 +131,7 @@ class ProductController extends Controller {
 
 		if($form->isSubmitted() && $form->isValid()){
 			try{
-				$this->addFlash('success',$this->productService->editProduct($product));
+				$this->addFlash('success',$this->productService->editProduct($product,$this->getImagesByIds($request)));
 				return $this->redirectToRoute('list_all_products');
 			} catch (\Exception $e){
 				$this->addFlash('error',$e->getMessage());
@@ -138,6 +140,7 @@ class ProductController extends Controller {
 		}
 
 		return $this->render( '@Shop/product/edit_product.html.twig',array(
+			'product'=>$product,
 			'form'=>$form->createView()
 		));
 	}
@@ -158,5 +161,15 @@ class ProductController extends Controller {
 				$this->addFlash('danger',$e->getMessage());
 			}
 		return $this->redirectToRoute('list_all_products');
+	}
+
+	/**
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
+	private function getImagesByIds(Request $request){
+		$ids = explode(',',$request->request->get('image_ids'));
+		return  $this->imageService->findImagesByIds($ids)->getResult();
 	}
 }
