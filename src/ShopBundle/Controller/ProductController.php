@@ -3,7 +3,6 @@
 namespace ShopBundle\Controller;
 
 use AppBundle\Form\FilterType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use ShopBundle\Entity\ProductImage;
 use ShopBundle\Services\CategoryServiceInterface;
 use ShopBundle\Services\ImageServiceInterface;
@@ -148,12 +147,11 @@ class ProductController extends Controller {
 
 	/**
 	 * @param Product $product
-	 * @param Request $request
 	 *
 	 * @Route("delete/{slug}",name="delete_product")
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
-	public function deleteProductAction(Product $product,Request $request){
+	public function deleteProductAction(Product $product){
 			try{
 				$this->addFlash('success',$this->productService->removeProduct($product));
 				return $this->redirectToRoute('list_all_products');
@@ -171,5 +169,22 @@ class ProductController extends Controller {
 	private function getImagesByIds(Request $request){
 		$ids = explode(',',$request->request->get('image_ids'));
 		return  $this->imageService->findImagesByIds($ids)->getResult();
+	}
+
+	/**
+	 * @Route("detach_images/{id}",name="detach_images")
+	 * @param Product $product
+	 * @param Request $request
+	 *
+	 * @return Response
+	 */
+	public function detachProductImages(Product $product,Request $request){
+		$imgId = $request->request->get('id');
+
+		$image = $this->getDoctrine()->getRepository(ProductImage::class)->find($imgId);
+		$product->removeImage($image);
+		$this->getDoctrine()->getManager()->flush();
+
+		return new Response($image->getPath());
 	}
 }

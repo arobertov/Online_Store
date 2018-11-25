@@ -413,7 +413,11 @@ class Product
 	 * @param ProductImage $image
 	 */
 	public function removeImage(ProductImage $image){
+		if(!$this->images->contains($image)){
+			return;
+		}
 		$this->images->removeElement($image);
+		$image->removeProduct($this);
 	}
 
 }

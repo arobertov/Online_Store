@@ -48,7 +48,8 @@
                                 <div class="card-body">
                                     <p class="card-text" style="font-size: 0.8rem">{{ image.path }}</p>
                                 </div>
-                                <img src="{{ asset('images/admin_panel/close-browser.png') }}" class="close-image-icon" alt="close-image" data-id="{{ image.id }}">
+                                <img src="{{ asset('images/admin_panel/close-browser.png') }}" class="close-image-icon" alt="close-image"
+                                     data-id="{{ image.id }}" data-product="{{ product.id }}"/>
                             </div>
                         </div>
                     {% endfor %}
