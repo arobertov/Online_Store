@@ -146,8 +146,16 @@ class ProductRepository extends EntityRepository
 
 	}
 
+	/**
+	 * @param Product $product
+	 * @param ProductImage $image
+	 */
 	public function removeImages(Product $product,ProductImage $image){
 		$product->removeImage($image);
 		$this->em->flush();
+	}
+
+	public function getEm(){
+		return $this->em;
 	}
 }

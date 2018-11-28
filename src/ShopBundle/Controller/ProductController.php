@@ -130,7 +130,7 @@ class ProductController extends Controller {
 
 		if($form->isSubmitted() && $form->isValid()){
 			try{
-				$this->addFlash('success',$this->productService->editProduct($product,$this->getImagesByIds($request)));
+				$this->addFlash('success',$this->productService->editProduct($product,explode(',',$request->request->get('image_ids'))));
 				return $this->redirectToRoute('list_all_products');
 			} catch (\Exception $e){
 				$this->addFlash('error',$e->getMessage());

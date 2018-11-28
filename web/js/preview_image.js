@@ -1,26 +1,50 @@
 $(document).ready(function () {
+    $.fn.hasHandlers = function(events,selector) {
+        var result=false;
+
+        this.each(function(i){
+            var elem = this;
+            dEvents = $._data($(this).get(0), "events");
+            if (!dEvents) {return false;}
+            $.each(dEvents, function(name, handler){
+                if((new RegExp('^(' + (events === '*' ? '.+' : events.replace(',','|').replace(/^on/i,'')) + ')$' ,'i')).test(name)) {
+                    $.each(handler,
+                        function(i,handler){
+                            if (handler.selector===selector)
+                                result=true;
+                        });
+                }
+            });
+        });
+        return result;
+    };
     let imageId = [];
     /* ------ Select images from modal list ------------- */
-    $('.card').click(function () {
-        let imageCard = $(this).parent().clone();
-        let dataId = $(this).data('id');
-        let imagesFormField = $('#product-form-img').find(`div[data-id=${dataId}]`);
-        /* ------- Create close button and attach event ----------------- */
-        let closeButton = $(`<img src="/images/admin_panel/close-browser.png" data-id="${dataId}" class="close-image-icon" alt="close-image"/>`);
-        closeButton.click(function () {
-            $(this).parent().parent().fadeOut('3000').remove();
-        });
+    $('.modal').on('show.bs.modal', function (e) {
+        $('.card').click(function () {
+            let imageCard = $(this).parent().clone();
+            let dataId = $(this).data('id');
+            let imagesFormField = $('#product-form-img').find(`div[data-id=${dataId}]`);
+            /* ------- Create close button and attach event ----------------- */
+            let closeButton = $(`<img src="/images/admin_panel/close-browser.png" data-id="${dataId}" class="close-image-icon" alt="close-image"/>`);
+            closeButton.click(function () {
+                $(this).parent().parent().fadeOut('3000').remove();
+            });
 
-        $(this).find('.check-icon').toggle('1000');
-        $(this).toggleClass('check-shadow');
-        /* ------- Load images into create product form ------------ */
-        if(imagesFormField.length === 0){
-            imageCard.children().append(closeButton);
-            imageCard.appendTo('#product-form-img');
-        } else {
-            imagesFormField.parent().fadeOut().remove();
-        }
+            $(this).find('.check-icon').toggle('1000');
+            $(this).toggleClass('check-shadow');
+            /* ------- Load images into create product form ------------ */
+            if(imagesFormField.length === 0){
+                imageCard.children().append(closeButton);
+                imageCard.appendTo('#product-form-img');
+            } 
+        });
     });
+
+    $('.modal').on('hide.bs.modal', function (e){
+      $('.card').unbind();
+    });
+    
 
     $('.close-image-icon').click(function () {
         detachImage($(this));
@@ -33,11 +57,10 @@ $(document).ready(function () {
             data:'id='+dataId,
             url: '../detach_images/'+closeBtn.data('product'),
             success: function (e) {
-                console.log(e.toString());
-                $(this).parent().parent().fadeOut('3000').remove();
+                closeBtn.parent().parent().remove();
             },
-            error:function(msg){
-               console.log(msg)
+            error:function(xhr, status, error){
+               alert('Unable detach image ! ' + error)
             }
         })
     }

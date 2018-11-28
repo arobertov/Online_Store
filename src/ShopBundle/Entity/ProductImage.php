@@ -130,6 +130,17 @@ class ProductImage
 	}
 
 	/**
+	 * @param Product $product
+	 */
+	public function removeProduct(Product $product){
+		if(!$this->products->contains($product)){
+			return;
+		}
+		$this->products->removeElement($product);
+		$product->removeImage($this);
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getDateUpload(): \DateTime {
@@ -181,16 +192,5 @@ class ProductImage
 	 */
 	public function getCategory() {
 		return $this->category;
-	}
-
-	/**
-	 * @param Product $product
-	 */
-	public function removeProduct(Product $product){
-		if(!$this->products->contains($product)){
-			return;
-		}
-		$this->products->removeElement($product);
-		$product->removeImage($this);
 	}
 }

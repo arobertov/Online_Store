@@ -14,6 +14,7 @@ use Knp\Component\Pager\Paginator;
 use ShopBundle\Entity\Product;
 use ShopBundle\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 class ProductService implements ProductServiceInterface {
 
@@ -73,11 +74,17 @@ class ProductService implements ProductServiceInterface {
 	 */
 	public function editProduct( Product $product,array $images) {
 		try {
-			foreach ($images as $image){
-				$product->addImage($image);
+			$em = $this->productRepository->getEm();
+			foreach ($images as $imageId){
+				$imageReference = $em->getReference('ShopBundle:ProductImage',$imageId);
+				$product->removeImage($imageReference);
+				$product->addImage($imageReference);
 			}
 
-			return $this->productRepository->updateProduct( $product );
+			dump($product);
+			$em->persist($product);
+			$em->flush();
+			return $product->getTitle() . ' edit successful !';
 		}catch (\Exception $e){
 			throw new \Exception($e->getMessage());
 		}

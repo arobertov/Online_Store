@@ -400,17 +400,24 @@ class Product
 		return $this->images;
 	}
 
-
-	/**
-	 * @param ProductImage $image
-	 */
-	public function addImage(ProductImage $image){
-		  $image->addProduct($this);
-		  $this->images[] = $image;
+	public function setImages($images){
+		$this->images = new ArrayCollection($images);
 	}
 
 	/**
 	 * @param ProductImage $image
+	 *
+	 * @return $this
+	 */
+	public function addImage(ProductImage $image){
+		$this->images[] = $image;
+		$image->addProduct($this);
+		return $this;
+	}
+
+	/**
+	 * @param ProductImage $image
+	 *
 	 */
 	public function removeImage(ProductImage $image){
 		if(!$this->images->contains($image)){
