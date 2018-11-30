@@ -1,34 +1,46 @@
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>Login Block</h3>
-    </div>
-    <div class="modal-body">
+<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">User Login</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="err_message" class="alert alert-danger" role="alert"></div>
 
-        <div id="err_message" class="alert alert-error"></div>
+                <form action="{{ path('login') }}"  method="post" name="form_login" id="formLoginModal">
+                    <div class="form-group">
+                        <label for="login-username">Username:</label>
+                        <input class="form-control" type="text" id="login-username" name="_username" required="required" /><br/>
 
-        
-        <form action="{{ path('login') }}"  method="post" name="form_login" id="formLoginModal">
-            <label for="username">Username:</label>
-            <input type="text" id="login-username" name="_username" required="required"  /><br/>
+                        <label for="login-password">Password:</label>
+                        <input class="form-control" type="password" id="login-password" name="_password" required="required"/><br/>
 
-            <label for="password">Password:</label>
-            <input type="password" id="login-password" name="_password" required="required"/><br/>
+                        <input class="form-group form-check" type="checkbox" id="login-remember_me" name="_remember_me" checked/>
+                        <label for="login-remember_me">Remember me !</label><br/>
 
-            <input type="checkbox" id="login-remember_me" name="_remember_me" checked/>
-            <label for="remember_me">Remember me !</label><br/>
+                        <input type="hidden" name="_csrf_token" id="login-csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+                    </div>
 
-            <input type="hidden" name="_csrf_token" id="login-csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
+                    <button class="btn btn-success" type="submit">Login !</button>
+                    <button class="btn btn-default" type="button" aria-hidden="true" data-dismiss="modal">Cancel</button>
 
-            <button class="btn btn-success" type="submit">Login !</button>
-            <button class="btn btn-default" type="button" aria-hidden="true" data-dismiss="modal">Cancel</button>
-        </form>
-
-        <p>
-            <span class="form-links"><a href="{{ path('forgot_password') }}">Forgot your password !</a></span>
-            <span class="form-links"><a href="{{ path('user_register') }}">Registration !</a></span>
-        </p>
+                </form>
+            </div>
+            <div class="modal-footer m-auto">
+                <div class="container" >
+                    <a href="{{ path('forgot_password') }}">
+                        <span><button type="button" class="btn btn-outline-secondary">Forgot Password</button></span>
+                    </a>
+                    <a href="{{ path('user_register') }}">
+                        <span><button type="button" class="btn btn-outline-secondary">Registration</button></span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

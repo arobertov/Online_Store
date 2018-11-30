@@ -1,62 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <style>
-        td {
-            padding: 10px ;
-        }
-    </style>
-<div class="span9">
-    
+<div class="col-md-9">
+    <h4>Latest Products </h4>
+    <div class="row">
+            {% for product in products  %}
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="card mb-3">
+                        {% for image in product.images %}
+                            {% if loop.first %}
+                                <div class="product-img mx-auto">
+                                <a href="{{ asset('images/product_images/'~image.path) }}">
+                                    <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}?text=Image cap" alt="{{ image.path }}"/>
+                                </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ product.title[:20] }}</h5>
+                                <p class="card-text">
+                                    {{ product.description[:20] }}
+                                </p>
 
-    <ul class="breadcrumb">
-        <li><a href="{{ path('home_page') }}">Home</a> <span class="divider">/</span></li>
-        <li class="active">Product List</li>
-    </ul>
-
-    {%  include('@Shop/notice.html.twig') %}
-    
-    <table border="1">
-        <tr>
-            <th>id</th>
-            <th>title</th>
-            <th>description</th>
-            <th>QTY</th>
-            <th>pictures</th>
-            <th>promotion</th>
-            {% if is_granted('ROLE_EDITOR') %}
-                <th>action</th>
-            {% endif %}
-        </tr>
-    {% for product in products  %}
-        <tr>
-            <td>{{ product.id }}</td>
-            <td>{{ product.title }}</td>
-            <td>{{ product.description }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{% for image in product.images %}
-                    <div class="list_product_thumb">
-                        <img src="{{ asset('images/product_images/'~image.path) }}" alt="">
+                                <h4 style="text-align:center">
+                                    <a class="btn btn-outline-secondary btn-sm" href="product_details.html"><i class="icon-zoom-in"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="#"><strong>Add to &nbsp;<i class="icon-shopping-cart"></i></strong></a>
+                                    <a class="btn btn-primary btn-sm" href="#">$ {{ product.price }}</a>
+                                </h4>
+                        </div>
                     </div>
-                {% endfor %}
-            </td>
-            <td> {% if product.promotion is null %}
-                    Without promotion !
-                 {% else %}
-                     {{ product.promotion.title }}
-                {% endif %}
-            </td>
-            {% if is_granted('ROLE_EDITOR') %}
-            <td>
-                <a type="button" class="btn btn-small btn-warning " href="{{ path('edit_product',{'slug':product.slug}) }}">Edit !</a>
-                <button  type="button" data-id="{{ product.slug }}" class="btn-small btn-danger" data-toggle="modal" data-target="#deleteProductModal">
-                    Delete !
-                </button>
-            </td>
-            {% endif %}
-        </tr>
-    {% endfor %}
-    </table>
+                </div>
+            {% endfor %}
+    </div>
+
+
 </div>
     {% set caption = 'Delete product' %}
     {% set entityName = 'product' %}
@@ -64,7 +41,7 @@
 
 {% endblock %}
 
-{% block javascript %}
+{% block javascripts %}
 {{ parent() }}
 <script >
     var btn = $("[type='button']");

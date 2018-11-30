@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class ProductController
  * @package ShopBundle\Controller
  *
- * @Route("product/")
+ * @Route("/dashboard/product/")
  */
 class ProductController extends Controller {
 

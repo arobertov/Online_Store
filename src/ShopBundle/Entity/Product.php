@@ -30,7 +30,7 @@ class Product
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 2,
-     *      max = 40,
+     *      max = 60,
      *      minMessage = "Title must be at least {{ limit }} characters long",
      *      maxMessage = "Title cannot be longer than {{ limit }} characters"
      * )
@@ -61,6 +61,13 @@ class Product
 	 * @ORM\Column(name="quantity", type="integer")
 	 */
     private $quantity;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="price", type="decimal",precision=8, scale=2 )
+	 */
+    private $price;
 
     /**
      * @var string|null
@@ -198,6 +205,26 @@ class Product
 
 		return $this;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getPrice(): string {
+		return $this->price;
+	}
+
+	/**
+	 * @param string $price
+	 *
+	 * @return Product
+	 */
+	public function setPrice( string $price ): Product  {
+		$this->price = $price;
+
+		return $this;
+	}
+
+
 
     /**
      * Set description.

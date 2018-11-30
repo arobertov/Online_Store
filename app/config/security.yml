@@ -43,7 +43,5 @@ security:
                   domain: ~
                   always_remember_me: true
     access_control:
-        - { path: ^/product, roles: ROLE_ADMIN }
-        - { path: ^/category, roles: ROLE_ADMIN }
-        - { path: ^/promotion, roles: ROLE_ADMIN }
+        - { path: ^/dashboard, roles: ROLE_ADMIN }
 

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class CategoryController
  * @package ShopBundle\Controller
  *
- * @Route("category/")
+ * @Route("dashboard/category/")
  */
 class CategoryController extends Controller {
 

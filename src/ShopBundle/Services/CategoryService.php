@@ -135,27 +135,40 @@ class CategoryService implements CategoryServiceInterface {
 	private function setTreeOptions(){
 		return $options = array(
 				'decorate' => true,
-				'rootOpen' => function($tree) {
-					if(count($tree) && ($tree[0]['lvl'] == 1)){
-						return '<ul>'.PHP_EOL;
+				'rootOpen' => '',
+				'rootClose' => '',
+				'childOpen' => function($tree) {
+					if(count($tree) && ($tree['lvl'] == 0)){
+						return '<div class="card">'.PHP_EOL.
+						            '<div class="card-header" id="heading-'.$tree['slug'].'">'.PHP_EOL.
+						                '<h5 class="mb-0">'.PHP_EOL.
+						                    '<button class="btn btn-link" type="button" data-toggle="collapse" 
+												data-target="#'.$tree['slug'].'" aria-expanded="true" aria-controls="'.$tree['slug'].'">'
+						                        . $tree['title'].
+						                    '</button>'.PHP_EOL.
+						                '</h5>'.PHP_EOL.
+						            '</div>'.PHP_EOL.
+						       '</div>'.PHP_EOL.
+						       '<div id="'.$tree['slug'].'" class="collapse show" aria-labelledby="heading-'.$tree['slug'].'" data-parent="#sideManu">'.PHP_EOL.
+						       '<div class="card-body">'
+							;
 					}
 
 				},
-				'rootClose' => function($tree) {
-					if(count($tree) && ($tree[0]['lvl'] == 1)){
-						return '</ul>'.PHP_EOL;
+				'childClose' => function($tree) {
+					if(count($tree) && ($tree['lvl'] == 0)){
+						return '</div>'.PHP_EOL.
+							'</div>'.PHP_EOL;
 					}
 				},
-				'childOpen' => '',
-				'childClose' => '',
 				'nodeDecorator' => function($node) {
-					$parentProductsCounter = 0;
-					if($node['lvl'] == 0) {
-						return '<li class="subMenu open"><a>' . $node['title'] . '('.$parentProductsCounter.')</a>'.PHP_EOL;
-					} else  return '<li><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
-					              .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
-				} )
-			;
+					if($node['lvl']!==0){
+						return '<li><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
+						       .$node['title'].' ('.count($node['products']).')</a></li>'.PHP_EOL;
+					}
+
+				}
+				);
 	}
 
 	/**

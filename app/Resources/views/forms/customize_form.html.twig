@@ -1,5 +1,4 @@
-{% extends 'bootstrap_4_horizontal_layout.html.twig' %}
-
+{% extends 'bootstrap_4_layout.html.twig' %}
 
 
 {% block checkbox_widget %}
@@ -24,12 +23,7 @@
     {{ parent() }}
 
     {% if required %}
-        <style>
-            label.required:after{
-                content: " * ";
-                color: red;
-            }
-        </style>
+        <style>label.required:after{content: " * ";color: red;}</style>
     {% endif %}
 {% endblock %}
 

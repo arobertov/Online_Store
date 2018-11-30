@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Promotion controller.
  *
- * @Route("promotion")
+ * @Route("/dashboard/promotion")
  */
 class PromotionController extends Controller
 {

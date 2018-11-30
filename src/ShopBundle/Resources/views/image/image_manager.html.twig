@@ -31,8 +31,12 @@
                         <tr class="image-list">
                             <td><input type="checkbox" name="image-check" class="delete-image" value="{{ image.id }}"></td>
                             <td>
-                                <div class="images_thumb">
-                                    <img src="/images/product_images/{{ image.path }}" alt="{{ image.path }}">
+                                <div class="gallery">
+                                    <a href="/images/product_images/{{ image.path }}">
+                                        <div class="images_thumb">
+                                            <img class="img-thumbnail" src="/images/product_images/{{ image.path }}" alt="{{ image.path }}">
+                                        </div>
+                                    </a>
                                 </div>
                             </td>
                             <td>
@@ -96,6 +100,9 @@
     {{ parent() }}
     <script>
         $(document).ready(function () {
+
+            let gallery = $('.gallery a').simpleLightbox();
+
             $('#images-menu-link').tab('show');
             $('#check-all').click(function () {
                 let ckbox = $('input:checkbox');
@@ -111,7 +118,7 @@
                 let form = $('#edit-category-form');
                 let dataID = $(this).data('id');
                 $('#shop_bundle_category_image_type_path').val(lnkText.data('name'));
-                form.attr('action', '/admin_panel/edit_image/' + dataID);
+                form.attr('action', '/dashboard/edit_image/' + dataID);
                 form.submit(function (e) {
                     let url = form.attr('action');
                     $.ajax({
@@ -133,7 +140,7 @@
                 let form = $('#edit-category-form');
                 let dataID = $(this).data('id');
                 $('#shop_bundle_category_image_type_path').val(lnkText.data('name'));
-                form.attr('action', '/admin_panel/edit_image/' + $(this).data('id'));
+                form.attr('action', '/dashboard/edit_image/' + $(this).data('id'));
                 form.submit(function (e) {
                     let url = form.attr('action');
                     $.ajax({
@@ -157,7 +164,7 @@
                 let checkedValues = $('input[name="image-check"]:checked').map(function() {
                     return this.value;
                 }).get();
-                $(`<form action="/admin_panel/delete_image" method="POST"><input type="hidden" name="ids" value="${checkedValues}">`).appendTo(document.body).submit();
+                $(`<form action="/dashboard/delete_image" method="POST"><input type="hidden" name="ids" value="${checkedValues}">`).appendTo(document.body).submit();
                 console.log(checkedValues);
             });
             $('input:checkbox').click(function () {

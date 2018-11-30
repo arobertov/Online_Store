@@ -1,4 +1,4 @@
-.list_product_thumb {
+.list_product_thumb >img {
     width: 40px;
     border: 1px solid #666666;
 }
@@ -104,6 +104,13 @@
 }
 
 /* body--- */
+.product-img{
+    padding: 1rem;
+    width: 10rem;
+    max-height: 10rem;
+    overflow: hidden;
+}
+
 .thumbnail > a {
     display: block;
     text-align: center

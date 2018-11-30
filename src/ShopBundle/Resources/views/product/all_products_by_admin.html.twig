@@ -25,9 +25,13 @@
                 <td>{{ product.category }}</td>
                 <td>
                     {% for image in product.images %}
+                    <div class="gallery">
+                        <a href="{{ asset('images/product_images/'~image.path) }}">
                         <div class="images_thumb">
-                            <img src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
+                            <img class="img-thumbnail" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
                         </div>
+                        </a>
+                    </div>
                     {% endfor %}
                 </td>
                 <td>{{ product.quantity }}</td>
@@ -72,6 +76,9 @@
     {{ parent() }}
     <script>
         $(document).ready(function () {
+
+            let gallery = $('.gallery a').simpleLightbox();
+
             $('#products-menu-link').tab('show');
             $('#all_products_tab').tab('show').click(function () {
                 $(this).tab('show');

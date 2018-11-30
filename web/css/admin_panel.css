@@ -48,7 +48,6 @@ table .child-tr {
 .images_thumb {
     display: inline-block;
     width: 50px;
-    border: 1px solid #777;
     padding: 1px;
     overflow: hidden;
     text-align: center;

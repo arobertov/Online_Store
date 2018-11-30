@@ -43,7 +43,7 @@ class ImageController extends Controller {
 
 	/**
 	 * @param Request $request
-	 * @Route("/admin_panel/image_manager",name="image_manager")
+	 * @Route("/dashboard/image_manager",name="image_manager")
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws \Exception
@@ -88,7 +88,7 @@ class ImageController extends Controller {
 	}
 
 	/**
-	 * @Route("/admin_panel/edit_image/{id}",name="edit_image")
+	 * @Route("/dashboard/edit_image/{id}",name="edit_image")
 	 * @param ProductImage $image
 	 * @param Request $request
 	 *
@@ -118,7 +118,7 @@ class ImageController extends Controller {
 	}
 
 	/**
-	 * @Route("/admin_panel/delete_image",name="delete_image")
+	 * @Route("/dashboard/delete_image",name="delete_image")
 	 * @Method({"POST"})
 	 * @param Request $request
 	 * @return Response
