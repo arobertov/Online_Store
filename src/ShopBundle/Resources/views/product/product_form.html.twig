@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-12">
+        {%   include('@Shop/product/nav_product.html.twig') %}
+        <div class="jumbotron">
+            {{ form_start(form,{'legend':false}) }}
+            {{ form_row(form.title) }}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form_row(form.quantity) }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form_row(form.price) }}
+                </div>
+            </div>
+            {{ form_row(form.description) }}
+            {{ form_row(form.features) }}
+            {{ form_row(form.information) }}
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ form_row(form.rating) }}
+                </div>
+                <div class="form-group col-md-4 ">
+                    {{ form_row(form.category) }}
+                    <button type="button" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus-circle"></i> Add category
+                    </button>
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form_row(form.promotion) }}
+                    <button type="button" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus-circle"></i> Add promotion
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group row" id="product-form-img">
+                {% if product is defined %}
+                {% for image in product.images %}
+                    <div class="col-sm-6 col-md-4 col-lg-2 filter Huawey" data-id="Mobile Phone">
+                        <div class="card " style="width: 120px;" data-id="{{ image.id }}" data-path="{{ image.path }}">
+                            <div class="card-header">
+                                <div class="attach-images">
+                                    <img class="card-img-top" src="/images/product_images/{{ image.path }}" alt="{{ image.path }}">
+                                    <span class="check-icon" data-feather="check-square"></span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text" style="font-size: 0.8rem">{{ image.path }}</p>
+                            </div>
+                            <div class="close-image-icon" data-id="{{ image.id }}" data-product="{{ product.id }}">
+                                <i class="far fa-window-close fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <button type="button" class="btn btn-primary btn-sm float-left" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        <i class="fas fa-plus-circle"></i> Add images
+                    </button>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4 align-content-lg-center">
+                    <button type="submit" class="btn btn-success btn-lg" id="submit-product-form">
+                        <i class="fas fa-plus-circle"></i> Submit
+                    </button>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+</div>

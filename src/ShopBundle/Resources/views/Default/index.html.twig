@@ -9,7 +9,7 @@
                     <div class="card mb-3">
                         {% for image in product.images %}
                             {% if loop.first %}
-                                <div class="product-img mx-auto">
+                                <div class="product-img mx-auto" id="gallery">
                                 <a href="{{ asset('images/product_images/'~image.path) }}">
                                     <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}?text=Image cap" alt="{{ image.path }}"/>
                                 </a>

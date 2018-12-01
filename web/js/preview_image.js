@@ -26,7 +26,7 @@ $(document).ready(function () {
             let dataId = $(this).data('id');
             let imagesFormField = $('#product-form-img').find(`div[data-id=${dataId}]`);
             /* ------- Create close button and attach event ----------------- */
-            let closeButton = $(`<img src="/images/admin_panel/close-browser.png" data-id="${dataId}" class="close-image-icon" alt="close-image"/>`);
+            let closeButton = $(`<div class="close-image-icon" data-id="${dataId}"><i class="far fa-window-close fa-lg"></i></div>`);
             closeButton.click(function () {
                 $(this).parent().parent().fadeOut('3000').remove();
             });

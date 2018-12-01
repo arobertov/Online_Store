@@ -159,19 +159,9 @@
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script src="{{ asset('themes/js/google-code-prettify/prettify.js') }}"></script>
-    <script src="{{ asset('themes/js/bootshop.js') }}"></script>
     <script src="{{ asset('themes/js/jquery.lightbox-0.5.js') }}"></script>
+    <script src="{{ asset('themes/js/bootshop.js') }}"></script>
     <script src="{{ asset('themes/js/main.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            feather.replace();
-            function setActiveTab(tabId) {
-                $('#' + tabId).tab('show')
-            }
-        });
-
-    </script>
-
 {% endblock %}
 <!-- Themes switcher section ============================================================================================= -->
 </body>

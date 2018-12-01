@@ -105,14 +105,12 @@ table .child-tr {
     padding: 2px;
     border:1px solid #777;
 }
-img.close-image-icon {
+.close-image-icon {
     position: absolute;
     top: -8px;
     right: -8px;
     z-index: 100;
     cursor: pointer;
-    border: 1px solid #777;
-    border-radius: 2px;
     padding: 3px;
 }
 

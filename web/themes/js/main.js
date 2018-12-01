@@ -26,5 +26,11 @@ $(document).ready(function () {
             }
         });
     });
+    // ----- feather icons ------- //
+    feather.replace();
+
+    function setActiveTab(tabId) {
+        $('#' + tabId).tab('show')
+    }
 });
 

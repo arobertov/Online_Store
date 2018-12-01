@@ -3,10 +3,12 @@
 namespace ShopBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use ShopBundle\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,8 +22,11 @@ class ProductType extends AbstractType {
 
 		$builder->add( 'title', TextType::class )
 		        ->add( 'quantity', IntegerType::class )
+				->add('price',MoneyType::class,array(
+					'currency'=>'USD'
+				))
 		        ->add( 'description', TextType::class )
-		        ->add( 'features', TextareaType::class )
+		        ->add( 'features', CKEditorType::class,['config'=>['toolbar'=>'full']] )
 		        ->add( 'information', TextareaType::class )
 		        ->add( 'rating', IntegerType::class, array(
 			        'required' => false

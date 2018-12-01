@@ -65,6 +65,7 @@ class Product
 	/**
 	 * @var string
 	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="price", type="decimal",precision=8, scale=2 )
 	 */
     private $price;
@@ -209,7 +210,7 @@ class Product
 	/**
 	 * @return string
 	 */
-	public function getPrice(): string {
+	public function getPrice(): ?string{
 		return $this->price;
 	}
 

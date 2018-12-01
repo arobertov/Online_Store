@@ -20,6 +20,7 @@ class AppKernel extends Kernel
 	        new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 	        new Liip\ImagineBundle\LiipImagineBundle(),
 	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+	        new FOS\CKEditorBundle\FOSCKEditorBundle(),
             new AppBundle\AppBundle(),
             new ShopBundle\ShopBundle(),
         ];
