@@ -105,10 +105,19 @@
 
 /* body--- */
 .product-img{
-    padding: 1rem;
     width: 10rem;
-    max-height: 10rem;
-    overflow: hidden;
+    height: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-img img{
+    max-width: 9rem;
+    max-height: 9rem;
+    display: block;
+    margin: 0 auto;
 }
 
 .thumbnail > a {

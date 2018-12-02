@@ -92,6 +92,27 @@ class ProductRepository extends EntityRepository
 
 	}
 
+	/**
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function findProductsByPromotions(){
+		$em = $this->em;
+		$query = $em->createQueryBuilder()
+		            ->select('pt','pr')
+		            ->from('ShopBundle:Product','pt')
+		            ->join('pt.category','cat')
+		            ->leftJoin('pt.promotion','pr')
+					->where('pr.isActive=true')
+		            ->orderBy('pr.startDate','DESC')
+		            ->getQuery();
+		try{
+			return $query->getResult();
+		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
+
 	public function findProductsByCriteria($criteria){
 		$cr = Criteria::create()->where($criteria[0]);
 		

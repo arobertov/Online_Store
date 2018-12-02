@@ -26,7 +26,7 @@ class ProductType extends AbstractType {
 					'currency'=>'USD'
 				))
 		        ->add( 'description', TextType::class )
-		        ->add( 'features', CKEditorType::class,['config'=>['toolbar'=>'full']] )
+		        ->add( 'features', TextareaType::class )
 		        ->add( 'information', TextareaType::class )
 		        ->add( 'rating', IntegerType::class, array(
 			        'required' => false

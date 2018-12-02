@@ -67,7 +67,7 @@ assetic:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js'
         ckeditor:
             inputs:
-                - '%kernel.root_dir%/../web/bundles/fosckeditor/ckeditor.js'
+                - '%kernel.root_dir%/../node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js'
         bootstrap_css:
             inputs:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css'
@@ -129,3 +129,10 @@ knp_paginator:
         sortable: 'pagination/link-filtering.html.twig' # sort link template
         filtration: 'pagination/filtration.html.twig'  # filters template
 
+fos_ck_editor:
+    configs:
+        my_config:
+            toolbar: 'full'
+    jquery: true
+    base_path: "bundles/fosckeditor/"
+    js_path:   "bundles/fosckeditor/ckeditor.js"

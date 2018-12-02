@@ -31,13 +31,16 @@ class HomepageController extends Controller
     public function indexAction()
     {
     	try {
-		    $products = $this->productService->getAllProducts();
+		    $latestProducts = $this->getDoctrine()->getRepository('ShopBundle:Product')
+		                                          ->findBy([],['dateEdit'=>'DESC'],6);
+		    $featuredProducts = $this->productService->getProductsByPromotions();
 	    }catch (\Exception $e){
     		$this->addFlash('error',$e->getMessage());
-    		$products = [];
+    		$latestProducts=[];
 	    }
         return $this->render('@Shop/Default/index.html.twig', [
-        	'products'=>$products
+        	'featuredProducts'=>$featuredProducts,
+        	'latestProducts'=>$latestProducts
         ] );
     }
 

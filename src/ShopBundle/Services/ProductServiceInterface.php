@@ -23,4 +23,6 @@ interface ProductServiceInterface {
 	public function getAllProducts();
 
 	public function getAllProductsByCategory($category);
+
+	public function getProductsByPromotions();
 }

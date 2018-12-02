@@ -145,4 +145,15 @@ class ProductService implements ProductServiceInterface {
 		}
 	}
 
+	/**
+	 * @throws \Exception
+	 */
+	public function getProductsByPromotions(){
+		try{
+			return $this->productRepository->findProductsByPromotions();
+		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
+
 }

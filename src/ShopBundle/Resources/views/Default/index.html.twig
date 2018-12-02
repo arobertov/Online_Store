@@ -2,16 +2,47 @@
 
 {% block body %}
 <div class="col-md-9">
+    <h4>Featured Products</h4>
+    <div class="row">
+        {% for product in featuredProducts  %}
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card mb-3">
+                {% for image in product.images %}
+                    {% if loop.first %}
+                        <div class="product-img mx-auto" id="gallery">
+                            <a href="{{ asset('images/product_images/'~image.path) }}">
+                                <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ product.title[:20] }}</h5>
+                    <p class="card-text">
+                        {{ product.description[:20] }}
+                    </p>
+
+                    <h4 style="text-align:center">
+                        <a class="btn btn-outline-secondary btn-sm" href="product_details.html"><i class="icon-zoom-in"></i></a>
+                        <a class="btn btn-outline-secondary btn-sm" href="#"><strong>Add to &nbsp;<i class="icon-shopping-cart"></i></strong></a>
+                        <a class="btn btn-primary btn-sm" href="#">$ {{ product.price }}</a>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
     <h4>Latest Products </h4>
     <div class="row">
-            {% for product in products  %}
+            {% for product in latestProducts  %}
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card mb-3">
                         {% for image in product.images %}
                             {% if loop.first %}
                                 <div class="product-img mx-auto" id="gallery">
                                 <a href="{{ asset('images/product_images/'~image.path) }}">
-                                    <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}?text=Image cap" alt="{{ image.path }}"/>
+                                    <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
                                 </a>
                                 </div>
                             {% endif %}
