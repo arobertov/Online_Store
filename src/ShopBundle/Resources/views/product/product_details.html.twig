@@ -1,0 +1,6 @@
+{% extends 'admin_panel.html.twig' %}
+
+{% block admin_body %}
+    <p>{{ product.title }}</p>
+    <div>{{ product.features|raw }}</div>
+{% endblock %}

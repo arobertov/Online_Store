@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,9 +24,15 @@ class ProductType extends AbstractType {
 				->add('price',MoneyType::class,array(
 					'currency'=>'USD'
 				))
-		        ->add( 'description', TextType::class )
-		        ->add( 'features', TextareaType::class )
-		        ->add( 'information', TextareaType::class )
+		        ->add( 'description', TextType::class,array(
+		        	'required'=>false
+		        ) )
+		        ->add( 'features', CKEditorType::class,array(
+			        'required'=>false
+		        ) )
+		        ->add( 'information', CKEditorType::class,array(
+			        'required'=>false
+		        ) )
 		        ->add( 'rating', IntegerType::class, array(
 			        'required' => false
 		        ) )

@@ -130,9 +130,7 @@ knp_paginator:
         filtration: 'pagination/filtration.html.twig'  # filters template
 
 fos_ck_editor:
+    default_config: my_config
     configs:
         my_config:
-            toolbar: 'full'
-    jquery: true
-    base_path: "bundles/fosckeditor/"
-    js_path:   "bundles/fosckeditor/ckeditor.js"
+            toolbar: standard

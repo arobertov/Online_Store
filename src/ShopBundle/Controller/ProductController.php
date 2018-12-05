@@ -115,7 +115,19 @@ class ProductController extends Controller {
 			'form'=>$form->createView()
 		));
 	}
-	
+
+
+	/**
+	 * @param Product $product
+	 *
+	 * @Route("show_details/{slug}",name="show_product")
+	 * @return Response
+	 */
+	public function showProductDetailsAction(Product $product){
+		return $this->render('@Shop/product/product_details.html.twig',array(
+			'product'=>$product
+		));
+	}
 
 	/**
 	 * @param Product $product
