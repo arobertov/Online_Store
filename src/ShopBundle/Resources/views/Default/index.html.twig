@@ -1,51 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% set start = 0%}
 <div class="col-md-9">
-    <h4>Featured Products</h4>
-    <div class="row">
-        {% for product in featuredProducts  %}
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="card mb-3">
-                {% for image in product.images %}
-                    {% if loop.first %}
-                        <div class="product-img mx-auto" id="gallery">
-                            <a href="{{ asset('images/product_images/'~image.path) }}">
-                                <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
-                            </a>
+        <div class="jumbotron">
+			<h4>Featured Products <small class="pull-right">200+ featured products</small></h4>
+			    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+			        <div class="carousel-inner">
+                        {% for start in  0..featuredProducts|length/3 %}
+                        <div class="carousel-item{{ loop.index==1?' active':'' }}">
+                            <div class="row">
+                            {% for product in featuredProducts|slice(start,start+3)  %}
+                                    <div class="col-md-3">
+                                        <div class="img-thumbnail w-100 h-100">
+                                            {% for image in product.images %}
+                                                {% if loop.first %}
+                                                    <a href="{{ path('show_product',{'slug':product.slug}) }}">
+                                                        <img class="img-fluid" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <div class="caption">
+                                                  <h5>{{ product.title }}</h5>
+                                                  <h4><a class="btn btn-light" href="{{ path('show_product',{'slug':product.slug}) }}">VIEW</a> <span class="pull-right">$222.00</span></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                            {% endfor %}
+                            </div>
                         </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{ product.title[:20] }}</h5>
-                    <p class="card-text">
-                        {{ product.description[:20] }}
-                    </p>
+                        {% endfor %}
 
-                    <h4 style="text-align:center">
-                        <a class="btn btn-outline-secondary btn-sm" href="product_details.html"><i class="icon-zoom-in"></i></a>
-                        <a class="btn btn-outline-secondary btn-sm" href="#"><strong>Add to &nbsp;<i class="icon-shopping-cart"></i></strong></a>
-                        <a class="btn btn-primary btn-sm" href="#">$ {{ product.price }}</a>
-                    </h4>
+                    </div>
                 </div>
-            </div>
         </div>
-        {% endfor %}
 
-    </div>
     <h4>Latest Products </h4>
     <div class="row">
             {% for product in latestProducts  %}
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card mb-3">
-                        {% for image in product.images %}
-                            {% if loop.first %}
-                                <div class="product-img mx-auto" id="gallery">
+                        {% for image in product.images|slice(0,1) %}
+                            <div class="product-img mx-auto" id="gallery">
                                 <a href="{{ asset('images/product_images/'~image.path) }}">
                                     <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
                                 </a>
-                                </div>
-                            {% endif %}
+                            </div>
                         {% endfor %}
                         <div class="card-body">
                             <h5 class="card-title text-center">{{ product.title[:20] }}</h5>

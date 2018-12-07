@@ -66,6 +66,7 @@ class Product
 	 * @var string
 	 *
 	 * @Assert\NotBlank()
+	 * @Assert\GreaterThan(0)
 	 * @ORM\Column(name="price", type="decimal",precision=8, scale=2 )
 	 */
     private $price;
