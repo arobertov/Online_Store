@@ -104,7 +104,7 @@ class ProductRepository extends EntityRepository
 		            ->join('pt.category','cat')
 		            ->leftJoin('pt.promotion','pr')
 					->where('pr.isActive=true')
-		            ->orderBy('pr.startDate','DESC')
+		            ->orderBy('pr.discount','DESC')
 		            ->getQuery();
 		try{
 			return $query->getResult();

@@ -67,7 +67,8 @@ assetic:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js'
         ckeditor:
             inputs:
-                - '%kernel.root_dir%/../node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js'
+                - '%kernel.root_dir%/../web/bundles/fosckeditor/ckeditor.js'
+                - '%kernel.root_dir%/../web/bundles/fosckeditor/config.js'
         bootstrap_css:
             inputs:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css'

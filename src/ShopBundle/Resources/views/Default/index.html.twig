@@ -2,30 +2,51 @@
 
 {% block body %}
     {% set start = 0%}
+    {% set end = 4 %}
 <div class="col-md-9">
         <div class="jumbotron">
-			<h4>Featured Products <small class="pull-right">200+ featured products</small></h4>
+			<h4>Featured Products</h4>
 			    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 			        <div class="carousel-inner">
-                        {% for start in  0..featuredProducts|length/3 %}
+                        {% for start in  0..featuredProducts|length/4 %}
                         <div class="carousel-item{{ loop.index==1?' active':'' }}">
                             <div class="row">
-                            {% for product in featuredProducts|slice(start,start+3)  %}
-                                    <div class="col-md-3">
-                                        <div class="img-thumbnail w-100 h-100">
-                                            {% for image in product.images %}
-                                                {% if loop.first %}
-                                                    <a href="{{ path('show_product',{'slug':product.slug}) }}">
-                                                        <img class="img-fluid" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
-                                                    </a>
+                            {% for product in featuredProducts|slice(start,end)  %}
+                                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
+                                    <div class="badge-promo">
+                                        <img  src="{{ asset('images/admin_panel/badge_promo.png') }}" alt="promo_img">
+                                        <p class="product-discount">{{ (product.promotion.discount*100) }}%</p>
+                                    </div>
+                                    <div class="card mb-1">
+                                        <div class="product-img mx-auto pt-2">
+                                            <a href="{{ path('show_product',{'slug':product.slug}) }}">
+                                                {% if product.firstImage == null %}
+                                                    <img class="card-img-top" src="{{ asset('images/admin_panel/no-image-icon-6.png') }}" alt="no-image-icon">
+                                                 {% else %}   
+                                                    <img class="card-img-top" src="{{ asset('images/product_images/'~product.firstImage.path) }}" alt="{{ product.firstImage.path }}"/>
                                                 {% endif %}
-                                            {% endfor %}
-                                            <div class="caption">
-                                                  <h5>{{ product.title }}</h5>
-                                                  <h4><a class="btn btn-light" href="{{ path('show_product',{'slug':product.slug}) }}">VIEW</a> <span class="pull-right">$222.00</span></h4>
+                                            </a>
+                                        </div>
+                                        <div class="card-body" style="height: 100px">
+                                            <h5 class="promo-caption text-center">{{ product.title }}</h5>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                            <div class="col-md-12 col-lg-4 ">
+                                                <div class="view-product-btn">
+                                                    <a class="btn btn-info btn-sm" href="{{ path('show_product',{'slug':product.slug}) }}">VIEW</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-8 text-right">
+                                                {% if product.promotion != null%}
+                                                    <span class="promo-old-price" style="text-decoration: line-through">${{ product.price }}</span>
+                                                {% endif %}
+                                                <span class="promo-new-price">${{product.promotion!=null?product.discount:product.price }}</span>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             {% endfor %}
                             </div>
                         </div>
@@ -39,7 +60,7 @@
     <div class="row">
             {% for product in latestProducts  %}
                 <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="card mb-3">
+                    <div class="card mb-3 pt-1">
                         {% for image in product.images|slice(0,1) %}
                             <div class="product-img mx-auto" id="gallery">
                                 <a href="{{ asset('images/product_images/'~image.path) }}">

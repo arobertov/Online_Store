@@ -456,4 +456,27 @@ class Product
 		$image->removeProduct($this);
 	}
 
+	/**
+	 * @return mixed|null
+	 */
+	public function getFirstImage(){
+		if($this->images==null){
+			return null;
+		}
+
+		return $this->images[0];
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getDiscount(){
+		if($this->promotion==null){
+			return round($this->getPrice(),2);
+		}
+		$priceDiscount = $this->getPrice()-(($this->getPrice()*$this->getPromotion()->getDiscount()));
+
+		return round($priceDiscount,2);
+	}
+
 }

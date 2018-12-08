@@ -105,19 +105,48 @@
 
 /* body--- */
 .product-img{
-    width: 10rem;
-    height: 10rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .product-img img{
-    max-width: 9rem;
-    max-height: 9rem;
+    width: auto;
+    height: 100px;
+}
+
+.badge-promo {
+    position: absolute;
+    top:3px;
+    right: -5px;
+    z-index: 10;
+}
+
+.badge-promo>img  {
+    width: 3rem;
+    height: 3rem;
+}
+
+.product-discount{
+    position: relative;
+    top:-38px;
+    left:7px;
+    color: #f8f8f8;
+    font-size: 17px;
+    font-weight: bold;
+    z-index: 11;
+}
+
+.promo-caption {
+    color: #484848;
+    font-size: 18px;
+}
+
+.promo-old-price,.promo-new-price {
     display: block;
-    margin: 0 auto;
+}
+
+.view-product-btn {
+   vertical-align: middle;
 }
 
 .thumbnail > a {
