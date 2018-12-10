@@ -116,19 +116,6 @@ class ProductController extends Controller {
 		));
 	}
 
-
-	/**
-	 * @param Product $product
-	 *
-	 * @Route("show_details/{slug}",name="show_product")
-	 * @return Response
-	 */
-	public function showProductDetailsAction(Product $product){
-		return $this->render('@Shop/product/product_details.html.twig',array(
-			'product'=>$product
-		));
-	}
-
 	/**
 	 * @param Product $product
 	 * @param Request $request

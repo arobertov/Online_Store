@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Controller;
 
+use ShopBundle\Entity\Product;
 use ShopBundle\Services\ProductServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -43,6 +44,18 @@ class HomepageController extends Controller
         	'latestProducts'=>$latestProducts
         ] );
     }
+
+	/**
+	 * @param Product $product
+	 *
+	 * @Route("product/show_details/{slug}",name="show_product")
+	 * @return Response
+	 */
+	public function showProductDetailsAction(Product $product){
+		return $this->render('@Shop/product/product_details.html.twig',array(
+			'product'=>$product
+		));
+	}
 
 
 	/**

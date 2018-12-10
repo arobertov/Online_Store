@@ -25,53 +25,65 @@
         </ul>
         <div class="row">
             {% set countImg = product.images|length %}
-            <div id="gallery" class="col-md-3">
+            <div id="gallery" class="col-xl-4 col-lg-6 col-sm-12">
                 {% for image in product.images|slice(0,4) %}
                     {% if loop.index == 1 %}
                         <a href="{{ asset('images/product_images/'~image.path) }}" title="{{ product.title }}">
-                            <img src="{{ asset('images/product_images/'~image.path) }}" style="width:100%" alt="{{ image.path }}">
+                            <img class="img-thumbnail w-100" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}">
                         </a>
+                        <div class="my-2"></div>
+                        <div class="w-100 mx-auto">
                     {% else %}
+
                         {% if countImg > 1 %}
-                            <div class="product-img d-inline-block pt-1 border" style="width: 31%">
-                                <a href="{{ asset('images/product_images/'~image.path) }}" title="{{ image.path }}">
-                                    <img style="height:40px; " src="{{ asset('images/product_images/'~image.path) }}"  alt="{{ image.path }}">
-                                </a>
+                            <div class="d-inline-block">
+                                <div class="product-img img-thumbnail">
+                                    <a href="{{ asset('images/product_images/'~image.path) }}" title="{{ image.path }}">
+                                        <img style="height: 78px" src="{{ asset('images/product_images/'~image.path) }}"  alt="{{ image.path }}">
+                                    </a>
+                                </div>
                             </div>
                         {% endif %}
+
                     {% endif %}
                 {% endfor %}
-                <div class="btn-group" role="group" aria-label="Basic example">
-                        <span class="btn btn-light btn-sm"><i class="icon-envelope"></i></span>
-                        <span class="btn btn-light btn-sm"><i class="icon-print"></i></span>
-                        <span class="btn btn-light btn-sm"><i class="icon-zoom-in"></i></span>
-                        <span class="btn btn-light btn-sm"><i class="icon-star"></i></span>
-                        <span class="btn btn-light btn-sm"><i class=" icon-thumbs-up"></i></span>
-                        <span class="btn btn-light btn-sm"><i class="icon-thumbs-down"></i></span>
+                        </div>
+                <div class="text-center my-2">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary"><i class="icon-envelope"></i></button>
+                        <button type="button" class="btn btn-secondary "><i class="icon-print"></i></button>
+                        <button type="button" class="btn btn-secondary "><i class="icon-zoom-in"></i></button>
+                        <button type="button" class="btn btn-secondary "><i class="icon-star"></i></button>
+                        <button type="button" class="btn btn-secondary "><i class=" icon-thumbs-up"></i></button>
+                        <button type="button" class="btn btn-secondary "><i class="icon-thumbs-down"></i></button>
+                </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-xl-8 col-lg-6 col-sm-12 pl-2">
                 <h3>{{ product.title }} </h3>
-                <small>- {{ product.description[:15] }}...</small>
 
                 <hr >
 
+                <p>{{ product.description }}</p>
+
+                <hr>
                 <div class="row">
-                    <div class="col-lg-4 col-md-5 col-6 ">
-                        <span id="product-price">${{ product.price }}</span>
+                    <div class="col-md-5 col-6 ">
+                        <span id="product-price" {{ product.promotion!=null?'style="text-decoration: line-through"':'' }}>$ {{ product.price }}</span>
                     </div>
-                    <div class="col-lg-8 col-md-7 col-6 ">
-                        <form class="form-inline">
+                    <div class="col-md-7 col-6 ">
+                        <form class="form-inline float-right">
                             <input type="number" id="form-qty" class="form-control m-2" value="1" min="1" max="{{ product.quantity }}">
-                            <button type="submit" class="btn btn-large btn-primary float-right"> Add to cart <i class=" icon-shopping-cart"></i></button>
+                            <button type="submit" class="btn btn-primary m-2"> Add to cart <i class=" icon-shopping-cart"></i></button>
                         </form>
                     </div>
                 </div>
 
                 <hr>
+
                 <div class="row">
-                    <h4 class="col-md-4">{{ product.quantity }}{{ product.quantity<2?' item ':' items ' }}in stock</h4>
-                    <div class="col-md-8">
+                    <h4 class="col-md-5">{{ product.quantity }}{{ product.quantity<2?' item ':' items ' }}in stock</h4>
+                    <div class="col-md-7">
                         <form class="form-inline float-right">
                             <div class="form-group mx-sm-3 mb-2">
                                 <label class="mr-4 font-weight-bold" ><span>Color</span></label>
@@ -86,24 +98,23 @@
                     </div>
 
                 </div>
-                <hr class="soft clr">
-                <p>{{ product.description }}</p>
-                <a class="btn btn-small pull-right" href="#detail">More Details</a>
-                <br class="clr">
+
+
+                <br class="clearfix">
                 <a href="#" name="detail"></a>
-                <hr class="soft">
+                <hr>
             </div>
 
             <div class="col-md-12">
                 <ul id="productDetail" class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Related Products</a>
+                    <li class="nav-item ml-auto">
+                        <a class="nav-link text-secondary" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Related Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Product Details</a>
+                        <a class="nav-link active text-secondary" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Product Details</a>
                     </li>
                 </ul>
-                <div id="myTabContent" class="tab-content">
+                <div id="myTabContent" class="tab-content clearfix">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <h4>Product Information</h4>
                         {{ product.information|raw }}
@@ -372,7 +383,7 @@
                                 <hr class="soft">
                             </div>
                         </div>
-                        <br class="clr">
+                        <br class="clearfix">
                     </div>
                 </div>
             </div>
@@ -388,6 +399,8 @@
                 e.preventDefault();
                 $(this).tab('show');
             });
+
+
         })
     </script>
 {% endblock %}

@@ -67,6 +67,10 @@
                                     <img class="card-img-top" src="{{ asset('images/product_images/'~image.path) }}" alt="{{ image.path }}"/>
                                 </a>
                             </div>
+                        {% else %}
+                             <div class="product-img mx-auto">
+                                 <img class="card-img-top" src="{{ asset('images/admin_panel/no-image-icon-6.png') }}" alt="no-image-icon">
+                             </div>
                         {% endfor %}
                         <div class="card-body">
                             <h5 class="card-title text-center">{{ product.title[:20] }}</h5>
