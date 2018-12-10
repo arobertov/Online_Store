@@ -2,10 +2,12 @@
 
 namespace ShopBundle\Controller;
 
+use ShopBundle\Entity\PurchaseProduct;
 use ShopBundle\Entity\Product;
 use ShopBundle\Services\ProductServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomepageController extends Controller
@@ -51,9 +53,16 @@ class HomepageController extends Controller
 	 * @Route("product/show_details/{slug}",name="show_product")
 	 * @return Response
 	 */
-	public function showProductDetailsAction(Product $product){
+	public function showProductDetailsAction(Product $product,Request $request){
+		$purchaseProduct = new PurchaseProduct($product);
+		$cartForm = $this->createForm('ShopBundle\Form\CartType',$purchaseProduct);
+		$cartForm->handleRequest($request);
+		if($cartForm->isSubmitted()){
+			dump($purchaseProduct);
+		}
 		return $this->render('@Shop/product/product_details.html.twig',array(
-			'product'=>$product
+			'product'=>$product,
+			'cartForm'=>$cartForm->createView()
 		));
 	}
 

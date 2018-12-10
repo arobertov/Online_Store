@@ -476,7 +476,7 @@ class Product
 		}
 		$priceDiscount = $this->getPrice()-(($this->getPrice()*$this->getPromotion()->getDiscount()));
 
-		return round($priceDiscount,2);
+		return sprintf ("%.2f", $priceDiscount);
 	}
 
 }

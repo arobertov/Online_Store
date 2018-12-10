@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme cartForm _self %}
+
+{% block integer_widget %}
+        {% set type = type|default('number') %}
+        {{ block('form_widget_simple') }}
+{% endblock %}
+
+
 {% block stylesheet %}
     {{ parent() }}
     <style>
@@ -34,7 +42,6 @@
                         <div class="my-2"></div>
                         <div class="w-100 mx-auto">
                     {% else %}
-
                         {% if countImg > 1 %}
                             <div class="d-inline-block">
                                 <div class="product-img img-thumbnail">
@@ -46,8 +53,10 @@
                         {% endif %}
 
                     {% endif %}
+                {% else %}
+                    <img class="img-thumbnail w-100" src="{{ asset('images/admin_panel/no-image-icon-6.png') }}" alt="no_img">
                 {% endfor %}
-                        </div>
+                        {{ product.firstImage!=null?'</div>':'' }}
                 <div class="text-center my-2">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-secondary"><i class="icon-envelope"></i></button>
@@ -70,11 +79,19 @@
                 <div class="row">
                     <div class="col-md-5 col-6 ">
                         <span id="product-price" {{ product.promotion!=null?'style="text-decoration: line-through"':'' }}>$ {{ product.price }}</span>
+                        {% if product.promotion != null %}
+                            <div id="new-price">
+                                <img src="{{ asset('images/admin_panel/badge_promo.png') }}" alt="new_price">
+                                <p class="new-price">$ {{ product.discount }}</p>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="col-md-7 col-6 ">
-                        <form class="form-inline float-right">
-                            <input type="number" id="form-qty" class="form-control m-2" value="1" min="1" max="{{ product.quantity }}">
+
+                        <form name="shop_bundle_cart_type" method="post" class="form-inline float-right">
+                            {{ form_widget(cartForm.productQuantity,{'attr':{'min':1,'max':product.quantity}}) }}
                             <button type="submit" class="btn btn-primary m-2"> Add to cart <i class=" icon-shopping-cart"></i></button>
+                            {{ form_widget(cartForm) }}
                         </form>
                     </div>
                 </div>
@@ -399,8 +416,6 @@
                 e.preventDefault();
                 $(this).tab('show');
             });
-
-
         })
     </script>
 {% endblock %}
