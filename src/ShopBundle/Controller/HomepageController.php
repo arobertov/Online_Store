@@ -5,6 +5,7 @@ namespace ShopBundle\Controller;
 use ShopBundle\Entity\PurchaseProduct;
 use ShopBundle\Entity\Product;
 use ShopBundle\Services\ProductServiceInterface;
+use ShopBundle\Services\PurchaseProductServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +20,19 @@ class HomepageController extends Controller
 	private $productService;
 
 	/**
+	 * @var PurchaseProductServiceInterface
+	 */
+	private $purchaseProductService;
+
+	/**
 	 * HomepageController constructor.
 	 *
 	 * @param ProductServiceInterface $productService
+	 * @param PurchaseProductServiceInterface $purchaseProduct
 	 */
-	public function __construct( ProductServiceInterface $productService ) {
-		$this->productService = $productService;
+	public function __construct( ProductServiceInterface $productService ,PurchaseProductServiceInterface $purchaseProduct ) {
+		$this->productService         = $productService;
+		$this->purchaseProductService = $purchaseProduct;
 	}
 
 
@@ -58,7 +66,7 @@ class HomepageController extends Controller
 		$cartForm = $this->createForm('ShopBundle\Form\CartType',$purchaseProduct);
 		$cartForm->handleRequest($request);
 		if($cartForm->isSubmitted()){
-			dump($purchaseProduct);
+			$this->purchaseProductService->addPurchaseToCartSession($purchaseProduct);
 		}
 		return $this->render('@Shop/product/product_details.html.twig',array(
 			'product'=>$product,
