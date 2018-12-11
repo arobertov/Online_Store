@@ -1,3 +1,8 @@
+{% if app.session.get('product_count') is not empty %}
+    {% set productCartCounter = app.session.get('product_count') %}
+{% else %}
+    {% set productCartCounter = 0 %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,10 +37,10 @@
             </div>
             <div class="col-md-6">
                 <div class="float-right">
-                    <a href="#">
+                    <a href="{{ path('personal_cart') }}">
                         <button class="btn btn-sm btn-primary"><i class="icon-shopping-cart icon-white"></i>
-                            <span class="badge badge-light">{{ app.session.get('cart')|length}}</span>
-                            {{ (app.session.get('cart')|length >1)?'Items in your cart':'Item in your cart' }}
+                            <span class="badge badge-light">{{ productCartCounter }}</span>
+                            {{  productCartCounter > 1 ? 'Items in your cart' : 'Item in your cart' }}
                         </button>
                     </a>
                 </div>
@@ -91,9 +96,7 @@
         <div class="row">
 
             {% block sidebar %}
-                {{ render(controller(
-                    'ShopBundle:Category:listAllCategories'
-                )) }}
+                {{ render(controller('ShopBundle:Category:listAllCategories',{'productCartCounter':productCartCounter})) }}
             {% endblock %}
 
 

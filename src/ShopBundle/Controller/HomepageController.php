@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class HomepageController extends Controller
 {
@@ -66,7 +67,13 @@ class HomepageController extends Controller
 		$cartForm = $this->createForm('ShopBundle\Form\CartType',$purchaseProduct);
 		$cartForm->handleRequest($request);
 		if($cartForm->isSubmitted()){
-			$this->purchaseProductService->addPurchaseToCartSession($purchaseProduct);
+			try{
+				$message = $this->purchaseProductService->addPurchaseToCartSession($purchaseProduct);
+				$this->addFlash('success',$message);
+			}catch (\Exception $e){
+				$this->addFlash('error',$e->getMessage());
+			}
+
 		}
 		return $this->render('@Shop/product/product_details.html.twig',array(
 			'product'=>$product,
@@ -82,6 +89,17 @@ class HomepageController extends Controller
 	 */
     public function adminPanelAction(){
     	return $this->render('admin_panel.html.twig');
+    }
+
+	/**
+	 * @Route("/product_cart/clear",name="clear_cart")
+	 */
+    public function clearProductCart(){
+    	$session = new Session();
+    	$session->remove('product_cart');
+    	$session->remove('total');
+    	$session->remove('product_count');
+    	return $this->redirectToRoute('personal_cart');
     }
 
 }

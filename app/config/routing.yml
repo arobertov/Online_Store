@@ -12,3 +12,9 @@ logout:
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"
+
+personal_cart:
+    path: /products_summary
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    ShopBundle:order:personal_cart.html.twig

@@ -26,7 +26,7 @@ class PurchaseProduct {
 	private $productQuantity;
 
 	/**
-	 * @var float
+	 * @var string
 	 */
 	private $productPrice;
 
@@ -34,6 +34,11 @@ class PurchaseProduct {
 	 * @var string
 	 */
 	private $imagePath;
+
+	/**
+	 * @var string
+	 */
+	private $subtotal;
 
 	/**
 	 * ProductCart constructor.
@@ -44,7 +49,6 @@ class PurchaseProduct {
 		$this->product = $product;
 		$this->id = $product->getId();
 		$this->productTitle = $product->getTitle();
-		$this->productQuantity = $product->getQuantity();
 		$this->productPrice = $product->getPromotion()!=null?$product->getDiscount():$product->getPrice();
 		$this->imagePath = $product->getFirstImage()!=null?$product->getFirstImage()->getPath():null;
 	}
@@ -94,26 +98,27 @@ class PurchaseProduct {
 	 */
 	public function setProductQuantity( int $productQuantity ): void {
 		$this->productQuantity = $productQuantity;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getProductPrice(): float {
-		return $this->productPrice;
-	}
-
-	/**
-	 * @param float $productPrice
-	 */
-	public function setProductPrice( float $productPrice ): void {
-		$this->productPrice = $productPrice;
+		$this->setSubtotal();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getImagePath(): string {
+	public function getProductPrice(): string {
+		return sprintf ("%.2f", $this->productPrice);
+	}
+
+	/**
+	 * @param string $productPrice
+	 */
+	public function setProductPrice( string $productPrice ): void {
+		$this->productPrice = $productPrice;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getImagePath(): ?string {
 		return $this->imagePath;
 	}
 
@@ -122,6 +127,17 @@ class PurchaseProduct {
 	 */
 	public function setImagePath( string $imagePath ): void {
 		$this->imagePath = $imagePath;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSubtotal(): string {
+		return sprintf ("%.2f",$this->subtotal);
+	}
+
+	private function setSubtotal( ): void {
+		$this->subtotal = $this->getProductPrice()*$this->getProductQuantity();
 	}
 
 

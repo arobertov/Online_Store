@@ -37,12 +37,13 @@ class CategoryController extends Controller {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function listAllCategoriesAction()
+	public function listAllCategoriesAction($productCartCounter)
 	{
 		$tree = $this->categoryService->listCategoriesBySidebar();
 
 		return $this->render( '@Shop/category/sidebar.html.twig', array(
 			'tree' => $tree,
+			'productCartCounter'=>$productCartCounter
 		));
 	}
 
