@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use ShopBundle\Entity\PurchaseProduct;
 use ShopBundle\Entity\Product;
 use ShopBundle\Services\ProductServiceInterface;
@@ -59,8 +60,10 @@ class HomepageController extends Controller
 	/**
 	 * @param Product $product
 	 *
-	 * @Route("product/show_details/{slug}",name="show_product")
+	 * @param Request $request
+	 *
 	 * @return Response
+	 * @Route("product/show_details/{slug}",name="show_product")
 	 */
 	public function showProductDetailsAction(Product $product,Request $request){
 		$purchaseProduct = new PurchaseProduct($product);
@@ -73,7 +76,6 @@ class HomepageController extends Controller
 			}catch (\Exception $e){
 				$this->addFlash('error',$e->getMessage());
 			}
-
 		}
 		return $this->render('@Shop/product/product_details.html.twig',array(
 			'product'=>$product,
@@ -89,6 +91,47 @@ class HomepageController extends Controller
 	 */
     public function adminPanelAction(){
     	return $this->render('admin_panel.html.twig');
+    }
+
+	/**
+	 * @param Product $product
+	 *
+	 * @Route("product_cart/add_product/{id}",name="add_product_to_cart")
+	 * @return Response
+	 */
+    public function addOneProductToCart(Product $product){
+	    $purchaseProduct = new PurchaseProduct($product);
+	    $purchaseProduct->setProductQuantity(1);
+	    try{
+		    $message = $this->purchaseProductService->addPurchaseToCartSession($purchaseProduct);
+		    $this->addFlash('success',$message);
+	    }catch (\Exception $e){
+		    $this->addFlash('error',$e->getMessage());
+	    }
+
+	    return $this->redirectToRoute('personal_cart');
+    }
+
+	/**
+	 * @param $id
+	 *
+	 * @Route("product_cart/remove_one_item/{id}",name="remove_item_to_cart")
+	 * @return  Response
+	 */
+    public function removeOneProductItemToCart($id){
+		$this->purchaseProductService->removeItemCountProductToCart($id);
+	    return $this->redirectToRoute('personal_cart');
+    }
+
+	/**
+	 * @param $id
+	 *
+	 * @Route("product_cart/remove_product/{id}",name="remove_product_to_cart")
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+    public function removeProductToCart($id){
+    	$this->purchaseProductService->removeProductToCart($id);
+    	return $this->redirectToRoute('personal_cart');
     }
 
 	/**

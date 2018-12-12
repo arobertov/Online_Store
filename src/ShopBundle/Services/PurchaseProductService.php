@@ -36,6 +36,45 @@ class PurchaseProductService implements PurchaseProductServiceInterface {
 		return $product->getProductTitle().' added to your cart ';
 	}
 
+	public function removeItemCountProductToCart($id){
+		$session = new Session();
+		if($session->has('product_cart')){
+			$products = $session->get('product_cart');
+			/** @var PurchaseProduct $product */
+			$product = $products[$id];
+			$product->setProductQuantity($product->getProductQuantity()-1);
+			if($product->getProductQuantity()==0){
+				unset($products[$id]);
+			}
+			$session->set('product_cart',$products);
+			$this->calculateProductCount($session,$products);
+			$this->calculateTotalSession($session,$products);
+			if(count($session->get('product_cart'))==0){
+				$this->removeSessionsCart($session);
+			}
+		}
+	}
+
+	public function removeProductToCart($id){
+		$session = new Session();
+		if($session->has('product_cart')){
+			$products = $session->get('product_cart');
+			unset($products[$id]);
+			$session->set('product_cart',$products);
+			$this->calculateProductCount($session,$products);
+			$this->calculateTotalSession($session,$products);
+		}
+		if(count($session->get('product_cart'))==0){
+			$this->removeSessionsCart($session);
+		}
+	}
+
+	private function removeSessionsCart(Session $session){
+		$session->remove('product_count');
+		$session->remove('product_cart');
+		$session->remove('total');
+	}
+
 	private function calculateProductCount(Session $session,array $sessionCart){
 		$productCount = 0;
 

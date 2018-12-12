@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="col-md-9">
+        {% include '@Shop/notice.html.twig' %}
         <ul class="breadcrumb">
             <li><a href="index.html">Home</a> <span class="divider">/</span></li>
             <li class="active"> SHOPPING CART</li>
@@ -15,45 +16,11 @@
         </div>
 
         <hr>
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        <table class="table table-bordered">
-            <tbody><tr><th> I AM ALREADY REGISTERED  </th></tr>
-            <tr>
-                <td>
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="inputUsername">Username</label>
-                            <div class="controls">
-                                <input type="text" id="inputUsername" placeholder="Username">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputPassword1">Password</label>
-                            <div class="controls">
-                                <input type="password" id="inputPassword1" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <button type="submit" class="btn">Sign in</button> OR <a href="register.html" class="btn">Register Now!</a>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <a href="forgetpass.html" style="text-decoration:underline">Forgot password ?</a>
-                            </div>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        {% endif %}
         {% if app.session.get('product_cart') is not empty %}
             <a href="{{ path('clear_cart') }}">
                 <button class="btn btn-danger"><i class="icon-eye-close"></i></button>
             </a>
-        <table class="table table-bordered">
+        <table class="table table-hover ">
             <thead>
             <tr>
                 <th>Product</th>
@@ -67,14 +34,17 @@
             <tbody>
             {% for product in app.session.get('product_cart') %}
             <tr>
-                <td> <img width="60" src="{{product.imagePath is not defined?asset('images/admin_panel/no-image-icon-6.png'):asset('images/product_images/'~product.imagePath) }}" alt=""></td>
+                <td>
+                    <img class="img-thumbnail" width="50" src="{{product.imagePath is not defined?asset('images/admin_panel/no-image-icon-6.png'):asset('images/product_images/'~product.imagePath) }}" alt="">
+                </td>
                 <td>{{ product.productTitle }}</td>
                 <td>
-                    <div class="input-append">
-                        <input class="span1" style="max-width:34px" placeholder="1" id="appendedInputButtons" size="16" type="text">
-                        <button class="btn" type="button"><i class="icon-minus"></i></button>
-                        <button class="btn" type="button"><i class="icon-plus"></i></button>
-                        <button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button>				</div>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-light"><strong>{{ product.productQuantity }}</strong></a>
+                        <a class="btn btn-info" href="{{ path('remove_item_to_cart',{'id':product.id}) }}"><i class="icon-minus"></i></a>
+                        <a class="btn btn-secondary" href="{{ path('add_product_to_cart',{'id':product.id}) }}" ><i class="icon-plus"></i></a>
+                        <a class="btn btn-danger" href="{{ path('remove_product_to_cart',{'id':product.id}) }}"><i class="icon-remove icon-white"></i></a>
+                    </div>
                 </td>
                 <td>{{ product.productPrice }}    </td>
                 <td>{{ product.productPrice }} </td>
