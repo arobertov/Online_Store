@@ -123,7 +123,15 @@ class HomepageController extends Controller
     	$session = new Session();
     	/** @var PurchaseProduct $productPurchase */
     	$productPurchase = $this->purchaseProductService->removeItemCountProductToCart($product);
-    	$jsonResponse = array('items_count'=>$session->get('product_count'),'subtotal'=>$productPurchase!==null?$productPurchase->getSubtotal():null,'product_count'=>$productPurchase!=null?$productPurchase->getProductQuantity():null,'total'=>$session->get('total'));
+    	$jsonResponse = array(
+    		'items_count'=>$session->get('product_count'),
+		    'subtotal'=>$productPurchase!==null?$productPurchase->getSubtotal():null,
+		    'product_count'=>$productPurchase!=null?$productPurchase->getProductQuantity():null,
+		    'product_price'=>$productPurchase->getRealPrice(),
+		    'product_discount'=>$productPurchase->getProductDiscount(),
+		    'total_discount'=>$session->get('total')['total-discount'],
+		    'total_price'=>$session->get('total')['total-price']
+	    );
 	    return new JsonResponse($jsonResponse);
     }
 

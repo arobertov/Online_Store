@@ -59,24 +59,21 @@
                                             class="icon-remove icon-white"></i></a>
                             </div>
                         </td>
-                        <td>${{ purchaseProduct.realPrice}}    </td>
-                        <td>${{ purchaseProduct.productDiscount }} </td>
-                        <td id="cart-subtotal-{{ purchaseProduct.id }}">${{ purchaseProduct.subtotal }}        </td>
+                        <td id="real-price-{{ purchaseProduct.id }}">${{ purchaseProduct.realPrice}}</td>
+                        <td id="product-discount-{{ purchaseProduct.id }}">${{ purchaseProduct.productDiscount }}</td>
+                        <td id="cart-subtotal-{{ purchaseProduct.id }}">${{ purchaseProduct.subtotal }}</td>
                     </tr>
                 {% endfor %}
 
                 <tr>
-                    <td colspan="5" style="text-align:right">Total Price:</td>
-                    <td> $228.00</td>
-                </tr>
-                <tr>
                     <td colspan="5" style="text-align:right">Total Discount:</td>
-                    <td> $50.00</td>
+                    <td id="total-discount">${{ app.session.get('total')['total-discount'] }}</td>
                 </tr>
-                <tr>
-                    <td colspan="5" style="text-align:right"><strong> </strong></td>
-                    <td class="label label-important" style="display:block"><strong
-                                class="cart-total">$ {{ app.session.get('total') }} </strong></td>
+                <tr class="alert-danger">
+                    <td colspan="5" style="text-align:right"><strong>Total Price </strong></td>
+                    <td class="label label-important" style="display:block">
+                        <strong class="cart-total">${{ app.session.get('total')['total-price'] }}</strong>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -156,7 +153,6 @@
                     url: 'product_cart/remove_one_item/' + productId,
                     method: 'POST',
                     success: function (r) {
-                        console.log(r);
                         if (r.product_count === null) {
                             window.location.href = '/products_summary';
                             return;
@@ -170,17 +166,22 @@
                                 $('.cart-empty').show();
                             }
                         }
-                        $(`#purchase-count-${productId}`).html(r.product_count);
-                        $('.product-item-count').html(r.items_count===null?'0':r.items_count);
-                        $(`#cart-subtotal-${productId}`).html(r.subtotal);
-                        $('.cart-total').html(r.total);
-
+                        updateElements(r,productId);
                     },
                     error: function (e) {
                         console.log(e);
                     }
                 })
-            })
+            });
+            function updateElements(r,productId) {
+                        $(`#real-price-${productId}`).html('$'+r.product_price);
+                        $(`#product-discount-${productId}`).html('$'+r.product_discount);
+                        $(`#cart-subtotal-${productId}`).html('$'+r.subtotal);
+                        $('#total-discount').html('$'+r.total_discount);
+                        $('.cart-total').html('$'+r.total_price);
+                        $(`#purchase-count-${productId}`).html(r.product_count);
+                        $('.product-item-count').html(r.items_count===null?'0':r.items_count);
+            }
         })
     </script>
 

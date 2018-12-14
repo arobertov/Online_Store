@@ -97,13 +97,15 @@ class PurchaseProductService implements PurchaseProductServiceInterface {
 	 * @param array $sessionCart
 	 */
 	private function calculateTotalSession(Session $session,array $sessionCart):void {
-		$total = 0;
+		$totalPrice = 0;
+		$totalDiscount = 0;
 		
 		 foreach ($sessionCart as $product){
-		 	$total += $product->getSubtotal();
+		 	$totalPrice += sprintf('%.2f',$product->getSubtotal());
+		 	$totalDiscount += sprintf('%.2f',$product->getProductDiscount());
 		 }
-
-		 $session->set('total',sprintf('%.2f',$total));
+		 $total = array('total-price'=>$totalPrice,'total-discount'=>$totalDiscount);
+		 $session->set('total',$total);
 	}
 	
 }

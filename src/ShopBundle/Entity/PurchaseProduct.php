@@ -62,6 +62,7 @@ class PurchaseProduct {
 		$this->imagePath = $product->getFirstImage()!=null?$product->getFirstImage()->getPath():null;
 		$this->productPrice = $product->getPrice();
 		$this->productDiscount = $product->getPrice()*$product->getPromotion()->getDiscount();
+		$this->realPrice = $product->getPrice();
 	}
 
 
@@ -109,16 +110,13 @@ class PurchaseProduct {
 	 */
 	public function setProductQuantity( int $productQuantity ): void {
 		$this->productQuantity = $productQuantity;
-		$this->setRealPrice($this->getProductPrice());
-		$this->setProductDiscount($this->getProductDiscount());
-		$this->setSubtotal();
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getRealPrice(): string {
-		return sprintf ("%.2f",$this->realPrice);
+		return sprintf ("%.2f",$this->realPrice*$this->getProductQuantity());
 	}
 
 	/**
@@ -127,10 +125,7 @@ class PurchaseProduct {
 	 * @return PurchaseProduct
 	 */
 	public function setRealPrice( string $realPrice ): PurchaseProduct {
-		if($this->getProductQuantity()!==null){
-			$this->realPrice = $realPrice*$this->getProductQuantity();
-			return $this;
-		}
+
 		$this->realPrice = $realPrice;
 		return $this;
 	}
@@ -154,7 +149,7 @@ class PurchaseProduct {
 	 * @return string
 	 */
 	public function getProductDiscount(): ?string {
-		return sprintf ("%.2f",$this->productDiscount);
+			return sprintf ("%.2f",$this->productDiscount * $this->getProductQuantity());
 	}
 
 	/**
@@ -163,10 +158,6 @@ class PurchaseProduct {
 	 * @return PurchaseProduct
 	 */
 	public function setProductDiscount( string $productDiscount ): PurchaseProduct {
-		if($this->getProductQuantity()!==null){
-			$this->productDiscount = ($productDiscount*$this->getProductQuantity());
-			return $this;
-		}
 		$this->productDiscount = $productDiscount;
 		return $this;
 	}
@@ -191,7 +182,7 @@ class PurchaseProduct {
 	 * @return string
 	 */
 	public function getSubtotal(): string {
-		return sprintf ("%.2f",$this->subtotal);
+		return sprintf ("%.2f",($this->getRealPrice() - $this->getProductDiscount()));
 	}
 
 	private function setSubtotal( ): void {
