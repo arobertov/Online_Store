@@ -36,12 +36,6 @@ services:
         arguments:
             $adminEmail: '%admin_email%'
 
-    symfony.form.type_guesser.tree:
-        class: Yavin\Symfony\Form\Type\TreeTypeGuesser
-        arguments: [ "@doctrine" ]
-        tags:
-            - { name: form.type_guesser }
-
     AppBundle\Services\UserServiceInterface:
         alias: 'AppBundle\Services\UserService'
         public: false

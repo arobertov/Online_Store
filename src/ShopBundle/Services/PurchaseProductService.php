@@ -9,6 +9,7 @@
 namespace ShopBundle\Services;
 
 
+use ShopBundle\Entity\Product;
 use ShopBundle\Entity\PurchaseProduct;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -36,15 +37,20 @@ class PurchaseProductService implements PurchaseProductServiceInterface {
 		return $product->getProductTitle().' added to your cart ';
 	}
 
-	public function removeItemCountProductToCart($id){
+	/**
+	 * @param Product $product
+	 *
+	 * @return PurchaseProduct|null
+	 */
+	public function removeItemCountProductToCart($product): ?PurchaseProduct{
 		$session = new Session();
 		if($session->has('product_cart')){
 			$products = $session->get('product_cart');
-			/** @var PurchaseProduct $product */
-			$product = $products[$id];
-			$product->setProductQuantity($product->getProductQuantity()-1);
-			if($product->getProductQuantity()==0){
-				unset($products[$id]);
+			/** @var PurchaseProduct $purchaseProduct */
+			$purchaseProduct = $products[$product->getId()];
+			$purchaseProduct->setProductQuantity( $purchaseProduct->getProductQuantity() - 1);
+			if( $purchaseProduct->getProductQuantity() == 0){
+				unset($products[$purchaseProduct->getId()]);
 			}
 			$session->set('product_cart',$products);
 			$this->calculateProductCount($session,$products);
@@ -52,7 +58,8 @@ class PurchaseProductService implements PurchaseProductServiceInterface {
 			if(count($session->get('product_cart'))==0){
 				$this->removeSessionsCart($session);
 			}
-		}
+			return $purchaseProduct;
+		} return null;
 	}
 
 	public function removeProductToCart($id){

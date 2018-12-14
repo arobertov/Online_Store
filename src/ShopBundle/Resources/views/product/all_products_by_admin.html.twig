@@ -19,12 +19,12 @@
                     <th>ACTION</th>
                 {% endif %}
             </tr>
-            {% for product in products  %}
+            {% for purchaseProduct in products  %}
             <tr>
-                <td>{{ product.title }}</td>
-                <td>{{ product.category }}</td>
+                <td>{{ purchaseProduct.title }}</td>
+                <td>{{ purchaseProduct.category }}</td>
                 <td>
-                    {% for image in product.images %}
+                    {% for image in purchaseProduct.images %}
                     <div class="gallery">
                         <a href="{{ asset('images/product_images/'~image.path) }}">
                         <div class="images_thumb">
@@ -34,19 +34,19 @@
                     </div>
                     {% endfor %}
                 </td>
-                <td>{{ product.quantity }}</td>
-                <td> {% if product.promotion is null %}
+                <td>{{ purchaseProduct.quantity }}</td>
+                <td> {% if purchaseProduct.promotion is null %}
                         Without promotion !
                     {% else %}
-                        {{ product.promotion.title }}
+                        {{ purchaseProduct.promotion.title }}
                     {% endif %}
                 </td>
                 {% if is_granted('ROLE_ADMIN') %}
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="na">
-                            <a type="button" class="btn btn-info" href="{{ path('show_product',{'slug':product.slug}) }}">Details</a>
-                            <a type="button" class="btn  btn-warning " href="{{ path('edit_product',{'slug':product.slug}) }}">Edit</a>
-                            <button type="button" data-id="{{ product.slug }}" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">
+                            <a type="button" class="btn btn-info" href="{{ path('show_product',{'slug':purchaseProduct.slug}) }}">Details</a>
+                            <a type="button" class="btn  btn-warning " href="{{ path('edit_product',{'slug':purchaseProduct.slug}) }}">Edit</a>
+                            <button type="button" data-id="{{ purchaseProduct.slug }}" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">
                                 Delete
                             </button>
                         </div>
@@ -67,8 +67,8 @@
 
     </div>
     
-    {% set caption = 'Delete product' %}
-    {% set entityName = 'product' %}
+    {% set caption = 'Delete Product' %}
+    {% set entityName = 'Product' %}
     {% include('@Shop/delete_modal_dialog') %}
 {% endblock %}
 
@@ -91,7 +91,7 @@
             let btn = $("[type='button']");
             btn.on('click',function() {
                 let slug = $(this).data('id');
-                $('#delete_link').attr('href',"/product/delete/"+slug);
+                $('#delete_link').attr('href',"/purchaseProduct/delete/"+slug);
             });
         })
     </script>

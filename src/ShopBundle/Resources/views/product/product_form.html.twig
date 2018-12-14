@@ -33,9 +33,9 @@
                 </div>
             </div>
             <hr>
-            <div class="form-group row" id="product-form-img">
-                {% if product is defined %}
-                {% for image in product.images %}
+            <div class="form-group row" id="purchaseProduct-form-img">
+                {% if purchaseProduct is defined %}
+                {% for image in purchaseProduct.images %}
                     <div class="col-sm-6 col-md-4 col-lg-2 filter Huawey" data-id="Mobile Phone">
                         <div class="card " style="width: 120px;" data-id="{{ image.id }}" data-path="{{ image.path }}">
                             <div class="card-header">
@@ -47,7 +47,7 @@
                             <div class="card-body">
                                 <p class="card-text" style="font-size: 0.8rem">{{ image.path }}</p>
                             </div>
-                            <div class="close-image-icon" data-id="{{ image.id }}" data-product="{{ product.id }}">
+                            <div class="close-image-icon" data-id="{{ image.id }}" data-purchaseProduct="{{ purchaseProduct.id }}">
                                 <i class="far fa-window-close fa-lg"></i>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
             <div class="form-group row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4 align-content-lg-center">
-                    <button type="submit" class="btn btn-success btn-lg" id="submit-product-form">
+                    <button type="submit" class="btn btn-success btn-lg" id="submit-purchaseProduct-form">
                         <i class="fas fa-plus-circle"></i> Submit
                     </button>
                 </div>

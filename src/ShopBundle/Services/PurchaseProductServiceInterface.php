@@ -15,7 +15,7 @@ interface PurchaseProductServiceInterface {
 
 	public function addPurchaseToCartSession(PurchaseProduct $product);
 
-    public function removeItemCountProductToCart($id);
+    public function removeItemCountProductToCart($purchaseProduct);
 
 	public function removeProductToCart($id);
 

@@ -28,7 +28,17 @@ class PurchaseProduct {
 	/**
 	 * @var string
 	 */
+	private $realPrice;
+
+	/**
+	 * @var string
+	 */
 	private $productPrice;
+
+	/**
+	 * @var string
+	 */
+	private $productDiscount;
 
 	/**
 	 * @var string
@@ -49,8 +59,9 @@ class PurchaseProduct {
 		$this->product = $product;
 		$this->id = $product->getId();
 		$this->productTitle = $product->getTitle();
-		$this->productPrice = $product->getPromotion()!=null?$product->getDiscount():$product->getPrice();
 		$this->imagePath = $product->getFirstImage()!=null?$product->getFirstImage()->getPath():null;
+		$this->productPrice = $product->getPrice();
+		$this->productDiscount = $product->getPrice()*$product->getPromotion()->getDiscount();
 	}
 
 
@@ -98,8 +109,32 @@ class PurchaseProduct {
 	 */
 	public function setProductQuantity( int $productQuantity ): void {
 		$this->productQuantity = $productQuantity;
+		$this->setRealPrice($this->getProductPrice());
+		$this->setProductDiscount($this->getProductDiscount());
 		$this->setSubtotal();
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getRealPrice(): string {
+		return sprintf ("%.2f",$this->realPrice);
+	}
+
+	/**
+	 * @param string $realPrice
+	 *
+	 * @return PurchaseProduct
+	 */
+	public function setRealPrice( string $realPrice ): PurchaseProduct {
+		if($this->getProductQuantity()!==null){
+			$this->realPrice = $realPrice*$this->getProductQuantity();
+			return $this;
+		}
+		$this->realPrice = $realPrice;
+		return $this;
+	}
+
 
 	/**
 	 * @return string
@@ -114,6 +149,29 @@ class PurchaseProduct {
 	public function setProductPrice( string $productPrice ): void {
 		$this->productPrice = $productPrice;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getProductDiscount(): ?string {
+		return sprintf ("%.2f",$this->productDiscount);
+	}
+
+	/**
+	 * @param string $productDiscount
+	 *
+	 * @return PurchaseProduct
+	 */
+	public function setProductDiscount( string $productDiscount ): PurchaseProduct {
+		if($this->getProductQuantity()!==null){
+			$this->productDiscount = ($productDiscount*$this->getProductQuantity());
+			return $this;
+		}
+		$this->productDiscount = $productDiscount;
+		return $this;
+	}
+
+
 
 	/**
 	 * @return string|null
@@ -137,7 +195,7 @@ class PurchaseProduct {
 	}
 
 	private function setSubtotal( ): void {
-		$this->subtotal = $this->getProductPrice()*$this->getProductQuantity();
+		$this->subtotal = ($this->getRealPrice() - $this->getProductDiscount());
 	}
 
 

@@ -2,7 +2,7 @@
     <div class="container">
         <a id="myCart" href="#">
             <img src="{{ asset('themes/images/ico-cart.png') }}" alt="cart">
-                [ {{ productCartCounter }} ] {{ (app.session.get('product_cart')|length)>1?'Items in your cart':'Item in your cart'}}
+                <span class="product-item-count">[ {{ productCartCounter }} ]</span> {{ productCartCounter > 1?'Items in your cart':'Item in your cart'}}
         </a>
     </div>
 

@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="col-md-9">
+
+    <div class="col-md-9">{{ dump(app.session.get('product_cart')) }}
         {% include '@Shop/notice.html.twig' %}
         <ul class="breadcrumb">
             <li><a href="index.html">Home</a> <span class="divider">/</span></li>
             <li class="active"> SHOPPING CART</li>
         </ul>
         <div>
-            <h3 class="d-inline-block">  SHOPPING CART [ <small>{{ productCartCounter }} </small>] </h3>
+            <h3 class="d-inline-block"> SHOPPING CART [
+                <small class="product-item-count">{{ productCartCounter }} </small>
+                ]
+            </h3>
             <a href="{{ path('home_page') }}" class="btn btn-light btn-lg float-right">
                 <i class="icon-arrow-left"></i> Continue Shopping
             </a>
@@ -20,58 +24,71 @@
             <a href="{{ path('clear_cart') }}">
                 <button class="btn btn-danger"><i class="icon-eye-close"></i></button>
             </a>
-        <table class="table table-hover ">
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th>Description</th>
-                <th>Quantity/Update</th>
-                <th>Price</th>
-                <th>Discount</th>
-                <th>Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for product in app.session.get('product_cart') %}
-            <tr>
-                <td>
-                    <img class="img-thumbnail" width="50" src="{{product.imagePath is not defined?asset('images/admin_panel/no-image-icon-6.png'):asset('images/product_images/'~product.imagePath) }}" alt="">
-                </td>
-                <td>{{ product.productTitle }}</td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a class="btn btn-light"><strong>{{ product.productQuantity }}</strong></a>
-                        <a class="btn btn-info" href="{{ path('remove_item_to_cart',{'id':product.id}) }}"><i class="icon-minus"></i></a>
-                        <a class="btn btn-secondary" href="{{ path('add_product_to_cart',{'id':product.id}) }}" ><i class="icon-plus"></i></a>
-                        <a class="btn btn-danger" href="{{ path('remove_product_to_cart',{'id':product.id}) }}"><i class="icon-remove icon-white"></i></a>
-                    </div>
-                </td>
-                <td>{{ product.productPrice }}    </td>
-                <td>{{ product.productPrice }} </td>
-                <td>{{ product.subtotal }}        </td>
-            </tr>
-            {% endfor %}
+            <table class="table table-hover cart-table">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Description</th>
+                    <th>Quantity/Update</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for purchaseProduct in app.session.get('product_cart') %}
+                    <tr class="cart-table-row" id="item-product-{{ purchaseProduct.id }}">
+                        <td>
+                            <img class="img-thumbnail" width="50"
+                                 src="{{ purchaseProduct.imagePath is not defined?asset('images/admin_panel/no-image-icon-6.png'):asset('images/product_images/'~purchaseProduct.imagePath) }}"
+                                 alt="">
+                        </td>
+                        <td>{{ purchaseProduct.productTitle }}</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button class="btn btn-light"><strong
+                                            id="purchase-count-{{ purchaseProduct.id }}">{{ purchaseProduct.productQuantity }}</strong>
+                                </button>
+                                <button class="btn btn-info remove-item" data-id="{{ purchaseProduct.id }}"><i
+                                            class="icon-minus"></i></button>
+                                <a class="btn btn-secondary"
+                                   href="{{ path('add_product_to_cart',{'id':purchaseProduct.id}) }}"><i
+                                            class="icon-plus"></i></a>
+                                <a class="btn btn-danger"
+                                   href="{{ path('remove_product_to_cart',{'id':purchaseProduct.id}) }}"><i
+                                            class="icon-remove icon-white"></i></a>
+                            </div>
+                        </td>
+                        <td>${{ purchaseProduct.realPrice}}    </td>
+                        <td>${{ purchaseProduct.productDiscount }} </td>
+                        <td id="cart-subtotal-{{ purchaseProduct.id }}">${{ purchaseProduct.subtotal }}        </td>
+                    </tr>
+                {% endfor %}
 
-            <tr>
-                <td colspan="5" style="text-align:right">Total Price:	</td>
-                <td> $228.00</td>
-            </tr>
-            <tr>
-                <td colspan="5" style="text-align:right">Total Discount:	</td>
-                <td> $50.00</td>
-            </tr>
-            <tr>
-                <td colspan="5" style="text-align:right"><strong>TOTAL ($228 - $50 + $31) =</strong></td>
-                <td class="label label-important" style="display:block"> <strong> {{ app.session.get('total') }} </strong></td>
-            </tr>
-            </tbody>
-        </table>
+                <tr>
+                    <td colspan="5" style="text-align:right">Total Price:</td>
+                    <td> $228.00</td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="text-align:right">Total Discount:</td>
+                    <td> $50.00</td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="text-align:right"><strong> </strong></td>
+                    <td class="label label-important" style="display:block"><strong
+                                class="cart-total">$ {{ app.session.get('total') }} </strong></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="jumbotron cart-empty" style="display: none">
+
         {% else %}
-        <div class="jumbotron">
-            <button class="btn btn-warning btn-lg"><span style="color: #ffffff;font-weight: bold">No products in your cart !</span></button>
-        </div>
+            <div class="jumbotron cart-empty">
 
         {% endif %}
+
+                <button class="btn btn-warning btn-lg"><span style="color: #ffffff;font-weight: bold">No products in your cart !</span></button>
+            </div>
 
         <table class="table table-bordered">
             <tbody>
@@ -82,7 +99,7 @@
                             <label class="control-label"><strong> VOUCHERS CODE: </strong> </label>
                             <div class="controls">
                                 <input type="text" class="input-medium" placeholder="CODE">
-                                <button type="submit" class="btn"> ADD </button>
+                                <button type="submit" class="btn"> ADD</button>
                             </div>
                         </div>
                     </form>
@@ -93,7 +110,10 @@
         </table>
 
         <table class="table table-bordered">
-            <tbody><tr><th>ESTIMATE YOUR SHIPPING </th></tr>
+            <tbody>
+            <tr>
+                <th>ESTIMATE YOUR SHIPPING</th>
+            </tr>
             <tr>
                 <td>
                     <form class="form-horizontal">
@@ -111,16 +131,57 @@
                         </div>
                         <div class="control-group">
                             <div class="controls">
-                                <button type="submit" class="btn">ESTIMATE </button>
+                                <button type="submit" class="btn">ESTIMATE</button>
                             </div>
                         </div>
                     </form>
                 </td>
             </tr>
-            </tbody></table>
+            </tbody>
+        </table>
         <a href="products.html" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
         <a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
 
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('.remove-item').click(function () {
+                let productId = $(this).data('id');
+                $.ajax({
+                    url: 'product_cart/remove_one_item/' + productId,
+                    method: 'POST',
+                    success: function (r) {
+                        console.log(r);
+                        if (r.product_count === null) {
+                            window.location.href = '/products_summary';
+                            return;
+                        }
+                        if (r.product_count === 0) {
+                            let cartTableRow = '#item-product-' + productId;
+                            $(cartTableRow).remove();
+                            console.log(cartTableRow);
+                            if ($('.cart-table-row').length === 0) {
+                                $('.cart-table').remove();
+                                $('.cart-empty').show();
+                            }
+                        }
+                        $(`#purchase-count-${productId}`).html(r.product_count);
+                        $('.product-item-count').html(r.items_count===null?'0':r.items_count);
+                        $(`#cart-subtotal-${productId}`).html(r.subtotal);
+                        $('.cart-total').html(r.total);
+
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                })
+            })
+        })
+    </script>
 
 {% endblock %}
