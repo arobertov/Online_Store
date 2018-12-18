@@ -101,10 +101,10 @@ class PurchaseProductService implements PurchaseProductServiceInterface {
 		$totalDiscount = 0;
 		
 		 foreach ($sessionCart as $product){
-		 	$totalPrice += sprintf('%.2f',$product->getSubtotal());
-		 	$totalDiscount += sprintf('%.2f',$product->getProductDiscount());
+		 	$totalPrice += $product->getSubtotal();
+		 	$totalDiscount += $product->getProductDiscount();
 		 }
-		 $total = array('total-price'=>$totalPrice,'total-discount'=>$totalDiscount);
+		 $total = array('total-price'=>sprintf('%.2f',$totalPrice),'total-discount'=>sprintf('%.2f',$totalDiscount));
 		 $session->set('total',$total);
 	}
 	

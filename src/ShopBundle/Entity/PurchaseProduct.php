@@ -3,10 +3,22 @@
 
 namespace ShopBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class PurchaseProduct
+ * @package ShopBundle\Entity
+ *
+ * @ORM\Table(name="purchase_products")
+ * @ORM\Entity(repositoryClass="ShopBundle\Repository\PurchaseProductRepository")
+ */
 class PurchaseProduct {
 	/**
 	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
 	 */
 	private $id;
 
@@ -17,31 +29,39 @@ class PurchaseProduct {
 
 	/**
 	 * @var string
+	 *
+	 *
+	 * @ORM\Column(name="product_title",type="string",length=255)
 	 */
 	private $productTitle;
 
 	/**
 	 * @var int
+	 * @ORM\Column(type="integer")
 	 */
 	private $productQuantity;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $realPrice;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $productPrice;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $productDiscount;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $imagePath;
 
@@ -49,6 +69,12 @@ class PurchaseProduct {
 	 * @var string
 	 */
 	private $subtotal;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\ClientOrder",inversedBy="purchaseProducts1")
+	 * @ORM\JoinTable("orders_products")
+	 */
+	private $orders;
 
 	/**
 	 * ProductCart constructor.
@@ -63,6 +89,7 @@ class PurchaseProduct {
 		$this->productPrice = $product->getPrice();
 		$this->productDiscount = $product->getPrice()*$product->getPromotion()->getDiscount();
 		$this->realPrice = $product->getPrice();
+		$this->orders = new ArrayCollection();
 	}
 
 
@@ -162,8 +189,6 @@ class PurchaseProduct {
 		return $this;
 	}
 
-
-
 	/**
 	 * @return string|null
 	 */
@@ -189,5 +214,18 @@ class PurchaseProduct {
 		$this->subtotal = ($this->getRealPrice() - $this->getProductDiscount());
 	}
 
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getOrders(){
+		return $this->orders;
+	}
 
+	public function addOrder(ClientOrder $order){
+		$this->orders[]= $order;
+	}
+
+	public function removeOrder(ClientOrder $order){
+		$this->orders->removeElement($order);
+	}
 }

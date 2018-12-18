@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <div class="col-md-9">{{ dump(app.session.get('product_cart')) }}
+    <div class="col-md-9">
         {% include '@Shop/notice.html.twig' %}
         <ul class="breadcrumb">
             <li><a href="index.html">Home</a> <span class="divider">/</span></li>
@@ -87,57 +86,9 @@
                 <button class="btn btn-warning btn-lg"><span style="color: #ffffff;font-weight: bold">No products in your cart !</span></button>
             </div>
 
-        <table class="table table-bordered">
-            <tbody>
-            <tr>
-                <td>
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label"><strong> VOUCHERS CODE: </strong> </label>
-                            <div class="controls">
-                                <input type="text" class="input-medium" placeholder="CODE">
-                                <button type="submit" class="btn"> ADD</button>
-                            </div>
-                        </div>
-                    </form>
-                </td>
-            </tr>
 
-            </tbody>
-        </table>
-
-        <table class="table table-bordered">
-            <tbody>
-            <tr>
-                <th>ESTIMATE YOUR SHIPPING</th>
-            </tr>
-            <tr>
-                <td>
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="inputCountry">Country </label>
-                            <div class="controls">
-                                <input type="text" id="inputCountry" placeholder="Country">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputPost">Post Code/ Zipcode </label>
-                            <div class="controls">
-                                <input type="text" id="inputPost" placeholder="Postcode">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <button type="submit" class="btn">ESTIMATE</button>
-                            </div>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <a href="products.html" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
-        <a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
+        <a href="{{ path('home_page') }}" class="btn btn-light btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+        <a href="#" class="btn btn-success btn-large float-right">Buy Now   <i class="icon-arrow-right"></i></a>
 
     </div>
 

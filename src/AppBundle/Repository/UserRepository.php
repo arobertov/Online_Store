@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\ORMException;
+use mysql_xdevapi\Exception;
 
 /**
  * UserRepository
@@ -108,6 +110,27 @@ class UserRepository extends EntityRepository
 				;
 			return $query;
 		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param string $user
+	 *
+	 * @return object|null
+	 * @throws \Exception
+	 */
+	public function getCurrentUser(string $user){
+		try {
+			$query = $this->em->createQueryBuilder()
+			                  ->select('us,ua')
+			                  ->from('AppBundle:User','us')
+			                  ->leftJoin('us.address','ua')
+			                  ->where('us.username=?1')
+			                  ->setParameter(1,$user)
+			                  ->getQuery();
+			return $query->getSingleResult();
+		} catch ( ORMException $e ) {
 			throw new \Exception($e->getMessage());
 		}
 	}

@@ -34,6 +34,10 @@ services:
     alias: 'ShopBundle\Services\CategoryService'
     public: false
 
+  ShopBundle\Services\PromotionServiceIntrface:
+    alias: 'ShopBundle\Services\PromotionService'
+    public: false
+
   ShopBundle\Services\ImageService:
     arguments:
     - '%upload_image_dir%'

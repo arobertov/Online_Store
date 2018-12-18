@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ShopBundle\Entity\Promotion;
+use ShopBundle\Entity\ClientOrder;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -181,11 +182,17 @@ class User implements AdvancedUserInterface, \Serializable {
 	 */
 	private $address;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="ShopBundle\Entity\ClientOrder",mappedBy="user")
+	 */
+	private $orders;
+
 	public function __construct() {
 		$this->initialCache   = 5000;
 		$this->isNotExpired   = true;
 		$this->isNotLocked    = true;
 		$this->isActive       = false;
+		$this->orders = new ArrayCollection();
 	}
 
 
@@ -537,5 +544,32 @@ class User implements AdvancedUserInterface, \Serializable {
     public function getPromotion()
     {
         return $this->promotion;
+    }
+
+	/**
+	 * @return ArrayCollection
+	 */
+    public function getOrders(){
+    	return $this->orders;
+    }
+
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return User;
+	 */
+    public function addOrder(ClientOrder $order){
+    	$this->orders[]= $order;
+
+    	return $this;
+    }
+
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return bool
+	 */
+    public function removeOrder(ClientOrder $order){
+    	 return $this->orders->removeElement($order);
     }
 }

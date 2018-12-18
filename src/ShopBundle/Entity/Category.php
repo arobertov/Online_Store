@@ -457,4 +457,30 @@ class Category
 	}
 
 
+
+    /**
+     * Add image.
+     *
+     * @param \ShopBundle\Entity\ProductImage $image
+     *
+     * @return Category
+     */
+    public function addImage(\ShopBundle\Entity\ProductImage $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image.
+     *
+     * @param \ShopBundle\Entity\ProductImage $image
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeImage(\ShopBundle\Entity\ProductImage $image)
+    {
+        return $this->images->removeElement($image);
+    }
 }

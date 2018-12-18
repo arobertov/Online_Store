@@ -28,4 +28,5 @@ class ClientOrderRepository extends \Doctrine\ORM\EntityRepository
 		parent::__construct( $em, new Mapping\ClassMetadata(ClientOrder::class) );
 		$this->em = $em;
 	}
+
 }
