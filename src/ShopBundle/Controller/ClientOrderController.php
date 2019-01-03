@@ -2,6 +2,7 @@
 
 namespace ShopBundle\Controller;
 
+use ShopBundle\Entity\ClientOrder;
 use ShopBundle\Services\ClientOrderServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +46,18 @@ class ClientOrderController extends Controller {
 		dump($orders);
 		return $this->render('@Shop/order/list_all_orders.html.twig',array(
 			'orders'=>$orders
+		));
+	}
+
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @Route("order_details/{id}",name="order_details")
+	 */
+	public function previewOrderAction(ClientOrder $order){
+		return $this->render('@Shop/order/order_details.html.twig',array(
+			'order'=>$order
 		));
 	}
 }

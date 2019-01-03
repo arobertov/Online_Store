@@ -33,22 +33,24 @@
                 </div>
             </div>
             <hr>
-            <div class="form-group row" id="purchaseProduct-form-img">
-                {% if purchaseProduct is defined %}
-                {% for image in purchaseProduct.images %}
-                    <div class="col-sm-6 col-md-4 col-lg-2 filter Huawey" data-id="Mobile Phone">
-                        <div class="card " style="width: 120px;" data-id="{{ image.id }}" data-path="{{ image.path }}">
-                            <div class="card-header">
-                                <div class="attach-images">
-                                    <img class="card-img-top" src="/images/product_images/{{ image.path }}" alt="{{ image.path }}">
-                                    <span class="check-icon" data-feather="check-square"></span>
+            <div class="form-group row" id="product-form-img">
+                {% if product is defined %}
+                {% for image in product.images %}
+                    <div class="product-image-card">
+                        <div class="col-sm-6 col-md-4 col-lg-2 filter Huawey" data-id="Mobile Phone">
+                            <div class="card" style="width: 120px;" data-id="{{ image.id }}" data-path="{{ image.path }}">
+                                <div class="card-header">
+                                    <div class="attach-images">
+                                        <img class="card-img-top" src="/images/product_images/{{ image.path }}" alt="{{ image.path }}">
+                                        <span class="check-icon" data-feather="check-square"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text" style="font-size: 0.8rem">{{ image.path }}</p>
-                            </div>
-                            <div class="close-image-icon" data-id="{{ image.id }}" data-purchaseProduct="{{ purchaseProduct.id }}">
-                                <i class="far fa-window-close fa-lg"></i>
+                                <div class="card-body">
+                                    <p class="card-text" style="font-size: 0.8rem">{{ image.path }}</p>
+                                </div>
+                                <div class="close-image-icon" data-id="{{ image.id }}" data-product="{{ product.id }}">
+                                    <i class="far fa-window-close fa-lg"></i>
+                                </div>
                             </div>
                         </div>
                     </div>

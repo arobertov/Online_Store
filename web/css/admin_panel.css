@@ -64,7 +64,7 @@ table .child-tr {
     max-width: 1200px;
 }
 
-.card {
+.product-image-card .card {
     position: relative;
     margin: 0.2rem;
 
@@ -74,7 +74,7 @@ table .child-tr {
     box-shadow: 0 0 4px 3px rgba(0, 140, 186, 0.5);
 }
 
-.card:hover {
+.product-image-card .card:hover {
     border: 1px solid rgba(0, 140, 186, 0.5);
     box-sizing: border-box;
 }
@@ -87,18 +87,18 @@ table .child-tr {
     z-index: 100;
 }
 
-.card > .card-header  {
+.product-image-card .card  .card-header  {
     padding: 0.4rem 0.2rem;
     height: 120px;
     overflow: hidden;
     text-align: center;
 }
 
-.card > .card-body {
+.product-image-card .card  .card-body {
     padding: 0.4rem 0.2rem;
 }
 
-.card > .card-header  img {
+.product-image-card .card  .card-header  img {
     max-height: 110px;
     width: auto;
     height: auto;

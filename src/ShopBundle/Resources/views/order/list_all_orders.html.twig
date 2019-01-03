@@ -18,7 +18,7 @@
              {% for order in orders %}
                  <tr>
                      <td>{{ order.id }}</td>
-                     <td><button class="btn btn-info"><i class="far fa-eye"></i></button></td>
+                     <td><a href="{{ path('order_details',{'id':order.id}) }}" class="btn btn-info"><i class="far fa-eye"></i></a></td>
                      <td>{{ order.dateCreated|date('Y/m/d H:i:s') }}</td>
                      <td><button class="btn btn-warning"><i class="fas fa-clock"></i> {{ order.orderStatus|title }}</button></td>
                      <td>
@@ -31,8 +31,17 @@
                  </tr>
              {% endfor %}
          </table>
-
      </div>
-
-
 {% endblock %}
+
+{#
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+        });
+    </script>
+{% endblock %}
+
+#}
