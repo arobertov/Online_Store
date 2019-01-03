@@ -32,7 +32,19 @@ class ClientOrderController extends Controller {
 	 * @Route("create",name="create_order")
 	 */
 	public function createOrderAction(){
-		$this->orderService->createOrder();
 		return $this->render('@Shop/order/create_order.html.twig');
+	}
+
+	/**
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 *
+	 * @Route("all_orders",name="list_all_orders")
+	 */
+	public function listAllOrdersAction(){
+		$orders = $this->orderService->listAllOrders();
+		dump($orders);
+		return $this->render('@Shop/order/list_all_orders.html.twig',array(
+			'orders'=>$orders
+		));
 	}
 }

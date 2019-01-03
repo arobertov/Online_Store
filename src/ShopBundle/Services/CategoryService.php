@@ -120,16 +120,23 @@ class CategoryService implements CategoryServiceInterface {
 			'nodeDecorator' => function($node) {
 				$buttons = '<td>
 							<div class="btn-group" role="group" aria-label="na">
-								<a href="/category/edit/'.$node['slug'].'" type="button" class="btn btn-sm  btn-warning">Edit</a>
-						    	<button type="button" data-id="'.$node['slug'].'" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteProductModal">Delete</button>
+								<a href="edit/'.$node['slug'].'" type="button" class="btn btn-sm  btn-warning">Edit</a>
+						    	<button type="button" data-id="'.$node['slug'].'" class="btn btn-sm btn-danger" data-toggle="modal"
+						    	 data-target="#deleteProductModal" >
+						    	Delete
+						    	</button>
 						    </div>
 						</td>';
 				if($node['lvl'] == 0) {
-					return '<tr class="parent-tr"><td><a>' . $node['title'] . '</a></td>'.$buttons.'</tr>'.PHP_EOL;
+					return '<tr class="parent-tr"><td><strong>' . $node['title'] . '</strong></td>'.$buttons.'</tr>'.PHP_EOL;
 				} else  return '<tr class="child-tr"><td><a href="/show_products/'.$node['slug'].'"><i class="icon-chevron-right"></i>'
-				               .$node['title'].' ('.count($node['products']).')</a></td>'.$buttons.'</tr>'.PHP_EOL;
+				               .$node['title'].' ('.$this->productsCount($node).')</a></td>'.$buttons.'</tr>'.PHP_EOL;
 			} )
 			;
+	}
+
+	private function productsCount($node){
+		return count($node['products']);
 	}
 
 	private function setTreeOptions(){

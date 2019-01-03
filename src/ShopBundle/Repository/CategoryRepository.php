@@ -5,6 +5,7 @@ namespace ShopBundle\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\ORMException;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use ShopBundle\Entity\Category;
 use Doctrine\ORM\Mapping;
@@ -190,8 +191,8 @@ class CategoryRepository extends NestedTreeRepository
 			$this->em->remove($category);
 			$this->em->flush();
 			return $category->getTitle(). ' delete successful !';
-		} catch (NoResultException $e) {
-			throw new \Exception($e->getMessage());
+		} catch (\Exception $e) {
+			throw new \Exception('Cannot delete this category because have related item/s to it !');
 		}
 	}
 }

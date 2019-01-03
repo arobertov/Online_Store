@@ -57,7 +57,7 @@ class ProductImage
     private $products;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="images")
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="images",cascade={"persist","remove"})
 	 * @ORM\JoinColumn(name="category_id",referencedColumnName="id",nullable=true)
 	 */
     private $category;

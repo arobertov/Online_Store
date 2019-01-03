@@ -54,9 +54,9 @@ class UserType extends AbstractType {
 				) )
 			;
 		}
-		if ( self::$fieldsSwitcher == 'edit' ) {
+		if ( self::$fieldsSwitcher == 'edit' || self::$fieldsSwitcher == 'create_order' ) {
+			if(self::$fieldsSwitcher != 'create_order') $builder->add( 'username', TextType::class);
 			$builder
-				->add( 'username', TextType::class )
 				->add( 'firstName', TextType::class, array(
 					'required' => false
 				) )
@@ -112,7 +112,7 @@ class UserType extends AbstractType {
 			->setDefault( 'role', 'role' )
 			->setDefault('isSuperAdmin','isSuperAdmin')
 			->setDefault( 'data_class', 'AppBundle\Entity\User' )
-			->setDefaults( array( 'validation_groups' => array( 'registration', 'change_password' ) ) );
+			->setDefaults( array( 'validation_groups' => array( 'registration', 'change_password','unregistered' ) ) );
 
 	}
 

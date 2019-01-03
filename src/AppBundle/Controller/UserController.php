@@ -39,6 +39,7 @@ class UserController extends Controller {
 	 * UserController constructor.
 	 *
 	 * @param UserServiceInterface $userService
+	 * @param EntityManagerInterface $em
 	 */
 	public function __construct( UserServiceInterface $userService,EntityManagerInterface $em) {
 		$this->userService = $userService;

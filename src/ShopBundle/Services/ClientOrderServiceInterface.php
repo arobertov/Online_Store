@@ -9,13 +9,15 @@
 namespace ShopBundle\Services;
 
 
+use AppBundle\Entity\User;
+
 interface ClientOrderServiceInterface {
 
-	public function createOrder();
+	public function createOrder(User $user): ?string;
 
 	public function deleteOrder();
 
-	public function ordersList();
+	public function listAllOrders();
 
 	public function orderDetail();
 

@@ -80,15 +80,15 @@ class Category
 
 	/**
 	 * @Gedmo\TreeRoot
-	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category")
-	 * @ORM\JoinColumn(name="tree_root", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",cascade={"persist","remove"})
+	 * @ORM\JoinColumn(name="tree_root", referencedColumnName="id")
 	 */
 	private $root;
 
 	/**
 	 * @Gedmo\TreeParent
-	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category", inversedBy="children")
-	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category", inversedBy="children",cascade={"persist","remove"})
+	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
 	 */
 	private $parent;
 

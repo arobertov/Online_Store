@@ -76,6 +76,8 @@
                 </tr>
                 </tbody>
             </table>
+            <a href="{{ path('home_page') }}" class="btn btn-light btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+        <a href="{{ path('finalize_shopping') }}" class="btn btn-success btn-large float-right">Buy Now   <i class="icon-arrow-right"></i></a>
             <div class="jumbotron cart-empty" style="display: none">
 
         {% else %}
@@ -85,11 +87,6 @@
 
                 <button class="btn btn-warning btn-lg"><span style="color: #ffffff;font-weight: bold">No products in your cart !</span></button>
             </div>
-
-
-        <a href="{{ path('home_page') }}" class="btn btn-light btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
-        <a href="#" class="btn btn-success btn-large float-right">Buy Now   <i class="icon-arrow-right"></i></a>
-
     </div>
 
 {% endblock %}

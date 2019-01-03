@@ -71,7 +71,7 @@ class PurchaseProduct {
 	private $subtotal;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\ClientOrder",inversedBy="purchaseProducts1")
+	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\ClientOrder",inversedBy="purchaseProducts",cascade={"persist","remove"})
 	 * @ORM\JoinTable("orders_products")
 	 */
 	private $orders;
@@ -221,11 +221,22 @@ class PurchaseProduct {
 		return $this->orders;
 	}
 
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return $this
+	 */
 	public function addOrder(ClientOrder $order){
 		$this->orders[]= $order;
+		//$order->addPurchaseProduct($this);
+		return $this;
 	}
 
 	public function removeOrder(ClientOrder $order){
+		if(!$this->orders->contains($order)){
+			return;
+		}
 		$this->orders->removeElement($order);
+		//$order->removePurchaseProduct($this);
 	}
 }

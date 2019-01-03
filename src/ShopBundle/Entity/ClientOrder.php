@@ -24,6 +24,13 @@ class ClientOrder
      */
     private $id;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="order_status", type="string", length=64)
+	 */
+    private $orderStatus = 'pending';
+
     /**
      * @var \DateTime
      *
@@ -47,17 +54,21 @@ class ClientOrder
     private $user;
 
 	/**
-	 * @var ArrayCollection
 	 *
-	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\PurchaseProduct",mappedBy="orders")
+	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\PurchaseProduct",mappedBy="orders",cascade={"persist","remove"})
 	 */
     private $purchaseProducts;
 
+	/**
+	 * ClientOrder constructor.
+	 * @throws \Exception
+	 */
 	public function __construct( ) {
 		$this->purchaseProducts = new ArrayCollection();
 		try {
 			$this->dateCreated = new \DateTime( 'now' );
 		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
 		}
 	}
 
@@ -72,6 +83,24 @@ class ClientOrder
         return $this->id;
     }
 
+	/**
+	 * @return string
+	 */
+	public function getOrderStatus(): string {
+		return $this->orderStatus;
+	}
+
+	/**
+	 * @param string $orderStatus
+	 *
+	 * @return ClientOrder
+	 */
+	public function setOrderStatus( string $orderStatus ): ClientOrder {
+		$this->orderStatus = $orderStatus;
+
+		return $this;
+	}
+	
     /**
      * Set dateCreated.
      *
@@ -145,8 +174,11 @@ class ClientOrder
      */
     public function addPurchaseProduct( PurchaseProduct $purchaseProduct)
     {
-        $this->purchaseProducts[] = $purchaseProduct;
+    	if(!$this->purchaseProducts->contains($purchaseProduct)){
+		    $this->purchaseProducts[] = $purchaseProduct;
+	    }
 
+        $purchaseProduct->addOrder($this);
         return $this;
     }
 

@@ -8,10 +8,8 @@ use ShopBundle\Services\ProductServiceInterface;
 use ShopBundle\Services\PurchaseProductServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class HomepageController extends Controller
@@ -93,7 +91,4 @@ class HomepageController extends Controller
     public function adminPanelAction(){
     	return $this->render('admin_panel.html.twig');
     }
-
-
-
 }

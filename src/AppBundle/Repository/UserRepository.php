@@ -36,19 +36,38 @@ class UserRepository extends EntityRepository
 
 	/**
 	 * @param User $user
+	 *
+	 * @return string
+	 * @throws \Exception
 	 */
 	public function createUser( User $user ){
-		$em = $this->em;
-		$em->persist($user);
-		$em->flush();
+		try{
+			$em = $this->em;
+			$em->persist($user);
+			$em->flush();
+			return $user->getUsername().' create successful !';
+		} catch (\Exception $e){
+			throw  new \Exception($e->getMessage());
+		}
+
 	}
 
 	/**
 	 * @param User $user
+	 *
+	 * @return string
+	 * @throws \Exception
 	 */
 	public function updateUser( User $user ){
-		$this->em->persist( $user );
-		$this->em->flush();
+		try{
+			$this->em->persist( $user );
+			$this->em->flush();
+			return  $user->getUsername(). ' successful updated !';
+		} catch (\Exception $e){
+			  throw new \Exception($e->getMessage());
+		}
+
+
 	}
 
 	/**

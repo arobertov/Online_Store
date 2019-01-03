@@ -11,11 +11,9 @@ namespace ShopBundle\Services;
 
 use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepository;
-use mysql_xdevapi\Exception;
 use ShopBundle\Entity\ClientOrder;
 use ShopBundle\Repository\ClientOrderRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Security\Core\Security;
 
 class ClientOrderService implements ClientOrderServiceInterface {
 
@@ -29,34 +27,41 @@ class ClientOrderService implements ClientOrderServiceInterface {
 	 */
 	private $userRepository;
 
-	private $user;
-
 	/**
 	 * ClientOrderService constructor.
 	 *
-	 * @param ClientOrderRepository $or
-	 * @param UserRepository $ur
-	 * @param Security $security
+	 * @param ClientOrderRepository $orderRepository
+	 * @param UserRepository $userRepository
 	 */
-	public function __construct( ClientOrderRepository $or,UserRepository $ur,Security $security) {
-		$this->orderRepository = $or;
-		$this->userRepository =  $ur;
-		$this->user = $security->getUser();
+	public function __construct( ClientOrderRepository $orderRepository,UserRepository $userRepository) {
+		$this->orderRepository = $orderRepository;
+		$this->userRepository =  $userRepository;
 	}
 
 
 	/**
+	 * @param User $user
+	 *
+	 * @return string
 	 * @throws \Exception
 	 */
-	public function createOrder() {
+	public function createOrder(User $user): ?string {
 		$session = new Session();
-		$username = $this->user->getUsername();
 		$order = new ClientOrder();
 		try {
-			$user = $this->userRepository->getCurrentUser( $username );
 			$order->setUser($user);
 			$order->setTotalPrice(floatval($session->get('total')['total-price']));
-			dump($order);
+			foreach ($session->get('product_cart') as $product){
+				 $order->addPurchaseProduct($product);
+			}
+			$this->userRepository->updateUser($user);
+			$this->orderRepository->addOrder($order);
+
+			$session->remove('product_count');
+			$session->remove('product_cart');
+			$session->remove('total');
+			
+			return 'Your order is processed and will be shipping within the given time';
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());
 		}
@@ -67,8 +72,16 @@ class ClientOrderService implements ClientOrderServiceInterface {
 		// TODO: Implement deleteOrder() method.
 	}
 
-	public function ordersList() {
-		// TODO: Implement ordersList() method.
+	/**
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function listAllOrders() {
+		try {
+			return $this->orderRepository->findAllOrders();
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
+		}
 	}
 
 	public function orderDetail() {

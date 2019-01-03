@@ -34,9 +34,9 @@ class User implements AdvancedUserInterface, \Serializable {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="username", type="string", length=255, unique=true)
+	 * @ORM\Column(name="username", type="string", length=255, unique=true ,nullable=true)
 	 *
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(groups={"unregistered"})
 	 * @Assert\Length(
 	 *      min = 3,
 	 *      max = 30,
@@ -120,9 +120,16 @@ class User implements AdvancedUserInterface, \Serializable {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="password", type="string", length=64)
+	 * @ORM\Column(name="password", type="string", length=64, nullable=true)
 	 */
 	private $password;
+
+	/**
+	 * @var bool
+	 *
+	 * @ORM\Column(name="is_registered",type="boolean")
+	 */
+	private $isRegistered = true;
 
 	/**
 	 * @ORM\Column(name="is_active", type="boolean")
@@ -131,7 +138,8 @@ class User implements AdvancedUserInterface, \Serializable {
 	 *     message="The value {{ value }} is not a valid {{ type }}."
 	 * )
 	 */
-	private $isActive;
+	private $isActive = false;
+
 
 	/**
 	 * @ORM\Column(name="is_not_locked", type="boolean")
@@ -140,14 +148,14 @@ class User implements AdvancedUserInterface, \Serializable {
 	 *     message="The value {{ value }} is not a valid {{ type }}."
 	 * )
 	 */
-	private $isNotLocked;
+	private $isNotLocked = true;
 
 	/**
 	 * @var bool
 	 *
 	 * @ORM\Column(name="is_not_expired", type="boolean")
 	 */
-	private $isNotExpired;
+	private $isNotExpired = true;
 
 	/**
 	 * @var float
@@ -187,11 +195,16 @@ class User implements AdvancedUserInterface, \Serializable {
 	 */
 	private $orders;
 
+	/**
+	 * User constructor.
+	 */
 	public function __construct() {
+		try {
+			$this->dateRegistered = new \DateTime( 'now' );
+			$this->dateEdit = new \DateTime('now');
+		} catch ( \Exception $e ) {
+		}
 		$this->initialCache   = 5000;
-		$this->isNotExpired   = true;
-		$this->isNotLocked    = true;
-		$this->isActive       = false;
 		$this->orders = new ArrayCollection();
 	}
 
@@ -312,6 +325,24 @@ class User implements AdvancedUserInterface, \Serializable {
 		return $this;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isRegistered(): bool {
+		return $this->isRegistered;
+	}
+
+	/**
+	 * @param bool $isRegistered
+	 *
+	 * @return User
+	 */
+	public function setIsRegistered( bool $isRegistered ): User {
+		$this->isRegistered = $isRegistered;
+
+		return $this;
+	}
+	
 	/**
 	 * @return string
 	 */

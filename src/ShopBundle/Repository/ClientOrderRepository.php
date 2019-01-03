@@ -29,4 +29,39 @@ class ClientOrderRepository extends \Doctrine\ORM\EntityRepository
 		$this->em = $em;
 	}
 
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function addOrder(ClientOrder $order){
+		try{
+			$this->em->persist($order);
+			$this->em->flush();
+			return 'Your Order create successful !';
+		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function findAllOrders(){
+		try{
+			$em = $this->em;
+			$query = $em->createQueryBuilder()
+			            ->select('co','pp','us')
+			            ->from('ShopBundle:ClientOrder','co')
+			            ->join('co.purchaseProducts','pp')
+			            ->leftJoin('co.user','us')
+			            ->orderBy('co.dateCreated','DESC')
+			            ->getQuery();
+			return $query->getResult();
+		} catch (\Exception $e){
+			 throw new \Exception($e->getMessage());
+		}
+	}
 }

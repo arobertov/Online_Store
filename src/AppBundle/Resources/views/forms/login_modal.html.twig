@@ -10,7 +10,8 @@
             <div class="modal-body">
                 <div id="err_message" class="alert alert-danger" role="alert"></div>
 
-                <form action="{{ path('login') }}"  method="post" name="form_login" id="formLoginModal">
+                <form action="{{ path('login') }}"  method="post" name="form_login" id="formLoginModal" data-id="{{ path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params')) }}">
                     <div class="form-group">
                         <label for="login-username">Username:</label>
                         <input class="form-control" type="text" id="login-username" name="_username" required="required" /><br/>

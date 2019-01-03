@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class SecurityController extends Controller
 {
@@ -15,7 +16,9 @@ class SecurityController extends Controller
 	 */
     public function loginAction()
     {
-    	return $this->redirectToRoute('home_page');
+    	return $this->redirectToRoute('finalize_shopping');
+
+	    //return new Response('ok');
     }
 
 }
