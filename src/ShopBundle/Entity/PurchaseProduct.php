@@ -3,10 +3,22 @@
 
 namespace ShopBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class PurchaseProduct
+ * @package ShopBundle\Entity
+ *
+ * @ORM\Table(name="purchase_products")
+ * @ORM\Entity(repositoryClass="ShopBundle\Repository\PurchaseProductRepository")
+ */
 class PurchaseProduct {
 	/**
 	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
 	 */
 	private $id;
 
@@ -17,31 +29,39 @@ class PurchaseProduct {
 
 	/**
 	 * @var string
+	 *
+	 *
+	 * @ORM\Column(name="product_title",type="string",length=255)
 	 */
 	private $productTitle;
 
 	/**
 	 * @var int
+	 * @ORM\Column(type="integer")
 	 */
 	private $productQuantity;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $realPrice;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $productPrice;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $productDiscount;
 
 	/**
 	 * @var string
+	 * @ORM\Column(type="string")
 	 */
 	private $imagePath;
 
@@ -49,6 +69,12 @@ class PurchaseProduct {
 	 * @var string
 	 */
 	private $subtotal;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="ShopBundle\Entity\ClientOrder",inversedBy="purchaseProducts",cascade={"persist","remove"})
+	 * @ORM\JoinTable("orders_products")
+	 */
+	private $orders;
 
 	/**
 	 * ProductCart constructor.
@@ -62,6 +88,8 @@ class PurchaseProduct {
 		$this->imagePath = $product->getFirstImage()!=null?$product->getFirstImage()->getPath():null;
 		$this->productPrice = $product->getPrice();
 		$this->productDiscount = $product->getPrice()*$product->getPromotion()->getDiscount();
+		$this->realPrice = $product->getPrice();
+		$this->orders = new ArrayCollection();
 	}
 
 
@@ -109,16 +137,13 @@ class PurchaseProduct {
 	 */
 	public function setProductQuantity( int $productQuantity ): void {
 		$this->productQuantity = $productQuantity;
-		$this->setRealPrice($this->getProductPrice());
-		$this->setProductDiscount($this->getProductDiscount());
-		$this->setSubtotal();
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getRealPrice(): string {
-		return sprintf ("%.2f",$this->realPrice);
+		return sprintf ("%.2f",$this->realPrice*$this->getProductQuantity());
 	}
 
 	/**
@@ -127,10 +152,7 @@ class PurchaseProduct {
 	 * @return PurchaseProduct
 	 */
 	public function setRealPrice( string $realPrice ): PurchaseProduct {
-		if($this->getProductQuantity()!==null){
-			$this->realPrice = $realPrice*$this->getProductQuantity();
-			return $this;
-		}
+
 		$this->realPrice = $realPrice;
 		return $this;
 	}
@@ -154,7 +176,7 @@ class PurchaseProduct {
 	 * @return string
 	 */
 	public function getProductDiscount(): ?string {
-		return sprintf ("%.2f",$this->productDiscount);
+			return sprintf ("%.2f",$this->productDiscount * $this->getProductQuantity());
 	}
 
 	/**
@@ -163,15 +185,9 @@ class PurchaseProduct {
 	 * @return PurchaseProduct
 	 */
 	public function setProductDiscount( string $productDiscount ): PurchaseProduct {
-		if($this->getProductQuantity()!==null){
-			$this->productDiscount = ($productDiscount*$this->getProductQuantity());
-			return $this;
-		}
 		$this->productDiscount = $productDiscount;
 		return $this;
 	}
-
-
 
 	/**
 	 * @return string|null
@@ -191,12 +207,36 @@ class PurchaseProduct {
 	 * @return string
 	 */
 	public function getSubtotal(): string {
-		return sprintf ("%.2f",$this->subtotal);
+		return sprintf ("%.2f",($this->getRealPrice() - $this->getProductDiscount()));
 	}
 
 	private function setSubtotal( ): void {
 		$this->subtotal = ($this->getRealPrice() - $this->getProductDiscount());
 	}
 
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getOrders(){
+		return $this->orders;
+	}
 
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return $this
+	 */
+	public function addOrder(ClientOrder $order){
+		$this->orders[]= $order;
+		//$order->addPurchaseProduct($this);
+		return $this;
+	}
+
+	public function removeOrder(ClientOrder $order){
+		if(!$this->orders->contains($order)){
+			return;
+		}
+		$this->orders->removeElement($order);
+		//$order->removePurchaseProduct($this);
+	}
 }

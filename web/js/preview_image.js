@@ -22,7 +22,7 @@ $(document).ready(function () {
     /* ------ Select images from modal list ------------- */
     $('.modal').on('show.bs.modal', function (e) {
         $('.card').click(function () {
-            let imageCard = $(this).parent().clone();
+            let imageCard = $(this).parent().parent().clone();
             let dataId = $(this).data('id');
             let imagesFormField = $('#product-form-img').find(`div[data-id=${dataId}]`);
             /* ------- Create close button and attach event ----------------- */

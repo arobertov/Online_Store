@@ -80,15 +80,15 @@ class Category
 
 	/**
 	 * @Gedmo\TreeRoot
-	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category")
-	 * @ORM\JoinColumn(name="tree_root", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",cascade={"persist","remove"})
+	 * @ORM\JoinColumn(name="tree_root", referencedColumnName="id")
 	 */
 	private $root;
 
 	/**
 	 * @Gedmo\TreeParent
-	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category", inversedBy="children")
-	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category", inversedBy="children",cascade={"persist","remove"})
+	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
 	 */
 	private $parent;
 
@@ -457,4 +457,30 @@ class Category
 	}
 
 
+
+    /**
+     * Add image.
+     *
+     * @param \ShopBundle\Entity\ProductImage $image
+     *
+     * @return Category
+     */
+    public function addImage(\ShopBundle\Entity\ProductImage $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image.
+     *
+     * @param \ShopBundle\Entity\ProductImage $image
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeImage(\ShopBundle\Entity\ProductImage $image)
+    {
+        return $this->images->removeElement($image);
+    }
 }

@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\ORMException;
+use mysql_xdevapi\Exception;
 
 /**
  * UserRepository
@@ -34,19 +36,38 @@ class UserRepository extends EntityRepository
 
 	/**
 	 * @param User $user
+	 *
+	 * @return string
+	 * @throws \Exception
 	 */
 	public function createUser( User $user ){
-		$em = $this->em;
-		$em->persist($user);
-		$em->flush();
+		try{
+			$em = $this->em;
+			$em->persist($user);
+			$em->flush();
+			return $user->getUsername().' create successful !';
+		} catch (\Exception $e){
+			throw  new \Exception($e->getMessage());
+		}
+
 	}
 
 	/**
 	 * @param User $user
+	 *
+	 * @return string
+	 * @throws \Exception
 	 */
 	public function updateUser( User $user ){
-		$this->em->persist( $user );
-		$this->em->flush();
+		try{
+			$this->em->persist( $user );
+			$this->em->flush();
+			return  $user->getUsername(). ' successful updated !';
+		} catch (\Exception $e){
+			  throw new \Exception($e->getMessage());
+		}
+
+
 	}
 
 	/**
@@ -108,6 +129,27 @@ class UserRepository extends EntityRepository
 				;
 			return $query;
 		} catch (\Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param string $user
+	 *
+	 * @return object|null
+	 * @throws \Exception
+	 */
+	public function getCurrentUser(string $user){
+		try {
+			$query = $this->em->createQueryBuilder()
+			                  ->select('us,ua')
+			                  ->from('AppBundle:User','us')
+			                  ->leftJoin('us.address','ua')
+			                  ->where('us.username=?1')
+			                  ->setParameter(1,$user)
+			                  ->getQuery();
+			return $query->getSingleResult();
+		} catch ( ORMException $e ) {
 			throw new \Exception($e->getMessage());
 		}
 	}

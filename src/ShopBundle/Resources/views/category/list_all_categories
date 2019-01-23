@@ -46,7 +46,7 @@
             let btn = $("[type='button']");
             btn.on('click',function() {
                 let slug = $(this).data('id');
-                $('#delete_link').attr('href',"/category/delete/"+slug);
+                $('#delete_link').attr('href',"delete/"+slug);
             })
         })
 

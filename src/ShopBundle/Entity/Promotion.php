@@ -81,7 +81,7 @@ class Promotion
     private $isActive;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="promotions",cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="promotions",cascade={"persist","remove"})
 	 * @ORM\JoinColumn(name="categoryId",referencedColumnName="id")
 	 */
 	private $category;

@@ -15,7 +15,7 @@ $(document).ready(function () {
             data: frm.serialize(),
             success: function (v) {
                 // ---- if success,  redirect to homepage ------- //
-                $(location).attr('href','/');
+                $(location).attr('href',frm.attr('data-id'));
             },
             error: function (errorMsg) {
                 // --- if error, send error message from login form error field ----- //

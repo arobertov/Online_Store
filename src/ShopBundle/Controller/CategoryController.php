@@ -130,7 +130,7 @@ class CategoryController extends Controller {
 			$this->addFlash('success',$this->categoryService->deleteCategory($category));
 			return $this->redirectToRoute('list_categories');
 		} catch ( \Exception $e ) {
-			$this->addFlash('error',$e->getMessage());
+			$this->addFlash('danger',$e->getMessage());
 			return $this->redirectToRoute( 'list_categories' );
 		}
 

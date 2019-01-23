@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ShopBundle\Entity\Promotion;
+use ShopBundle\Entity\ClientOrder;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,9 +34,9 @@ class User implements AdvancedUserInterface, \Serializable {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="username", type="string", length=255, unique=true)
+	 * @ORM\Column(name="username", type="string", length=255, unique=true ,nullable=true)
 	 *
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(groups={"unregistered"})
 	 * @Assert\Length(
 	 *      min = 3,
 	 *      max = 30,
@@ -119,9 +120,16 @@ class User implements AdvancedUserInterface, \Serializable {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="password", type="string", length=64)
+	 * @ORM\Column(name="password", type="string", length=64, nullable=true)
 	 */
 	private $password;
+
+	/**
+	 * @var bool
+	 *
+	 * @ORM\Column(name="is_registered",type="boolean")
+	 */
+	private $isRegistered = true;
 
 	/**
 	 * @ORM\Column(name="is_active", type="boolean")
@@ -130,7 +138,8 @@ class User implements AdvancedUserInterface, \Serializable {
 	 *     message="The value {{ value }} is not a valid {{ type }}."
 	 * )
 	 */
-	private $isActive;
+	private $isActive = false;
+
 
 	/**
 	 * @ORM\Column(name="is_not_locked", type="boolean")
@@ -139,14 +148,14 @@ class User implements AdvancedUserInterface, \Serializable {
 	 *     message="The value {{ value }} is not a valid {{ type }}."
 	 * )
 	 */
-	private $isNotLocked;
+	private $isNotLocked = true;
 
 	/**
 	 * @var bool
 	 *
 	 * @ORM\Column(name="is_not_expired", type="boolean")
 	 */
-	private $isNotExpired;
+	private $isNotExpired = true;
 
 	/**
 	 * @var float
@@ -181,11 +190,22 @@ class User implements AdvancedUserInterface, \Serializable {
 	 */
 	private $address;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="ShopBundle\Entity\ClientOrder",mappedBy="user")
+	 */
+	private $orders;
+
+	/**
+	 * User constructor.
+	 */
 	public function __construct() {
+		try {
+			$this->dateRegistered = new \DateTime( 'now' );
+			$this->dateEdit = new \DateTime('now');
+		} catch ( \Exception $e ) {
+		}
 		$this->initialCache   = 5000;
-		$this->isNotExpired   = true;
-		$this->isNotLocked    = true;
-		$this->isActive       = false;
+		$this->orders = new ArrayCollection();
 	}
 
 
@@ -305,6 +325,24 @@ class User implements AdvancedUserInterface, \Serializable {
 		return $this;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isRegistered(): bool {
+		return $this->isRegistered;
+	}
+
+	/**
+	 * @param bool $isRegistered
+	 *
+	 * @return User
+	 */
+	public function setIsRegistered( bool $isRegistered ): User {
+		$this->isRegistered = $isRegistered;
+
+		return $this;
+	}
+	
 	/**
 	 * @return string
 	 */
@@ -537,5 +575,32 @@ class User implements AdvancedUserInterface, \Serializable {
     public function getPromotion()
     {
         return $this->promotion;
+    }
+
+	/**
+	 * @return ArrayCollection
+	 */
+    public function getOrders(){
+    	return $this->orders;
+    }
+
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return User;
+	 */
+    public function addOrder(ClientOrder $order){
+    	$this->orders[]= $order;
+
+    	return $this;
+    }
+
+	/**
+	 * @param ClientOrder $order
+	 *
+	 * @return bool
+	 */
+    public function removeOrder(ClientOrder $order){
+    	 return $this->orders->removeElement($order);
     }
 }

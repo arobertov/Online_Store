@@ -114,7 +114,7 @@ class Product
     private $dateEdit;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="products",cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="ShopBundle\Entity\Category",inversedBy="products",cascade={"persist","remove"})
 	 * @ORM\JoinColumn(name="categoryId",referencedColumnName="id")
 	 */
 	private $category;
