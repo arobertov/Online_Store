@@ -69,7 +69,7 @@ class User implements AdvancedUserInterface, \Serializable {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="email", type="string", length=255, unique=true)
+	 * @ORM\Column(name="email", type="string", length=255, unique=false)
 	 * @Assert\NotBlank()
 	 * @Assert\Email(
 	 *     message = "The email '{{ value }}' is not a valid email."

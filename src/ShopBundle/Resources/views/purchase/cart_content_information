@@ -1,0 +1,36 @@
+{% if app.session.get('product_cart') is not empty %}
+    <div class="col-xl-12 mb-lg-4">
+        <div class="card">
+            <div class="card-header"><h2><span class="badge badge-danger">Your Shopping Cart</span></h2></div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                    </tr>
+                    {% for product in app.session.get('product_cart') %}
+                        <tr>
+                            <td>{{ product.productTitle }}</td>
+                            <td>{{ product.productQuantity }}</td>
+                            <td>$ {{ product.realPrice }}</td>
+                            <td>$ {{ product.productDiscount }}</td>
+                            <td>$ {{ product.subtotal }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="text-right" colspan="4">Total Discount:</td>
+                        <td><strong>$ {{ app.session.get('total')['total-discount'] }}</strong></td>
+                    </tr>
+                    <tr class="alert-danger">
+                        <td class="text-right" colspan="4">Total Price:</td>
+                        <td><strong>$ {{ app.session.get('total')['total-price'] }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="user-form-divider"></div>
+{% endif %}
