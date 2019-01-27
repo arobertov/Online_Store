@@ -9,7 +9,14 @@
         {% include('@Shop/purchase/cart_content_information') %}
         <div id="user-form-container" class="col-xl-12">
             <div class="card">
-                <div class="card-header"><h4>Your client data</h4></div>
+                <div class="card-header"><h4>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            Check your data and if you need to change it
+                        {% else %}
+                            Add your client data
+                        {% endif %}
+
+                    </h4></div>
                 <div class="card-body" style="background-color: #b0b0b0">
                     {{ form_start(userForm) }}
                     {{ form_widget(userForm) }}

@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @UniqueEntity(fields="email", message="Email already taken !")
  * @UniqueEntity(fields="username", message="Username already taken !")
  *
  */
