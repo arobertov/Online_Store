@@ -4,7 +4,6 @@ namespace ShopBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
-use Doctrine\ORM\Mapping as ORM;
 use ShopBundle\Entity\ClientOrder;
 use ShopBundle\Entity\Product;
 use ShopBundle\Entity\PurchaseProduct;
@@ -103,6 +102,18 @@ class PurchaseProductController extends Controller {
 	}
 
 	/**
+	 * @Route("/product_cart/step_one",name="step_one")
+	 *
+	 * @return Response
+	 */
+	public function checkClientIsRegistered(){
+	   if($this->getUser()!== null){
+	   	   return $this->redirectToRoute('finalize_shopping');
+	   }
+	   return $this->render('@Shop/purchase/user_status_alert');
+	}
+
+	/**
 	 * @Route("/product_cart/finalize_shopping",name="finalize_shopping")
 	 * @param Request $request
 	 *
@@ -113,11 +124,11 @@ class PurchaseProductController extends Controller {
 		if(!isset($user)){
 			$user = new User();
 		}
-		dump($user);
+		$validationGroups = array(
+			'validation_groups'=>array('Default',$this->getUser()!==null?'unregistered':'')
+		);
 		UserType::$fieldsSwitcher = 'create_order';
-		$userForm = $this->createForm(UserType::class,$user,array(
-			'validation_groups'=>array('Default',$this->getUser()==null?'unregistered':'')
-		));
+		$userForm = $this->createForm(UserType::class,$user,$validationGroups);
 		$userForm->handleRequest($request);
 		if($userForm->isSubmitted()&&$userForm->isValid()){
 			try{

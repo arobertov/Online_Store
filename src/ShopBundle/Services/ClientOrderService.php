@@ -54,6 +54,7 @@ class ClientOrderService implements ClientOrderServiceInterface {
 			foreach ($session->get('product_cart') as $product){
 				 $order->addPurchaseProduct($product);
 			}
+			dump($order);
 			$this->userRepository->updateUser($user);
 			$this->orderRepository->addOrder($order);
 

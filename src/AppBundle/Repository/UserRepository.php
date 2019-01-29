@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
-use mysql_xdevapi\Exception;
 
 /**
  * UserRepository
@@ -47,7 +46,7 @@ class UserRepository extends EntityRepository
 			$em->flush();
 			return $user->getUsername().' create successful !';
 		} catch (\Exception $e){
-			throw  new \Exception($e->getMessage());
+			throw  new \Exception('Errrr!!!'.$e->getMessage());
 		}
 
 	}
@@ -60,7 +59,6 @@ class UserRepository extends EntityRepository
 	 */
 	public function updateUser( User $user ){
 		try{
-			$this->em->persist( $user );
 			$this->em->flush();
 			return  $user->getUsername(). ' successful updated !';
 		} catch (\Exception $e){

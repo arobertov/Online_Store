@@ -73,15 +73,14 @@ class ProductService implements ProductServiceInterface {
 	 * @throws \Exception
 	 */
 	public function editProduct( Product $product,array $images) {
+		dump($images);
 		try {
 			$em = $this->productRepository->getEm();
 			foreach ($images as $imageId){
-				$imageReference = $em->getReference('ShopBundle:ProductImage',$imageId);
+				$imageReference = $em->find('ShopBundle:ProductImage',$imageId);
 				$product->removeImage($imageReference);
 				$product->addImage($imageReference);
 			}
-
-			dump($product);
 			$em->persist($product);
 			$em->flush();
 			return $product->getTitle() . ' edit successful !';

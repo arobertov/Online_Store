@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col-md-9">
+        <div class="col-xl-12 mt-4" id="login-user-alert">
+            <div class="card ">
+                <div class="card-header">Anonymous User !</div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <p>If you are a registered user please select the login button to log in.</p>
+                        <p>if you are not a registered user please select the register button to register so you will use the benefits of a registered user!</p>
+                    </div>
+                </div>
+                <div class="card-header text-center">
+                    <h3>
+                        <a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-success btn-lg">Login</a>
+                        <span class="badge badge-light"> Or </span>
+                        <a href="{{ path('user_register') }}" class="btn btn-secondary btn-lg">Register</a>
+                        <a id="show-user-form" href="{{ path('finalize_shopping') }}" class="btn btn-light btn-lg float-right">Continue with unregistered user &nbsp;<i class="icon-arrow-right"></i></a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
