@@ -56,6 +56,8 @@ class UserService implements UserServiceInterface {
 	 * @param EntityManagerInterface $em
 	 * @param UserPasswordEncoderInterface $encoder
 	 * @param UserRepository $user_repository
+	 * @param Paginator $paginator
+	 * @param RequestStack $request
 	 */
 	public function __construct( SendEmailService $sendEmailService, EntityManagerInterface $em,
 		UserPasswordEncoderInterface $encoder,UserRepository $user_repository,Paginator $paginator,RequestStack $request ) {
@@ -67,10 +69,10 @@ class UserService implements UserServiceInterface {
 		$this->request = $request;
 	}
 
+
 	/**
-	 *  set and save in db isNotExpired after 48 hours
-	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function checkRegisteredUserDate() {
 		$em = $this->em;
@@ -96,10 +98,15 @@ class UserService implements UserServiceInterface {
 		       $interval->s;
 	}
 
+
 	/**
 	 * @param User $user
 	 *
 	 * @return string
+	 * @throws \Twig_Error_Loader
+	 * @throws \Twig_Error_Runtime
+	 * @throws \Twig_Error_Syntax
+	 * @throws \Exception
 	 */
 	public  function registerUser(User $user){
         $password = $this->passwordEncoder
@@ -145,10 +152,14 @@ class UserService implements UserServiceInterface {
         }
     }
 
+
 	/**
 	 * @param array $formData
 	 *
 	 * @return string
+	 * @throws \Twig_Error_Loader
+	 * @throws \Twig_Error_Runtime
+	 * @throws \Twig_Error_Syntax
 	 */
 	public function forgotPassword(array $formData) {
 		if ( filter_var($formData['email'],FILTER_SANITIZE_EMAIL) ) {
@@ -175,8 +186,11 @@ class UserService implements UserServiceInterface {
 		return 'Your new password is sent to your email: ' . $email . ' !';
 	}
 
+
 	/**
 	 * @param User $user
+	 *
+	 * @throws \Exception
 	 */
 	public function editUser(User $user){
 		$user->setDateEdit(new \DateTime('now'));

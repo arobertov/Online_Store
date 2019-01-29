@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ order.user.firstName }}  {{ order.user.lastName }}  ID: #{{ order.id }}</title>
+</head>
+<body>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-2">
+            <h5 class="card-header">Order</h5>
+            <div class="card-body">
+                <ul style="list-style: none">
+                    <li style="padding: 10px 15px">Order Id: <strong>#{{ order.id }}</strong></li>
+                    <li style="padding: 10px 15px">Date Created: <strong>{{ order.dateCreated|date('Y/m/d H:i:s') }}</strong></li>
+                    <li style="padding: 10px 15px">Username: <strong>{{ order.user.username }}</strong></li>
+                    <li style="padding: 10px 15px">First Name: <strong>{{ order.user.firstName }}</strong></li>
+                    <li style="padding: 10px 15px">Last Name: <strong>{{ order.user.lastName }}</strong></li>
+                    <li style="padding: 10px 15px">
+                        Status: <button class="btn btn-warning"><i class="fas fa-clock"></i>
+                            <strong>{{ order.orderStatus|title }}</strong>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-2">
+            <h5 class="card-header">Client Data</h5>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Ship City: <strong>{{ order.user.address.city }}</strong> </li>
+                    <li class="list-group-item">Ship Address: <strong>{{ order.user.address.shipAddress }}</strong></li>
+                    <li class="list-group-item">Phone Number: <strong>{{ order.user.address.phoneNumber  }}</strong></li>
+                    <li class="list-group-item">Client Email: <strong>{{ order.user.email }}</strong></li>
+                </ul>
+            </div>
+        </div>
+        <div id="order-total-field">
+            <h4>Total Price: <strong>${{ order.totalPrice }}</strong></h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <h5 class="card-header">Products</h5>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                    </tr>
+                    {% for product in order.purchaseProducts %}
+                        <tr>
+                            <td>{{ product.productTitle }}</td>
+                            <td>{{ product.productQuantity }}</td>
+                            <td>{{ product.realPrice }}</td>
+                            <td>{{ product.productDiscount }}</td>
+                            <td>{{ product.subtotal }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="alert-danger">
+                        <td colspan="4" style="text-align: right">Total Price: </td>
+                        <td><strong>${{ order.totalPrice }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

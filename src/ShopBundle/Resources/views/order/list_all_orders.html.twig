@@ -4,33 +4,39 @@
 
 {% block admin_body %}
      <div class="col-md-12">
-         <table class="table table-hover">
-            <tr>
-                <th>Id</th>
-                <th>Preview</th>
-                <th>Date Create</th>
-                <th>Status</th>
-                <th>Customer</th>
-                <th>Ship Address</th>
-                <th>Phone Number</th>
-                <th>Total</th>
-            </tr>
-             {% for order in orders %}
+         {% if orders|length > 0  %}
+             <table class="table table-hover">
                  <tr>
-                     <td>{{ order.id }}</td>
-                     <td><a href="{{ path('order_details',{'id':order.id}) }}" class="btn btn-info"><i class="far fa-eye"></i></a></td>
-                     <td>{{ order.dateCreated|date('Y/m/d H:i:s') }}</td>
-                     <td><button class="btn btn-warning"><i class="fas fa-clock"></i> {{ order.orderStatus|title }}</button></td>
-                     <td>
-                         {% if order.user.isRegistered %}Username: {{ order.user.username }} <br/>{% endif %}
-                         Name: {{ order.user.firstName }}  {{ order.user.lastName }} 
-                     </td>
-                     <td>{{ order.user.address.city }} {{ order.user.address.shipAddress }}</td>
-                     <td>{{ order.user.address.phoneNumber }}</td>
-                     <td><strong>${{ order.totalPrice }}</strong></td>
+                     <th>Id</th>
+                     <th>Preview</th>
+                     <th>Date Create</th>
+                     <th>Status</th>
+                     <th>Customer</th>
+                     <th>Ship Address</th>
+                     <th>Phone Number</th>
+                     <th>Total</th>
                  </tr>
-             {% endfor %}
-         </table>
+                 {% for order in orders %}
+                     <tr>
+                         <td>{{ order.id }}</td>
+                         <td><a href="{{ path('order_details',{'id':order.id}) }}" class="btn btn-info"><i class="far fa-eye"></i></a></td>
+                         <td>{{ order.dateCreated|date('Y/m/d H:i:s') }}</td>
+                         <td><button class="btn btn-warning"><i class="fas fa-clock"></i> {{ order.orderStatus|title }}</button></td>
+                         <td>
+                             {% if order.user.isRegistered %}Username: {{ order.user.username }} <br/>{% endif %}
+                             Name: {{ order.user.firstName }}  {{ order.user.lastName }}
+                         </td>
+                         <td>{{ order.user.address.city }} {{ order.user.address.shipAddress }}</td>
+                         <td>{{ order.user.address.phoneNumber }}</td>
+                         <td><strong>${{ order.totalPrice }}</strong></td>
+                     </tr>
+                 {% endfor %}
+             </table>
+         {% else %}
+             <div class="alert alert-warning" role="alert">
+                 <h2 class="text-center"> No orders yet! </h2>
+             </div>
+         {% endif %}
      </div>
 {% endblock %}
 

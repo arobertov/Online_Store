@@ -88,7 +88,7 @@ class PurchaseProduct {
 		$this->productTitle = $product->getTitle();
 		$this->imagePath = $product->getFirstImage()!=null?$product->getFirstImage()->getPath():null;
 		$this->productPrice = $product->getPrice();
-		$this->productDiscount = $product->getPrice()*$product->getPromotion()->getDiscount();
+		$this->setProductDiscount($product);
 		$this->realPrice = $product->getPrice();
 		$this->orders = new ArrayCollection();
 	}
@@ -181,12 +181,15 @@ class PurchaseProduct {
 	}
 
 	/**
-	 * @param string $productDiscount
+	 * @param Product $product
 	 *
 	 * @return PurchaseProduct
 	 */
-	public function setProductDiscount( string $productDiscount ): PurchaseProduct {
-		$this->productDiscount = $productDiscount;
+	public function setProductDiscount( Product $product ): PurchaseProduct {
+		if($product->getPromotion() !== null)
+			$this->productDiscount = $product->getPrice()*$product->getPromotion()->getDiscount();
+		else
+			$this->productDiscount = 0;
 		return $this;
 	}
 

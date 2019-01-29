@@ -11,6 +11,7 @@ namespace ShopBundle\Services;
 
 use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepository;
+use AppBundle\Services\SendEmailServiceInterface;
 use ShopBundle\Entity\ClientOrder;
 use ShopBundle\Repository\ClientOrderRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -28,14 +29,20 @@ class ClientOrderService implements ClientOrderServiceInterface {
 	private $userRepository;
 
 	/**
+	 * @var SendEmailServiceInterface $sendEmailService
+	 */
+	private $sendEmailService;
+
+	/**
 	 * ClientOrderService constructor.
 	 *
 	 * @param ClientOrderRepository $orderRepository
 	 * @param UserRepository $userRepository
 	 */
-	public function __construct( ClientOrderRepository $orderRepository,UserRepository $userRepository) {
+	public function __construct( ClientOrderRepository $orderRepository,UserRepository $userRepository,SendEmailServiceInterface $sendEmailService) {
 		$this->orderRepository = $orderRepository;
 		$this->userRepository =  $userRepository;
+		$this->sendEmailService = $sendEmailService;
 	}
 
 
@@ -57,12 +64,13 @@ class ClientOrderService implements ClientOrderServiceInterface {
 			dump($order);
 			$this->userRepository->updateUser($user);
 			$this->orderRepository->addOrder($order);
+			$sendMessage = $this->sendEmailService->sendOrderConfirmEmail($order,$user);
 
 			$session->remove('product_count');
 			$session->remove('product_cart');
 			$session->remove('total');
 			
-			return 'Your order is processed and will be shipping within the given time';
+			return 'Your order is processed and will be shipping within the given time !'.$sendMessage;
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());
 		}

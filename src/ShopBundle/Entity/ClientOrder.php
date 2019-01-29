@@ -20,7 +20,8 @@ class ClientOrder
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="ShopBundle\Doctrine\RandomIdGenerator")
      */
     private $id;
 
