@@ -68,7 +68,7 @@
         var ctx = document.getElementById("myChart");
         console.log(day);
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: Array.from(Array(day), (e,i)=>i+1),
                 datasets: [{
