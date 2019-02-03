@@ -89,6 +89,6 @@ class HomepageController extends Controller
 	 * @return Response
 	 */
     public function adminPanelAction(){
-    	return $this->render('admin_panel.html.twig');
+    	return $this->render('@Shop/Default/dashboard_home.html.twig',['values'=>'value1']);
     }
 }

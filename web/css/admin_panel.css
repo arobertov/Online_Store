@@ -12,6 +12,51 @@
     color: #5c5c5c;
 }
 
+/* Dashboard homepage    */
+#user_card{
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+#product_card{
+    color: #ffffff;
+    background-color: #1aab1a;
+    border-color: #04a20e;
+}
+
+#order_card{
+    color: #ffffff;
+    background-color: #ff9900;
+    border-color: #a28612;
+}
+
+.dashboard-number-item {
+    font-size: 3rem;
+}
+
+.dashboard-card {
+    padding: 0.5rem 1rem 0.6rem;
+    background-color: #ece7e7;
+    color: #777;
+    font-size: 1.2rem;
+}
+
+.dashboard-card a {
+    color:inherit ;
+}
+
+.dashboard-card a:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+.dashboard-read-more-icon{
+    float: right;
+    color: #3f3f3f;
+}
+/*   */
+
 table .parent-tr{
     text-align: left;
     background: #b0b0b0;
