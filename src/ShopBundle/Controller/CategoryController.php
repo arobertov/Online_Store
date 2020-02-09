@@ -4,6 +4,8 @@ namespace ShopBundle\Controller;
 
 
 use ShopBundle\Services\CategoryServiceInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;;
 use ShopBundle\Entity\Category;
 use ShopBundle\Form\CategoryType;
@@ -35,12 +37,11 @@ class CategoryController extends Controller {
 	/**
 	 * embed sidebar controller
 	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return Response
 	 */
 	public function listAllCategoriesAction($productCartCounter)
 	{
 		$tree = $this->categoryService->listCategoriesBySidebar();
-
 		return $this->render( '@Shop/category/sidebar.html.twig', array(
 			'tree' => $tree,
 			'productCartCounter'=>$productCartCounter
@@ -50,7 +51,7 @@ class CategoryController extends Controller {
 	/**
 	 *
 	 * @Route("all_categories",name="list_categories")
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 * @return RedirectResponse|Response
 	 */
 	public function listCategoriesByAdminPanel(){
 		try {
@@ -70,7 +71,7 @@ class CategoryController extends Controller {
 	 * @param Request $request
 	 *
 	 * @Route("create",name="create_category")
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 * @return RedirectResponse|Response
 	 */
 	public function createNewCategoryAction (Request $request) {
 		$category = new Category();
@@ -98,7 +99,7 @@ class CategoryController extends Controller {
 	 *
 	 * @Route("edit/{slug}",name="edit_category")
 	 *
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 * @return RedirectResponse|Response
 	 */
 	public function editCategoryAction(Category $category,Request $request){
 		$form = $this->createForm(CategoryType::class,$category);
@@ -123,7 +124,7 @@ class CategoryController extends Controller {
 	 * @param Category $category
 	 *
 	 * @Route("delete/{slug}",name="delete_category")
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 * @return RedirectResponse
 	 */
 	public function deleteCategoryAction(Category $category){
 		try{

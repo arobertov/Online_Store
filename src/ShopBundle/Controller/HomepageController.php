@@ -42,6 +42,8 @@ class HomepageController extends Controller
      */
     public function indexAction()
     {
+        $tr = $this->get('translator')->trans('Symfony is great');
+        dump($tr);
     	try {
 		    $latestProducts = $this->getDoctrine()->getRepository('ShopBundle:Product')
 		                                          ->findBy([],['dateEdit'=>'DESC'],6);

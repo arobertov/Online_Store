@@ -10,6 +10,7 @@ namespace ShopBundle\Services;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
 use Knp\Component\Pager\Paginator;
 use ShopBundle\Entity\Product;
 use ShopBundle\Repository\ProductRepository;
@@ -51,7 +52,7 @@ class ProductService implements ProductServiceInterface {
 	 * @param ArrayCollection $images
 	 *
 	 * @return string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function createProduct( Product $product,array $images ) {
 		try{
@@ -59,8 +60,8 @@ class ProductService implements ProductServiceInterface {
 				$product->addImage($image);
 			}
 			return $this->productRepository->createNewProduct($product);
-		}catch (\Exception $e){
-			throw new \Exception($e->getMessage());
+		}catch (Exception $e){
+			throw new Exception($e->getMessage());
 		}
 	}
 
@@ -70,7 +71,7 @@ class ProductService implements ProductServiceInterface {
 	 * @param array $images
 	 *
 	 * @return mixed|string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function editProduct( Product $product,array $images) {
 		dump($images);
@@ -84,8 +85,8 @@ class ProductService implements ProductServiceInterface {
 			$em->persist($product);
 			$em->flush();
 			return $product->getTitle() . ' edit successful !';
-		}catch (\Exception $e){
-			throw new \Exception($e->getMessage());
+		}catch (Exception $e){
+			throw new Exception($e->getMessage());
 		}
 	}
 
@@ -93,20 +94,20 @@ class ProductService implements ProductServiceInterface {
 	 * @param Product $product
 	 *
 	 * @return string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function removeProduct( Product $product ) {
 		try{
 			return $this->productRepository->deleteProduct($product);
-		}catch (\Exception $e){
-			throw new \Exception($e->getMessage());
+		}catch (Exception $e){
+			throw new Exception($e->getMessage());
 		}
 	}
 
 
 	/**
 	 * @return mixed|string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function getAllProducts() {
 		try{
@@ -118,8 +119,8 @@ class ProductService implements ProductServiceInterface {
 				5
 			);
 			return $pagination;
-		}catch (\Exception $e){
-			throw new \Exception($e->getMessage());
+		}catch (Exception $e){
+			throw new Exception($e->getMessage());
 		}
 	}
 
@@ -127,7 +128,7 @@ class ProductService implements ProductServiceInterface {
 	 * @param $category
 	 *
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function getAllProductsByCategory($category){
 		try{
@@ -139,19 +140,19 @@ class ProductService implements ProductServiceInterface {
 				5
 			);
 			return $pagination;
-		} catch (\Exception $e){
-			throw new \Exception($e->getMessage());
+		} catch (Exception $e){
+			throw new Exception($e->getMessage());
 		}
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function getProductsByPromotions(){
 		try{
 			return $this->productRepository->findProductsByPromotions();
-		} catch (\Exception $e){
-			throw new \Exception($e->getMessage());
+		} catch (Exception $e){
+			throw new Exception($e->getMessage());
 		}
 	}
 
