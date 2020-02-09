@@ -1,5 +1,5 @@
 {
-    "name": "angelrobertov/.checkout",
+    "name": "angelrobertov/checkout",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -36,8 +36,6 @@
         "symfony/finder": "^3.4",
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
-        "symfony/property-access": "^4.2",
-        "symfony/serializer": "^4.2",
         "symfony/swiftmailer-bundle": "^2.6.4",
         "symfony/symfony": "3.4.*",
         "twbs/bootstrap": "4.1.3",
